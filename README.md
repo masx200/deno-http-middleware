@@ -61,10 +61,10 @@ const port = Math.floor(Math.random() * 10000 + 10000);
 const handler = createHandler([
     async (ctx, next) => {
         await next();
-        console.log(2, ctx);
+        // console.log(2, ctx);
     },
     (ctx) => {
-        console.log(1, ctx);
+        // console.log(1, ctx);
         return { body: "hello world," + ctx.request.url };
     },
 ]);
