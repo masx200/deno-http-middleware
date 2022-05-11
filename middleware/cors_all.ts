@@ -3,7 +3,7 @@ import { Middleware, RetHandler } from "../src/Middleware.ts";
 
 export const cors_all: Middleware = async function (
     context,
-    next
+    next,
 ): Promise<RetHandler> {
     const { response, request } = context;
     set_header(response);

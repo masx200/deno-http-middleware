@@ -11,10 +11,10 @@ Deno.test("hello-world", async () => {
     const handler = createHandler([
         async (ctx, next) => {
             await next();
-            console.log(2, ctx);
+            // console.log(2, ctx);
         },
         (ctx) => {
-            console.log(1, ctx);
+            // console.log(1, ctx);
             return { body: "hello world," + ctx.request.url };
         },
     ]);
@@ -24,11 +24,11 @@ Deno.test("hello-world", async () => {
     try {
         const url = `http://localhost:${port}/helloworld`;
         const response = await fetch(url);
-        console.log(response);
+        // console.log(response);
         assert(response.ok);
         assertEquals(response.status, 200);
         const text = await response.text();
-        console.log(text);
+        // console.log(text);
         assertEquals(text, "hello world," + url);
     } finally {
         controller.abort();

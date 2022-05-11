@@ -1,7 +1,7 @@
 import { encode } from "../deps.ts";
 
 export async function createEtagHash(
-    message: string | Uint8Array,
+    message: string | Uint8Array = "",
 ): Promise<string> {
     const def = '"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"';
     if (message.length === 0) return def;
