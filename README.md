@@ -6,7 +6,15 @@
 
 核心模块保持简洁,完全函数式编程,
 
-尽可能使用新的原生 API,允许在中间件中直接返回响应.
+允许在中间件中直接返回响应或者替换修改请求对象.
+
+尽可能使用新的原生 `API`,不需要引入更多的复杂性.
+
+对于请求的解析,使用`URLSearchParams`,`URL`,`Request.prototype.json`,`Request.prototype.text`,代替`bodyParser`,`querystring`,`parseurl`.
+
+对于路由匹配,可以使用新的原生`URLPattern`,不使用类似于`koa-Router`之类的方案.
+
+对于响应体的构建也可以使用原生`Response`实现大部分的响应体的编码.
 
 #### 介绍
 
