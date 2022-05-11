@@ -18,6 +18,8 @@
 
 返回的`Response`的部分属性中的`body`可以是任何类型,可以添加自定义中间件来把指定类型的`body`转换成原生`Response`接受的`body`类型.
 
+其余常用功能在`deno`的标准库中有解决方案.比如说`cookie`
+
 #### 介绍
 
 ### `createHandler`函数
