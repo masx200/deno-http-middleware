@@ -68,6 +68,8 @@
 
 `etag_builder`:附带`etag`响应头的中间件
 
+`method_override`:覆盖请求方法的中间件
+
 #### 安装教程
 
 1. `Deno` 1.21.1
@@ -76,37 +78,47 @@
 
 也可以从 `deno.land`导入
 
-https://deno.land/x/masx200_deno_http_middleware/mod.ts
+https://deno.land/x/masx200_deno_http_middleware@1.0.2/mod.ts
 
-https://deno.land/x/masx200_deno_http_middleware/middleware.ts
+https://deno.land/x/masx200_deno_http_middleware@1.0.2/middleware.ts
 
-### 使用自带的中间件
+### 使用自带的中间件举例
 
 ```ts
 import {
     conditional_get,
     cors_all,
     etag_builder,
+    get_original_Method,
     json_builder,
     logger,
-} from "https://cdn.jsdelivr.net/gh/masx200/deno-http-middleware@1.0.0/middleware.ts";
+    method_override,
+} from "https://cdn.jsdelivr.net/gh/masx200/deno-http-middleware@@1.0.2/middleware.ts";
 const handler = createHandler([
     logger,
     conditional_get,
+    method_override,
     cors_all,
 
     json_builder,
     etag_builder,
+    (ctx) => {
+        const body = {
+            original_Method: get_original_Method(ctx),
+            override_method: ctx.request.method,
+        };
+        return { body };
+    },
 ]);
 ```
 
 ### hello world
 
-简单的例子
+简单的例子,注意顺序
 
 ```ts
 import { serve } from "https://deno.land/std@0.138.0/http/server.ts";
-import { createHandler } from "https://cdn.jsdelivr.net/gh/masx200/deno-http-middleware@1.0.0/mod.ts";
+import { createHandler } from "https://cdn.jsdelivr.net/gh/masx200/deno-http-middleware@@1.0.2/mod.ts";
 const port = Math.floor(Math.random() * 10000 + 10000);
 const handler = createHandler([
     async (ctx, next) => {
@@ -126,7 +138,7 @@ await p;
 
 ### json builder
 
-自带的 json 响应构建中间件的部分代码
+自带的 json 响应构建中间件的部分代码的例子
 
 ```ts
 import { isPlainObject } from "../deps.ts";

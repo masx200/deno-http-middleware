@@ -14,4 +14,5 @@ Deno.test("etag-hash", async () => {
         await createEtagHash("hello"),
     );
     assert(typeof (await createEtagHash("hello")) === "string");
+    assert((await createEtagHash("hello")).length > 0);
 });

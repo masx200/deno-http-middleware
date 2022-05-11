@@ -34,10 +34,11 @@ export function composeMiddleware(
             if (i === middleware.length) return await next();
             if (!fn) throw new Error("middleware is not function");
             try {
-                const ret_handler = await fn(context, async function () {
+                const ne = async function (): Promise<void> {
                     await dispatch.bind(null, i + 1)();
-                });
-                await ret_processor(ret_handler, context);
+                };
+                const ret_handler = await fn(context, ne);
+                await ret_processor(ret_handler, context, ne);
             } catch (err) {
                 throw err;
             }

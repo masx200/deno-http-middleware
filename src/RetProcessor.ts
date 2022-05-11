@@ -1,11 +1,12 @@
 import { Context } from "./Context.ts";
-import { RetHandler } from "./Middleware.ts";
+import { NextFunction, RetHandler } from "./Middleware.ts";
 
 export type RetProcessor = (
     ret_handler: RetHandler,
     context: Context,
+    next: NextFunction,
 ) => Promise<void> | void;
-export const ret_processor: RetProcessor = (ret, context) => {
+export const ret_processor: RetProcessor = async (ret, context, next) => {
     if (!ret) return;
     if (ret instanceof Response) {
         context.response = ret;
@@ -62,5 +63,8 @@ export const ret_processor: RetProcessor = (ret, context) => {
             body,
             statusText,
         };
+    }
+    if (ret.next) {
+        await next();
     }
 };

@@ -13,6 +13,7 @@ export type RetHandler =
         ResponseOptionsPartial & {
             response: Response | ResponseOptionsPartial;
             request: Request | RequestOptionsPartial;
+            next: boolean;
         }
     >;
 

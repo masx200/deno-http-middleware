@@ -29,7 +29,12 @@ export const method_override: (
         if (methods && methods.indexOf(originalMethod) === -1) {
             return next();
         } else if (method !== undefined && method && supports(method)) {
-            return { request: { method: method.toUpperCase() } };
+            return {
+                request: {
+                    method: method.toUpperCase(),
+                },
+                next: true,
+            };
         } else {
             return next();
         }
