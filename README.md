@@ -44,6 +44,8 @@
 
 可以返回`Response`或者`Request`或者`{response:Response,request:Request}`或者`Response`的部分属性,来修改上下文`Context`中的请求和响应对象,
 
+返回值中也可以设置参数`next`表示中间件是否需要执行`next`函数.
+
 也可以不返回,不做任何修改
 
 返回的`Response`的部分属性中的`body`可以是任何类型,可以添加自定义中间件来把指定类型的`body`转换成原生`Response`接受的`body`类型.
@@ -97,7 +99,7 @@ import {
 const handler = createHandler([
     logger,
     conditional_get,
-    method_override,
+    method_override(),
     cors_all,
 
     json_builder,
@@ -148,7 +150,7 @@ import { Middleware, RetHandler } from "../src/Middleware.ts";
 
 export const json_builder: Middleware = async function (
     context,
-    next,
+    next
 ): Promise<RetHandler> {
     await next();
     const { response } = context;
