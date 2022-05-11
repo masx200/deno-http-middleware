@@ -1,20 +1,22 @@
-import {
-    assert,
-    assertEquals,
-} from "../deps.ts";
+import { assert, assertEquals } from "../deps.ts";
 import { serve } from "../deps.ts";
 import { createHandler } from "../src/createHandler.ts";
 
 Deno.test("hello-world", async () => {
+    const numbers: number[] = [];
     const controller = new AbortController();
     const port = Math.floor(Math.random() * 10000 + 10000);
     const handler = createHandler([
         async (ctx, next) => {
+            console.log(1);
+            numbers.push(1);
             await next();
-            // console.log(2, ctx);
+            console.log(3);
+            numbers.push(3);
         },
         (ctx) => {
-            // console.log(1, ctx);
+            console.log(2);
+            numbers.push(2);
             return { body: "hello world," + ctx.request.url };
         },
     ]);
@@ -34,4 +36,5 @@ Deno.test("hello-world", async () => {
         controller.abort();
     }
     await p;
+    assertEquals(numbers, [1, 2, 3]);
 });

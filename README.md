@@ -60,11 +60,12 @@ import { createHandler } from "https://cdn.jsdelivr.net/gh/masx200/deno-http-mid
 const port = Math.floor(Math.random() * 10000 + 10000);
 const handler = createHandler([
     async (ctx, next) => {
+        console.log(1);
         await next();
-        // console.log(2, ctx);
+        console.log(3);
     },
     (ctx) => {
-        // console.log(1, ctx);
+        console.log(2);
         return { body: "hello world," + ctx.request.url };
     },
 ]);
