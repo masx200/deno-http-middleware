@@ -40,9 +40,14 @@ Deno.test("hello-world-logger-cors_all-sequence", async () => {
         assertEquals(headers.get("access-control-allow-headers"), "*");
         assertEquals(headers.get("access-control-allow-methods"), "*");
         assertEquals(headers.get("access-control-allow-origin"), "*");
+
+        const response2 = await fetch(url, { method: "options" });
+        console.log(response2);
+        assert(response2.ok);
+        assert((await response2.text()).length === 0);
     } finally {
         controller.abort();
     }
     await p;
-    assertEquals(numbers, [1, 2, 3]);
+    assertEquals(numbers, [1, 2, 3, 1, 2, 3]);
 });

@@ -19,6 +19,7 @@ export const logger = async function (
     console.log("response", {
         url: request.url,
         status: response.status,
+        method,
         headers: Object.fromEntries(response.headers),
     });
 };
