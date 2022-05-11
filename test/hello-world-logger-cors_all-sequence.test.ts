@@ -7,7 +7,7 @@ import { createHandler } from "../src/createHandler.ts";
 Deno.test("hello-world-logger-cors_all-sequence", async () => {
     const numbers: number[] = [];
     const controller = new AbortController();
-    const port = Math.floor(Math.random() * 10000 + 10000);
+    const port = Math.floor(Math.random() * 20000 + 30000);
     const handler = createHandler([
         logger,
         cors_all,
@@ -30,7 +30,7 @@ Deno.test("hello-world-logger-cors_all-sequence", async () => {
     try {
         const url = `http://localhost:${port}/helloworld`;
         const response = await fetch(url);
-        // console.log(response);
+        console.log(response);
         assert(response.ok);
         assertEquals(response.status, 200);
         const text = await response.text();
