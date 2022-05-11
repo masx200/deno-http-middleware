@@ -11,7 +11,7 @@ Deno.test("hello-world-logger-cors_all-sequence", async () => {
     const handler = createHandler([
         logger,
         cors_all,
-        async (ctx, next) => {
+        async (_ctx, next) => {
             console.log(1);
             numbers.push(1);
             await next();

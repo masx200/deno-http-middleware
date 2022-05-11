@@ -42,13 +42,43 @@
 
 包含属性`response`:原生`Response`对象或者`Response`对象的部分属性
 
-#### 软件架构
+### 自带中间件
+
+`conditional_get`:条件`GET`请求中间件
+
+`cors_all`:完全跨域中间件
+
+`logger`:日志中间件
+
+`json_builder`:`JSON`响应中间件,并附带`etag`响应头
+
+`etag_builder`:附带`etag`响应头的中间件
 
 #### 安装教程
 
 1. `Deno` 1.21.1
 
 #### 使用说明
+
+### 使用自带的中间件
+
+```ts
+import {
+    conditional_get,
+    cors_all,
+    etag_builder,
+    json_builder,
+    logger,
+} from "https://cdn.jsdelivr.net/gh/masx200/deno-http-middleware@1.0.0/middleware.ts";
+const handler = createHandler([
+    logger,
+    conditional_get,
+    cors_all,
+
+    json_builder,
+    etag_builder,
+]);
+```
 
 ### hello world
 

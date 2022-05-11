@@ -5,7 +5,7 @@ import { json_builder } from "../middleware/json_builder.ts";
 import { logger } from "../middleware/logger.ts";
 import { createHandler } from "../src/createHandler.ts";
 
-Deno.test("json_builder-logger-object", async (test) => {
+Deno.test("json_builder-logger-object", async () => {
     const controller = new AbortController();
     const port = Math.floor(Math.random() * 30000 + 20000);
     const handler = createHandler([
@@ -39,7 +39,7 @@ Deno.test("json_builder-logger-object", async (test) => {
     await p;
 });
 
-Deno.test("json_builder-logger-array", async (test) => {
+Deno.test("json_builder-logger-array", async () => {
     const controller = new AbortController();
     const port = Math.floor(Math.random() * 30000 + 20000);
     const handler = createHandler([
