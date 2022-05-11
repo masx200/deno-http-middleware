@@ -28,23 +28,27 @@ Deno.test("hello-world-logger-cors_all-sequence", async () => {
     const { signal } = controller;
     const p = serve(handler, { signal, port: port });
     try {
-        const url = `http://localhost:${port}/helloworld`;
-        const response = await fetch(url);
-        console.log(response);
-        assert(response.ok);
-        assertEquals(response.status, 200);
-        const text = await response.text();
-        // console.log(text);
-        assertEquals(text, "hello world," + url);
-        const headers = response.headers;
-        assertEquals(headers.get("access-control-allow-headers"), "*");
-        assertEquals(headers.get("access-control-allow-methods"), "*");
-        assertEquals(headers.get("access-control-allow-origin"), "*");
-
-        const response2 = await fetch(url, { method: "options" });
-        console.log(response2);
-        assert(response2.ok);
-        assert((await response2.text()).length === 0);
+        {
+            const url = `http://localhost:${port}/helloworld`;
+            const response = await fetch(url);
+            console.log(response);
+            assert(response.ok);
+            assertEquals(response.status, 200);
+            const text = await response.text();
+            // console.log(text);
+            assertEquals(text, "hello world," + url);
+            const headers = response.headers;
+            assertEquals(headers.get("access-control-allow-headers"), "*");
+            assertEquals(headers.get("access-control-allow-methods"), "*");
+            assertEquals(headers.get("access-control-allow-origin"), "*");
+        }
+        {
+            const url = `http://localhost:${port}/helloworld`;
+            const response2 = await fetch(url, { method: "options" });
+            console.log(response2);
+            assert(response2.ok);
+            assert((await response2.text()).length === 0);
+        }
     } finally {
         controller.abort();
     }
