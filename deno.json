@@ -1,0 +1,17 @@
+{
+    "tasks": {
+        "udd": "udd '*/*.ts' '*.ts'",
+        "serve": " deno run -A --unstable ./deno/index.ts"
+    },
+    "fmt": {
+        "files": {
+            "exclude": [
+                "node_modules"
+            ]
+        },
+        "options": {
+            "indentWidth": 4,
+            "singleQuote": false
+        }
+    }
+}
