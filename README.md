@@ -14,7 +14,7 @@
 
 可以返回`Response`或者`Request`或者`{response:Response,request:Request}`或者`Response`的部分属性,来修改上下文`Context`中的请求和响应对象,
 
-也可以不返回,不修改上下文`Context`.
+也可以不返回,不做任何修改
 
 #### 软件架构
 
