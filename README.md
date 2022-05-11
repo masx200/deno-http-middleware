@@ -6,6 +6,16 @@
 
 #### 介绍
 
+### `createHandler`函数根据中间件创建一个请求处理函数
+
+### 中间件函数`Middleware`
+
+接受参数上下文`context`对象和调用下一个中间件的函数`next`
+
+可以返回`Response`或者`Request`或者`{response:Response,request:Request}`或者`Response`的部分属性,来修改上下文`Context`中的请求和响应对象,
+
+也可以不返回,不修改上下文`Context`.
+
 #### 软件架构
 
 #### 安装教程
