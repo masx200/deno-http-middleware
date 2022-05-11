@@ -38,7 +38,7 @@ export function createHandler(
         };
         try {
             const ret_handler: RetHandler = await composed(context, next);
-            await ret_processor(ret_handler, context, next);
+            await retProcessor(ret_handler, context, next);
         } catch (error) {
             context.response = await errorHandler(error, context);
         }
