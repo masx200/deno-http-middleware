@@ -18,8 +18,8 @@ export const cors_all: Middleware = async function (
     }
 
     function set_header(response: ResponseOptions | Response) {
-        response.headers.append("access-control-allow-origin", "*");
-        response.headers.append("Access-Control-Allow-Methods", "*");
-        response.headers.append("Access-Control-Allow-Headers", "*");
+        response.headers.set("access-control-allow-origin", "*");
+        response.headers.set("Access-Control-Allow-Methods", "*");
+        response.headers.set("Access-Control-Allow-Headers", "*");
     }
 };

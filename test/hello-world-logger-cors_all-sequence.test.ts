@@ -1,23 +1,29 @@
 import { assert, assertEquals } from "../deps.ts";
 import { serve } from "../deps.ts";
+import { cors_all } from "../middleware/cors_all.ts";
 import { logger } from "../middleware/logger.ts";
 import { createHandler } from "../src/createHandler.ts";
 
-Deno.test("hello-world", async () => {
+Deno.test("hello-world-logger-cors_all-sequence", async () => {
     const numbers: number[] = [];
     const controller = new AbortController();
     const port = Math.floor(Math.random() * 10000 + 10000);
-    const handler = createHandler([logger, async (ctx, next) => {
-        console.log(1);
-        numbers.push(1);
-        await next();
-        console.log(3);
-        numbers.push(3);
-    }, (ctx) => {
-        console.log(2);
-        numbers.push(2);
-        return { body: "hello world," + ctx.request.url };
-    }]);
+    const handler = createHandler([
+        logger,
+        cors_all,
+        async (ctx, next) => {
+            console.log(1);
+            numbers.push(1);
+            await next();
+            console.log(3);
+            numbers.push(3);
+        },
+        (ctx) => {
+            console.log(2);
+            numbers.push(2);
+            return { body: "hello world," + ctx.request.url };
+        },
+    ]);
 
     const { signal } = controller;
     const p = serve(handler, { signal, port: port });
@@ -30,6 +36,10 @@ Deno.test("hello-world", async () => {
         const text = await response.text();
         // console.log(text);
         assertEquals(text, "hello world," + url);
+        const headers = response.headers;
+        assertEquals(headers.get("access-control-allow-headers"), "*");
+        assertEquals(headers.get("access-control-allow-methods"), "*");
+        assertEquals(headers.get("access-control-allow-origin"), "*");
     } finally {
         controller.abort();
     }
