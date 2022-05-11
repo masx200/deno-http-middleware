@@ -1,5 +1,5 @@
 import { Context } from "./Context.ts";
 
-export interface NotFoundHandler {
-    (context: Context): Promise<Response> | Response;
-}
+export type NotFoundHandler = (
+    context: Context,
+) => Promise<Response> | Response;

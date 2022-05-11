@@ -12,12 +12,12 @@ import {
 } from "./src/Middleware.ts";
 import { NotFoundHandler } from "./src/NotFoundHandler.ts";
 import { notfound_handler } from "./src/notfound_handler.ts";
-import { ResponseBuilder, response_builder } from "./src/response_builder.ts";
-import { RetProcessor, ret_processor } from "./src/RetProcessor.ts";
+import { response_builder, ResponseBuilder } from "./src/response_builder.ts";
+import { ret_processor, RetProcessor } from "./src/RetProcessor.ts";
 
 export {
-    createHandler,
     composeMiddleware,
+    createHandler,
     error_handler,
     notfound_handler,
     response_builder,
@@ -25,13 +25,13 @@ export {
 };
 export type {
     Context,
-    NextFunction,
-    RetHandler,
-    ResponseOptionsPartial,
-    RequestOptionsPartial,
-    Middleware,
-    NotFoundHandler,
     ErrorHandler,
+    Middleware,
+    NextFunction,
+    NotFoundHandler,
+    RequestOptionsPartial,
     ResponseBuilder,
+    ResponseOptionsPartial,
+    RetHandler,
     RetProcessor,
 };
