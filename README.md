@@ -52,6 +52,8 @@
 
 ### hello world
 
+简单的例子
+
 ```ts
 import { serve } from "https://deno.land/std@0.138.0/http/server.ts";
 import { createHandler } from "https://cdn.jsdelivr.net/gh/masx200/deno-http-middleware@master/mod.ts";
@@ -69,4 +71,30 @@ const handler = createHandler([
 
 const p = serve(handler, { port: port });
 await p;
+```
+
+### json builder
+
+自带的 json 响应构建中间件的部分代码
+
+```ts
+import { isPlainObject } from "../deps.ts";
+import { JSONResponse } from "../response/JSONResponse.ts";
+
+import { Middleware, RetHandler } from "../src/Middleware.ts";
+
+export const json_builder: Middleware = async function (
+    context,
+    next,
+): Promise<RetHandler> {
+    await next();
+    const { response } = context;
+    const { body } = response;
+
+    return response instanceof Response
+        ? response
+        : Array.isArray(body) || isPlainObject(body)
+        ? await JSONResponse(response)
+        : void 0;
+};
 ```
