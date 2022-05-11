@@ -36,9 +36,9 @@
 
 包含属性`connInfo`:连接的信息
 
-包含属性`request`:原生请求对象或者请求对象的部分属性
+包含属性`request`:原生`Request`对象或者`Request`对象的部分属性
 
-包含属性`response`:原生响应对象或者响应对象的部分属性
+包含属性`response`:原生`Response`对象或者`Response`对象的部分属性
 
 #### 软件架构
 
