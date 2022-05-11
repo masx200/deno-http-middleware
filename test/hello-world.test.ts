@@ -1,7 +1,7 @@
 import {
     assert,
     assertEquals,
-} from "https://deno.land/std@0.138.0/testing/asserts.ts";
+} from "../deps.ts";
 import { serve } from "../deps.ts";
 import { createHandler } from "../src/createHandler.ts";
 
