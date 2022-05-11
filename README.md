@@ -4,6 +4,10 @@
 
 这个中间件框架受到`Koa`的启发
 
+核心模块保持简洁,完全函数式编程,
+
+尽可能使用新的原生 API,允许在中间件中直接返回响应.
+
 #### 介绍
 
 ### `createHandler`函数
@@ -14,11 +18,11 @@
 
 接受可选参数 `notfoundHandler`:自定义全局未找到错误处理函数。
 
-接受可选参数 `error_handler`:自定义错误处理函数
+接受可选参数 `errorHandler`:自定义错误处理函数
 
-接受可选参数 `response_builder`:自定义响应构建函数
+接受可选参数 `responseBuilder`:自定义响应构建函数
 
-接受可选参数 `ret_processor`:自定义中间件返回值处理函数
+接受可选参数 `retProcessor`:自定义中间件返回值处理函数
 
 ### 中间件函数`Middleware`
 
@@ -120,7 +124,7 @@ import { Middleware, RetHandler } from "../src/Middleware.ts";
 
 export const json_builder: Middleware = async function (
     context,
-    next,
+    next
 ): Promise<RetHandler> {
     await next();
     const { response } = context;
