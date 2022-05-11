@@ -136,6 +136,7 @@ Deno.test("method_override-post-unsupported", async () => {
             const body = {
                 original_Method: get_original_Method(ctx),
                 override_method: ctx.request.method,
+                "x-random-data": ctx.request.headers.get("x-random-data"),
             };
             return { body };
         },
@@ -147,7 +148,10 @@ Deno.test("method_override-post-unsupported", async () => {
         const url = `http://localhost:${port}/`;
         const response = await fetch(url, {
             method: "POST",
-            headers: { "X-HTTP-Method-Override": "unsupported" },
+            headers: {
+                "X-HTTP-Method-Override": "unsupported",
+                "x-random-data": "9876543210",
+            },
         });
         const headers = response.headers;
         console.log(response);
@@ -159,6 +163,7 @@ Deno.test("method_override-post-unsupported", async () => {
         assertEquals(json, {
             original_Method: "POST",
             override_method: "POST",
+            "x-random-data": "9876543210",
         });
     } finally {
         controller.abort();
