@@ -5,13 +5,14 @@ export const etag_builder: Middleware = async function (
     context,
     next,
 ): Promise<RetHandler> {
+    await next();
     const { response } = context;
     const { body } = response;
     const { headers, status, statusText } = response;
     return response instanceof Response
         ? response
         : body instanceof ReadableStream
-        ? await next()
+        ? void 0
         : await EtagResponse({
             body: body as Exclude<BodyInit | null, ReadableStream>,
             headers,

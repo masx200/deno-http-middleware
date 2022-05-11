@@ -7,6 +7,7 @@ export const json_builder: Middleware = async function (
     context,
     next,
 ): Promise<RetHandler> {
+    await next();
     const { response } = context;
     const { body } = response;
 
@@ -14,5 +15,5 @@ export const json_builder: Middleware = async function (
         ? response
         : Array.isArray(body) || isPlainObject(body)
         ? await JSONResponse(response)
-        : await next();
+        : void 0;
 };

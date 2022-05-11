@@ -23,6 +23,4 @@ export async function conditional_get(
             return new Response(null, { headers, status: 304 });
         }
     }
-
-    return response;
 }
