@@ -3,7 +3,7 @@ import { NextFunction, RetHandler } from "../src/Middleware.ts";
 
 export const logger = async function (
     context: Context,
-    next: NextFunction
+    next: NextFunction,
 ): Promise<RetHandler> {
     const { request } = context;
     const { url, method, headers } = request;

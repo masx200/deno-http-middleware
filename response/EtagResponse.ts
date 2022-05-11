@@ -2,15 +2,13 @@ import { bodyToBuffer } from "../body/bodyToBuffer.ts";
 import { createEtagHash } from "./createEtagHash.ts";
 
 export async function EtagResponse(
-    response:
-        | Response
-        | Partial<
-            & Omit<Response, "body">
-            & ResponseInit
-            & {
-                body?: Exclude<BodyInit | null, ReadableStream>;
-            }
-        >,
+    response: Partial<
+        & Omit<Response, "body">
+        & ResponseInit
+        & {
+            body?: Exclude<BodyInit | null, ReadableStream>;
+        }
+    >,
 ): Promise<Response> {
     if (response instanceof Response) {
         return response;

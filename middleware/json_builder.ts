@@ -1,5 +1,5 @@
 import { isPlainObject } from "../deps.ts";
-import { JSONResponse } from "../respose/JSONResponse.ts";
+import { JSONResponse } from "../response/JSONResponse.ts";
 
 import { Middleware, RetHandler } from "../src/Middleware.ts";
 
