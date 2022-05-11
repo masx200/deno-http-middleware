@@ -4,7 +4,7 @@ import { NextFunction, RetHandler } from "./Middleware.ts";
 export type RetProcessor = (
     ret_handler: RetHandler,
     context: Context,
-    next: NextFunction,
+    next: NextFunction
 ) => Promise<void> | void;
 export const ret_processor: RetProcessor = async (ret, context, next) => {
     if (!ret) return;
@@ -19,10 +19,13 @@ export const ret_processor: RetProcessor = async (ret, context, next) => {
     if (ret.request instanceof Request) {
         context.request = ret.request;
     } else if (typeof ret.request === "object") {
-        context.request = new Request(
-            ret.request.url ?? context.request.url,
-            ret.request,
-        );
+        const {
+            url = context.request.url,
+            headers = context.request.headers,
+            method = context.request.method,
+            body = context.request.body,
+        } = ret.request;
+        context.request = new Request(url, { headers, method, body });
     }
     if (ret.response instanceof Response) {
         context.response = ret.response;
@@ -34,9 +37,8 @@ export const ret_processor: RetProcessor = async (ret, context, next) => {
             statusText = context.response.statusText,
         } = ret.response;
         context.response = {
-            headers: headers instanceof Headers
-                ? headers
-                : new Headers(headers),
+            headers:
+                headers instanceof Headers ? headers : new Headers(headers),
             status,
             body,
             statusText,
@@ -56,9 +58,8 @@ export const ret_processor: RetProcessor = async (ret, context, next) => {
             statusText = context.response.statusText,
         } = ret;
         context.response = {
-            headers: headers instanceof Headers
-                ? headers
-                : new Headers(headers),
+            headers:
+                headers instanceof Headers ? headers : new Headers(headers),
             status,
             body,
             statusText,
