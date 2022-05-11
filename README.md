@@ -1,7 +1,5 @@
 # deno-http-middleware
 
-这是个实验项目
-
 `Deno` 原生 HTTP 服务器的中间件框架
 
 这个中间件框架受到`Koa`的启发
