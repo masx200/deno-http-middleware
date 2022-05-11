@@ -150,7 +150,7 @@ import { Middleware, RetHandler } from "../src/Middleware.ts";
 
 export const json_builder: Middleware = async function (
     context,
-    next
+    next,
 ): Promise<RetHandler> {
     await next();
     const { response } = context;

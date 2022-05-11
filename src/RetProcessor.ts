@@ -4,7 +4,7 @@ import { NextFunction, RetHandler } from "./Middleware.ts";
 export type RetProcessor = (
     ret_handler: RetHandler,
     context: Context,
-    next: NextFunction
+    next: NextFunction,
 ) => Promise<void> | void;
 export const ret_processor: RetProcessor = async (ret, context, next) => {
     if (!ret) return;
@@ -37,8 +37,9 @@ export const ret_processor: RetProcessor = async (ret, context, next) => {
             statusText = context.response.statusText,
         } = ret.response;
         context.response = {
-            headers:
-                headers instanceof Headers ? headers : new Headers(headers),
+            headers: headers instanceof Headers
+                ? headers
+                : new Headers(headers),
             status,
             body,
             statusText,
@@ -58,8 +59,9 @@ export const ret_processor: RetProcessor = async (ret, context, next) => {
             statusText = context.response.statusText,
         } = ret;
         context.response = {
-            headers:
-                headers instanceof Headers ? headers : new Headers(headers),
+            headers: headers instanceof Headers
+                ? headers
+                : new Headers(headers),
             status,
             body,
             statusText,
