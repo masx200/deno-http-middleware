@@ -4,11 +4,27 @@
 
 `Deno` 原生 HTTP 服务器的中间件框架
 
+这个中间件框架受到`Koa`的启发
+
 #### 介绍
 
-### `createHandler`函数根据中间件创建一个请求处理函数
+### `createHandler`函数
+
+根据中间件创建一个请求处理函数
+
+接收参数`middleware`:中间件`Middleware`的数组
+
+接受可选参数 `notfoundHandler`:自定义全局未找到错误处理函数。
+
+接受可选参数 `error_handler`:自定义错误处理函数
+
+接受可选参数 `response_builder`:自定义响应构建函数
+
+接受可选参数 `ret_processor`:自定义中间件返回值处理函数
 
 ### 中间件函数`Middleware`
+
+可以是异步函数
 
 接受参数上下文`context`对象和调用下一个中间件的函数`next`
 
