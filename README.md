@@ -56,7 +56,7 @@
 
 ```ts
 import { serve } from "https://deno.land/std@0.138.0/http/server.ts";
-import { createHandler } from "https://cdn.jsdelivr.net/gh/masx200/deno-http-middleware@master/mod.ts";
+import { createHandler } from "https://cdn.jsdelivr.net/gh/masx200/deno-http-middleware@1.0.0/mod.ts";
 const port = Math.floor(Math.random() * 10000 + 10000);
 const handler = createHandler([
     async (ctx, next) => {
