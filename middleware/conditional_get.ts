@@ -1,6 +1,7 @@
-import { NextFunction, RetHandler } from "./Middleware.ts";
 import { fresh } from "../deps.ts";
-import { Context } from "./Context.ts";
+import { Context } from "../src/Context.ts";
+import { NextFunction, RetHandler } from "../src/Middleware.ts";
+
 export async function conditional_get(
     context: Context,
     next: NextFunction,

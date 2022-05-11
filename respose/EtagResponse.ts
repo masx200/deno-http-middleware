@@ -1,4 +1,4 @@
-import { bodyToBuffer } from "./bodyToBuffer.ts";
+import { bodyToBuffer } from "../body/bodyToBuffer.ts";
 import { createEtagHash } from "./createEtagHash.ts";
 
 export async function EtagResponse(

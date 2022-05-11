@@ -1,11 +1,10 @@
-import { Context } from "./Context.ts";
-import { NextFunction, RetHandler } from "./Middleware.ts";
+import { Context } from "../src/Context.ts";
+import { NextFunction, RetHandler } from "../src/Middleware.ts";
 
 export const logger = async function (
     context: Context,
     next: NextFunction,
 ): Promise<RetHandler> {
-    //console.log(context.connInfo);
     const { request } = context;
     const { url, method, headers } = request;
     console.log({

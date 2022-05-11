@@ -1,7 +1,7 @@
 import { isPlainObject } from "../deps.ts";
+import { JSONResponse } from "../respose/JSONResponse.ts";
 
-import { JSONResponse } from "./JSONResponse.ts";
-import { Middleware, RetHandler } from "./Middleware.ts";
+import { Middleware, RetHandler } from "../src/Middleware.ts";
 
 export const json_builder: Middleware = async function (
     context,

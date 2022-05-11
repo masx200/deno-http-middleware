@@ -1,6 +1,5 @@
-import { EtagResponse } from "./EtagResponse.ts";
-
-import { Middleware, RetHandler } from "./Middleware.ts";
+import { EtagResponse } from "../respose/EtagResponse.ts";
+import { Middleware, RetHandler } from "../src/Middleware.ts";
 
 export const etag_builder: Middleware = async function (
     context,
