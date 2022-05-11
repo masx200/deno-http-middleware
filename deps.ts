@@ -1,9 +1,9 @@
-import {
+export {
     assert,
+    assertEquals,
     assertInstanceOf,
 } from "https://deno.land/std@0.138.0/testing/asserts.ts";
 
-export { assert, assertInstanceOf };
 export type {
     ConnInfo,
     Handler,
@@ -14,3 +14,4 @@ export { encode };
 export { default as isPlainObject } from "https://cdn.skypack.dev/lodash@4.17.21/isPlainObject?dts";
 
 export { default as fresh } from "https://cdn.skypack.dev/fresh@0.5.2?dts";
+export { serve } from "https://deno.land/std@0.138.0/http/server.ts";

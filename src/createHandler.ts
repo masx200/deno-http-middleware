@@ -30,7 +30,7 @@ export function createHandler(
         request: Request,
         connInfo: ConnInfo,
     ): Promise<Response> {
-        const response = new Response(null, { status: 404 });
+        const response = new Response();
         const context: Context = { request, connInfo, response };
 
         const next = async () => {
