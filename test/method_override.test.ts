@@ -20,8 +20,8 @@ Deno.test("method_override-get", async () => {
             const body = {
                 original_Method: get_original_Method(ctx),
                 override_method: ctx.request.method,
-       "x-random-data": ctx.request.headers.get("x-random-data"),
-     };
+                "x-random-data": ctx.request.headers.get("x-random-data"),
+            };
             return { body };
         },
     ]);
@@ -30,9 +30,11 @@ Deno.test("method_override-get", async () => {
     const p = serve(handler, { signal, port: port });
     try {
         const url = `http://localhost:${port}/`;
-        const response = await fetch(url,{headers:{
-"x-random-data": "9876543210",
-}});
+        const response = await fetch(url, {
+            headers: {
+                "x-random-data": "9876543210",
+            },
+        });
         const headers = response.headers;
         console.log(response);
         assert(response.ok);
@@ -43,7 +45,7 @@ Deno.test("method_override-get", async () => {
         assertEquals(json, {
             original_Method: "GET",
             override_method: "GET",
-"x-random-data": "9876543210",
+            "x-random-data": "9876543210",
         });
     } finally {
         controller.abort();
@@ -61,8 +63,8 @@ Deno.test("method_override-get-post", async () => {
             const body = {
                 original_Method: get_original_Method(ctx),
                 override_method: ctx.request.method,
-         "x-random-data": ctx.request.headers.get("x-random-data"),
-   };
+                "x-random-data": ctx.request.headers.get("x-random-data"),
+            };
             return { body };
         },
     ]);
@@ -72,9 +74,10 @@ Deno.test("method_override-get-post", async () => {
     try {
         const url = `http://localhost:${port}/`;
         const response = await fetch(url, {
-            headers: { "X-HTTP-Method-Override": "POST",
-"x-random-data": "9876543210",
- },
+            headers: {
+                "X-HTTP-Method-Override": "POST",
+                "x-random-data": "9876543210",
+            },
         });
         const headers = response.headers;
         console.log(response);
@@ -86,7 +89,7 @@ Deno.test("method_override-get-post", async () => {
         assertEquals(json, {
             original_Method: "GET",
             override_method: "GET",
-"x-random-data": "9876543210",
+            "x-random-data": "9876543210",
         });
     } finally {
         controller.abort();
@@ -101,12 +104,12 @@ Deno.test("method_override-post-put", async () => {
         method_override(),
         json_builder,
         (ctx) => {
-const {url}=ctx.request
+            const { url } = ctx.request;
             const body = {
-url,
+                url,
                 original_Method: get_original_Method(ctx),
                 override_method: ctx.request.method,
-"x-random-data": ctx.request.headers.get("x-random-data"),
+                "x-random-data": ctx.request.headers.get("x-random-data"),
             };
             return { body };
         },
@@ -118,9 +121,10 @@ url,
         const url = `http://localhost:${port}/`;
         const response = await fetch(url, {
             method: "POST",
-            headers: { "X-HTTP-Method-Override": "PUT" ,
-"x-random-data": "9876543210",
-},
+            headers: {
+                "X-HTTP-Method-Override": "PUT",
+                "x-random-data": "9876543210",
+            },
         });
         const headers = response.headers;
         console.log(response);
@@ -130,10 +134,10 @@ url,
         const json = await response.json();
         console.log(json);
         assertEquals(json, {
-url,
+            url,
             original_Method: "POST",
             override_method: "PUT",
-"x-random-data": "9876543210",
+            "x-random-data": "9876543210",
         });
     } finally {
         controller.abort();
