@@ -7,6 +7,7 @@ import {
     get_original_Method,
     method_override,
 } from "./middleware/method_override.ts";
+import { stream_etag } from "./middleware/stream_etag.ts";
 
 export {
     conditional_get,
@@ -16,4 +17,5 @@ export {
     json_builder,
     logger,
     method_override,
+    stream_etag,
 };

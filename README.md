@@ -68,9 +68,11 @@
 
 `json_builder`:`JSON`响应中间件,并附带`etag`响应头
 
-`etag_builder`:附带`etag`响应头的中间件
+`etag_builder`:给响应体不是 `stream` 的提供`etag`响应头的中间件
 
-`method_override`:覆盖请求方法的中间件
+`method_override`:覆盖请求方法的中间件,`get_original_Method`函数可以获得原本的请求方法.
+
+`stream_etag`:把响应体从 `stream` 转换为 `buffer` 来计算 `etag` 的中间件
 
 #### 安装教程
 
@@ -95,6 +97,7 @@ import {
     json_builder,
     logger,
     method_override,
+    stream_etag,
 } from "https://cdn.jsdelivr.net/gh/masx200/deno-http-middleware@@1.0.2/middleware.ts";
 const handler = createHandler([
     logger,
@@ -104,6 +107,7 @@ const handler = createHandler([
 
     json_builder,
     etag_builder,
+    stream_etag(),
     (ctx) => {
         const body = {
             original_Method: get_original_Method(ctx),
