@@ -98,7 +98,7 @@ import {
     logger,
     method_override,
     stream_etag,
-} from "https://cdn.jsdelivr.net/gh/masx200/deno-http-middleware@@1.0.2/middleware.ts";
+} from "https://cdn.jsdelivr.net/gh/masx200/deno-http-middleware@1.0.2/middleware.ts";
 const handler = createHandler([
     logger,
     conditional_get,
@@ -124,7 +124,7 @@ const handler = createHandler([
 
 ```ts
 import { serve } from "https://deno.land/std@0.138.0/http/server.ts";
-import { createHandler } from "https://cdn.jsdelivr.net/gh/masx200/deno-http-middleware@@1.0.2/mod.ts";
+import { createHandler } from "https://cdn.jsdelivr.net/gh/masx200/deno-http-middleware@1.0.2/mod.ts";
 const port = Math.floor(Math.random() * 10000 + 10000);
 const handler = createHandler([
     async (ctx, next) => {
