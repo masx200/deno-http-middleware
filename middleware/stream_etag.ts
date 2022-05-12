@@ -56,7 +56,7 @@ async function getResponseEntity(
             let count = 0;
             while (true) {
                 if (count > sizelimit) {
-                    break;
+                    throw new Error("size grater than limit");
                 }
                 const result = await bodyreader.read();
                 // console.log(result);
