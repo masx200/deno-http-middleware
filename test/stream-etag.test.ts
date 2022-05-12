@@ -8,7 +8,7 @@ import { createHandler } from "../src/createHandler.ts";
 Deno.test(
     "etag-conditional_get-stream-body-smaller-than-sizelimit",
     async () => {
-        const filename = new URL("../README", import.meta.url);
+        const filename = new URL("../README.md", import.meta.url);
         const controller = new AbortController();
         const port = Math.floor(Math.random() * 20000 + 30000);
         const handler = createHandler([
@@ -16,7 +16,8 @@ Deno.test(
             conditional_get,
             stream_etag({ sizelimit: 1000 * 1000 }),
             async () => {
-                const file = await Deno.open(filename);
+                const file = await Deno.open(filename, { read: true });
+                console.log(file);
                 const body = file.readable;
                 return { body: body };
             },
@@ -29,9 +30,11 @@ Deno.test(
                 const url = `http://localhost:${port}/test`;
                 const response = await fetch(url);
                 console.log(response);
+                const text = await response.text();
+                console.log(text);
                 assert(response.ok);
                 assertEquals(response.status, 200);
-                const text = await response.text();
+
                 const content = await Deno.readTextFile(filename);
                 assertEquals(text, content);
                 const etag = response.headers.get("etag");
