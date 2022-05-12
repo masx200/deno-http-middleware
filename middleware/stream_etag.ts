@@ -3,11 +3,6 @@ import { createEtagHash as calculate } from "../response/createEtagHash.ts";
 import { Context } from "../src/Context.ts";
 
 import { bodyToBuffer } from "../body/bodyToBuffer.ts";
-import {
-    copyN,
-    readerFromStreamReader,
-    writerFromStreamWriter,
-} from "../deps.ts";
 
 export function stream_etag(options?: {
     sizelimit?: number | undefined;
@@ -57,10 +52,9 @@ async function getResponseEntity(
     if (body instanceof ReadableStream) {
         try {
             const stream = new TransformStream();
-            const reader = readerFromStreamReader(body.getReader());
+
             const streamdefaultwriter = stream.writable.getWriter();
-            const writer = writerFromStreamWriter(streamdefaultwriter);
-            await copyN(reader, writer, sizelimit);
+
             await streamdefaultwriter.close();
             await stream.writable.close();
             const buffer = await bodyToBuffer(stream.readable);

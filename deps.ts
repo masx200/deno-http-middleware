@@ -4,11 +4,7 @@ export {
     assertInstanceOf,
     assertNotEquals,
 } from "https://deno.land/std@0.138.0/testing/asserts.ts";
-export {
-    readerFromStreamReader,
-    writerFromStreamWriter,
-} from "https://deno.land/std@0.138.0/streams/conversion.ts";
-export { copyN } from "https://deno.land/std@0.138.0/io/util.ts";
+
 export type {
     ConnInfo,
     Handler,

@@ -30,7 +30,9 @@ Deno.test(
                 const response = await fetch(url);
                 console.log(response);
                 const text = await response.text();
-                console.log(text);
+                if (!response.ok) {
+                    console.log(text);
+                }
                 assert(response.ok);
                 assertEquals(response.status, 200);
 
@@ -43,7 +45,7 @@ Deno.test(
             controller.abort();
         }
         await p;
-    },
+    }
 );
 
 Deno.test(
@@ -72,7 +74,9 @@ Deno.test(
                 const response = await fetch(url);
                 console.log(response);
                 const text = await response.text();
-                console.log(text);
+                if (!response.ok) {
+                    console.log(text);
+                }
                 assert(response.ok);
                 assertEquals(response.status, 200);
 
@@ -97,5 +101,5 @@ Deno.test(
             controller.abort();
         }
         await p;
-    },
+    }
 );
