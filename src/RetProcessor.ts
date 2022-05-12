@@ -1,3 +1,4 @@
+import { cloneResponseMutableHeaders } from "../response/cloneResponseMutableHeaders.ts";
 import { Context } from "./Context.ts";
 import { NextFunction, RetHandler } from "./Middleware.ts";
 
@@ -7,9 +8,10 @@ export type RetProcessor = (
     next: NextFunction,
 ) => Promise<void> | void;
 export const ret_processor: RetProcessor = async (ret, context, next) => {
+    /* headers 可能是不可变的 */
     if (!ret) return;
     if (ret instanceof Response) {
-        context.response = ret;
+        context.response = cloneResponseMutableHeaders(ret);
         return;
     }
     if (ret instanceof Request) {
@@ -28,7 +30,7 @@ export const ret_processor: RetProcessor = async (ret, context, next) => {
         context.request = new Request(url, { headers, method, body });
     }
     if (ret.response instanceof Response) {
-        context.response = ret.response;
+        context.response = cloneResponseMutableHeaders(ret.response);
     } else if (typeof ret.response === "object") {
         const {
             headers = context.response.headers,
@@ -36,14 +38,14 @@ export const ret_processor: RetProcessor = async (ret, context, next) => {
             body = context.response.body,
             statusText = context.response.statusText,
         } = ret.response;
-        context.response = {
+        context.response = cloneResponseMutableHeaders({
             headers: headers instanceof Headers
                 ? headers
                 : new Headers(headers),
             status,
             body,
             statusText,
-        };
+        });
     }
     const keys = Object.keys(ret);
     if (
@@ -58,14 +60,14 @@ export const ret_processor: RetProcessor = async (ret, context, next) => {
             body = context.response.body,
             statusText = context.response.statusText,
         } = ret;
-        context.response = {
+        context.response = cloneResponseMutableHeaders({
             headers: headers instanceof Headers
                 ? headers
                 : new Headers(headers),
             status,
             body,
             statusText,
-        };
+        });
     }
     if (ret.next) {
         await next();
