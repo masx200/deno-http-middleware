@@ -21,6 +21,13 @@ async function getResponseEntity(
     ctx: Context,
     sizelimit: number,
 ): Promise<string | undefined | Uint8Array> {
+    const length = ctx.response.headers.get("content-length");
+    if (length && Number(length) > sizelimit) {
+        return;
+    }
+    if (ctx.response.headers.get("etag")) {
+        return;
+    }
     if (!ctx.response.body) {
         return;
     }
@@ -41,7 +48,7 @@ async function getResponseEntity(
         body = body2;
     }
 
-    if (!body || ctx.response.headers.get("etag")) {
+    if (!body) {
         return;
     }
     const status = (ctx.response.status / 100) | 0;
