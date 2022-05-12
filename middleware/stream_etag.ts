@@ -12,7 +12,7 @@ export function stream_etag(options?: {
         await next();
         const entity = await getResponseEntity(
             ctx,
-            (options && options.sizelimit) || sizelimit
+            (options && options.sizelimit) || sizelimit,
         );
         await setEtag(ctx, entity, options);
     };
@@ -20,7 +20,7 @@ export function stream_etag(options?: {
 async function getResponseEntity(
     ctx: Context,
     // deno-lint-ignore no-unused-vars
-    sizelimit: number
+    sizelimit: number,
 ): Promise<string | undefined | Uint8Array> {
     if (!ctx.response.body) {
         return;
@@ -81,7 +81,7 @@ const sizelimit = 1000 * 1024;
 async function setEtag(
     ctx: Context,
     entity: string | Uint8Array | undefined,
-    options: { weak?: boolean | undefined } | undefined
+    options: { weak?: boolean | undefined } | undefined,
 ) {
     if (!entity) {
         return;
