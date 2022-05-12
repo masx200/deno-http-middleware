@@ -8,6 +8,7 @@ import {
     readerFromStreamReader,
     writerFromStreamWriter,
 } from "../deps.ts";
+
 export function stream_etag(options?: {
     sizelimit?: number | undefined;
     weak?: boolean | undefined;
@@ -23,6 +24,7 @@ export function stream_etag(options?: {
 }
 async function getResponseEntity(
     ctx: Context,
+    // deno-lint-ignore no-unused-vars
     sizelimit: number,
 ): Promise<string | undefined | Uint8Array> {
     if (!ctx.response.body) {
@@ -56,8 +58,11 @@ async function getResponseEntity(
         try {
             const stream = new TransformStream();
             const reader = readerFromStreamReader(body.getReader());
-            const writer = writerFromStreamWriter(stream.writable.getWriter());
+            const streamdefaultwriter = stream.writable.getWriter();
+            const writer = writerFromStreamWriter(streamdefaultwriter);
             await copyN(reader, writer, sizelimit);
+            await streamdefaultwriter.close();
+            await stream.writable.close();
             const buffer = await bodyToBuffer(stream.readable);
             return buffer;
         } catch (_error) {

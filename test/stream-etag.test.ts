@@ -1,4 +1,4 @@
-import { serve, assert, assertEquals } from "../deps.ts";
+import { assert, assertEquals, serve } from "../deps.ts";
 import { conditional_get } from "../middleware/conditional_get.ts";
 
 import { logger } from "../middleware/logger.ts";
@@ -43,7 +43,7 @@ Deno.test(
             controller.abort();
         }
         await p;
-    }
+    },
 );
 
 Deno.test(
@@ -97,5 +97,5 @@ Deno.test(
             controller.abort();
         }
         await p;
-    }
+    },
 );
