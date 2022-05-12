@@ -13,10 +13,9 @@ Deno.test("json_builder-logger-object", async () => {
         json_builder,
         (ctx) => {
             const { pathname } = new URL(ctx.request.url);
-            const body =
-                pathname === "/array"
-                    ? ["hello world,", ctx.request.url]
-                    : { a: 1, b: 2, c: ctx.request.url };
+            const body = pathname === "/array"
+                ? ["hello world,", ctx.request.url]
+                : { a: 1, b: 2, c: ctx.request.url };
             return { body };
         },
     ]);
@@ -48,10 +47,9 @@ Deno.test("json_builder-logger-array", async () => {
         json_builder,
         (ctx) => {
             const { pathname } = new URL(ctx.request.url);
-            const body =
-                pathname === "/array"
-                    ? ["hello world,", ctx.request.url]
-                    : { a: 1, b: 2, c: ctx.request.url };
+            const body = pathname === "/array"
+                ? ["hello world,", ctx.request.url]
+                : { a: 1, b: 2, c: ctx.request.url };
             return { body };
         },
     ]);
