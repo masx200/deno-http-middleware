@@ -12,14 +12,14 @@ export function stream_etag(options?: {
         await next();
         const entity = await getResponseEntity(
             ctx,
-            (options && options.sizelimit) || sizelimit,
+            (options && options.sizelimit) || sizelimit
         );
         await setEtag(ctx, entity, options);
     };
 }
 async function getResponseEntity(
     ctx: Context,
-    sizelimit: number,
+    sizelimit: number
 ): Promise<string | undefined | Uint8Array> {
     const length = ctx.response.headers.get("content-length");
     if (length && Number(length) > sizelimit) {
@@ -61,21 +61,28 @@ async function getResponseEntity(
             const bodyreader = body.getReader();
             const streamwriter = stream.writable.getWriter();
             let count = 0;
-            while (true) {
-                if (count > sizelimit) {
-                    throw new Error("size grater than limit");
+            try {
+                while (true) {
+                    if (count > sizelimit) {
+                        throw new Error("size grater than limit");
+                    }
+                    const result = await bodyreader.read();
+                    // console.log(result);
+                    if (result.done) {
+                        break;
+                    } else {
+                        streamwriter.write(result.value);
+                        count += result.value.length;
+                    }
                 }
-                const result = await bodyreader.read();
-                // console.log(result);
-                if (result.done) {
-                    break;
-                } else {
-                    streamwriter.write(result.value);
-                    count += result.value.length;
-                }
+                // deno-lint-ignore no-unused-vars
+            } catch (err) {
+                return;
+            } finally {
+                bodyreader.releaseLock();
+                streamwriter.close();
             }
-            bodyreader.releaseLock();
-            streamwriter.close();
+
             // await stream.writable.close();
             const buffer = await bodyToBuffer(stream.readable);
             return buffer;
@@ -88,7 +95,7 @@ const sizelimit = 1000 * 1024;
 async function setEtag(
     ctx: Context,
     entity: string | Uint8Array | undefined,
-    options: { weak?: boolean | undefined } | undefined,
+    options: { weak?: boolean | undefined } | undefined
 ) {
     if (!entity) {
         return;
