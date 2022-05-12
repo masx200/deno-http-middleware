@@ -19,7 +19,6 @@ export function stream_etag(options?: {
 }
 async function getResponseEntity(
     ctx: Context,
-    // deno-lint-ignore no-unused-vars
     sizelimit: number,
 ): Promise<string | undefined | Uint8Array> {
     if (!ctx.response.body) {
@@ -64,13 +63,13 @@ async function getResponseEntity(
                 if (result.done) {
                     break;
                 } else {
-                    await streamwriter.write(result.value);
+                    streamwriter.write(result.value);
                     count += result.value.length;
                 }
             }
             bodyreader.releaseLock();
-            await streamwriter.close();
-            await stream.writable.close();
+            streamwriter.close();
+            // await stream.writable.close();
             const buffer = await bodyToBuffer(stream.readable);
             return buffer;
         } catch (_error) {
