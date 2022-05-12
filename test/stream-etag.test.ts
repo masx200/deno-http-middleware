@@ -45,7 +45,7 @@ Deno.test(
             controller.abort();
         }
         await p;
-    }
+    },
 );
 
 Deno.test(
@@ -101,5 +101,5 @@ Deno.test(
             controller.abort();
         }
         await p;
-    }
+    },
 );
