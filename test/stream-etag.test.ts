@@ -15,10 +15,12 @@ Deno.test(
             conditional_get,
             stream_etag({ sizelimit: 1000 }),
             async () => {
-                const file = await Deno.open(filename, { read: true });
-                console.log(file);
-                const body = file.readable;
-                return { body: body };
+                const body = await Deno.readFile(filename);
+                return new Response(body);
+                // const file = await Deno.open(filename, { read: true });
+                // console.log(file);
+                // const body = file.readable;
+                // return { body: body };
             },
         ]);
 
