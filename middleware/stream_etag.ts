@@ -60,6 +60,7 @@ async function getResponseEntity(
                     break;
                 }
                 const result = await bodyreader.read();
+                // console.log(result);
                 if (result.done) {
                     break;
                 } else {
