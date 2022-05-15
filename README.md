@@ -62,7 +62,7 @@
 
 `conditional_get`:条件`GET`请求中间件
 
-`cors_all`:完全跨域中间件
+`cors_all_get`:完全跨域`GET`请求中间件
 
 `logger`:日志中间件
 
@@ -82,28 +82,28 @@
 
 也可以从 `deno.land`导入
 
-https://deno.land/x/masx200_deno_http_middleware@1.0.2/mod.ts
+https://deno.land/x/masx200_deno_http_middleware@1.1.1/mod.ts
 
-https://deno.land/x/masx200_deno_http_middleware@1.0.2/middleware.ts
+https://deno.land/x/masx200_deno_http_middleware@1.1.1/middleware.ts
 
 ### 使用自带的中间件举例
 
 ```ts
 import {
     conditional_get,
-    cors_all,
+    cors_all_get,
     etag_builder,
     get_original_Method,
     json_builder,
     logger,
     method_override,
     stream_etag,
-} from "https://cdn.jsdelivr.net/gh/masx200/deno-http-middleware@1.0.2/middleware.ts";
+} from "https://deno.land/x/masx200_deno_http_middleware@1.1.1/middleware.ts";
 const handler = createHandler([
     logger,
     conditional_get,
     method_override(),
-    cors_all,
+    cors_all_get,
 
     json_builder,
     etag_builder,
@@ -124,7 +124,7 @@ const handler = createHandler([
 
 ```ts
 import { serve } from "https://deno.land/std@0.138.0/http/server.ts";
-import { createHandler } from "https://cdn.jsdelivr.net/gh/masx200/deno-http-middleware@1.0.2/mod.ts";
+import { createHandler } from "https://deno.land/x/masx200_deno_http_middleware@1.1.1/mod.ts";
 const port = Math.floor(Math.random() * 10000 + 10000);
 const handler = createHandler([
     async (ctx, next) => {
