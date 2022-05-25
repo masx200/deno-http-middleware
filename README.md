@@ -118,9 +118,9 @@ const handler = createHandler([
 ]);
 ```
 
-### hello world
+### 类似`nhttp`的`hello world`
 
-简单的例子,注意顺序
+简单的例子,注意顺序,中间件返回`response`的部分属性
 
 ```ts
 import { serve } from "https://deno.land/std@0.138.0/http/server.ts";
@@ -135,6 +135,31 @@ const handler = createHandler([
     (ctx) => {
         console.log(2);
         return { body: "hello world," + ctx.request.url };
+    },
+]);
+
+const p = serve(handler, { port: port });
+await p;
+```
+
+### 类似`koa`的`hello world`
+
+简单的例子,注意顺序,中间件直接修改`response.body`
+
+```ts
+import { serve } from "https://deno.land/std@0.138.0/http/server.ts";
+import { createHandler } from "https://deno.land/x/masx200_deno_http_middleware@1.1.1/mod.ts";
+const port = Math.floor(Math.random() * 10000 + 10000);
+const handler = createHandler([
+    async (ctx, next) => {
+        console.log(1);
+        await next();
+        console.log(3);
+    },
+    (ctx) => {
+        console.log(2);
+        ctx.response.body = "hello world," + ctx.request.url;
+        return;
     },
 ]);
 

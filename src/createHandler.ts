@@ -1,4 +1,5 @@
 import { ConnInfo, Handler } from "../deps.ts";
+import { cloneResponseMutableHeaders } from "../response/cloneResponseMutableHeaders.ts";
 import { composeMiddleware } from "./composeMiddleware.ts";
 import { Context } from "./Context.ts";
 
@@ -23,14 +24,14 @@ export function createHandler(
         errorHandler?: ErrorHandler;
         responseBuilder?: ResponseBuilder;
         retProcessor?: RetProcessor;
-    } = {},
+    } = {}
 ): Handler {
     const composed = composeMiddleware(middleware, retProcessor);
     return async function (
         request: Request,
-        connInfo: ConnInfo,
+        connInfo: ConnInfo
     ): Promise<Response> {
-        const response = new Response();
+        const response = cloneResponseMutableHeaders(new Response());
         const context: Context = { request, connInfo, response };
 
         const next = async () => {

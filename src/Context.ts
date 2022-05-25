@@ -3,7 +3,7 @@ import { ConnInfo } from "../deps.ts";
 export type Context = {
     connInfo: ConnInfo;
     request: Request;
-    response: ResponseOptions | Response;
+    response: ResponseOptions;
 };
 
 export interface ResponseOptions {
