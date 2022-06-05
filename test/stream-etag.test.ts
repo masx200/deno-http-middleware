@@ -110,3 +110,43 @@ Deno.test(
         await p;
     },
 );
+
+Deno.test(
+    "etag-stream-body-smaller-than-sizelimit-should not cause the response stream to hang",
+    async () => {
+        const controller = new AbortController();
+        const port = Math.floor(Math.random() * 20000 + 30000);
+        const handler = createHandler([
+            logger,
+
+            stream_etag({ sizelimit: 100000000 }),
+            () => {
+                const body = "X".repeat(5000000);
+                return new Response(body);
+            },
+        ]);
+
+        const { signal } = controller;
+        const p = serve(handler, { signal, port: port });
+        try {
+            {
+                const url = `http://localhost:${port}/test`;
+                const response = await fetch(url);
+                console.log(response);
+                const text = await response.text();
+                if (!response.ok) {
+                    console.log(text);
+                }
+                assert(response.ok);
+                assertEquals(response.status, 200);
+                const content = "X".repeat(5000000);
+                assertEquals(text, content);
+                const etag = response.headers.get("etag");
+                assert(etag);
+            }
+        } finally {
+            controller.abort();
+        }
+        await p;
+    },
+);

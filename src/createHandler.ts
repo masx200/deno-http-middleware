@@ -24,12 +24,12 @@ export function createHandler(
         errorHandler?: ErrorHandler;
         responseBuilder?: ResponseBuilder;
         retProcessor?: RetProcessor;
-    } = {}
+    } = {},
 ): Handler {
     const composed = composeMiddleware(middleware, retProcessor);
     return async function (
         request: Request,
-        connInfo: ConnInfo
+        connInfo: ConnInfo,
     ): Promise<Response> {
         const response = cloneResponseMutableHeaders(new Response());
         const context: Context = { request, connInfo, response };
