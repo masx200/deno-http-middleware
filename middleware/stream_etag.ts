@@ -1,8 +1,7 @@
 import { Middleware } from "../src/Middleware.ts";
 import { createEtagHash as calculate } from "../response/createEtagHash.ts";
 import { Context } from "../src/Context.ts";
-
-import { bodyToBuffer } from "../body/bodyToBuffer.ts";
+import { ReadableStreamSmallerThanLimitToBuffer } from "../utils/ReadableStreamSmallerThanLimitToBuffer.ts";
 
 export function stream_etag(options?: {
     sizelimit?: number | undefined;
@@ -57,36 +56,11 @@ async function getResponseEntity(
     }
     if (body instanceof ReadableStream) {
         try {
-            const stream = new TransformStream();
-            const bodyreader = body.getReader();
-            const streamwriter = stream.writable.getWriter();
-            let count = 0;
-            try {
-                while (true) {
-                    if (count > sizelimit) {
-                        throw new Error("size grater than limit");
-                    }
-                    const result = await bodyreader.read();
-                    // console.log(result);
-                    if (result.done) {
-                        break;
-                    } else {
-                        streamwriter.write(result.value);
-                        count += result.value.length;
-                    }
-                }
-                // deno-lint-ignore no-unused-vars
-            } catch (err) {
-                return;
-            } finally {
-                bodyreader.releaseLock();
-                streamwriter.close();
-            }
-
-            // await stream.writable.close();
-            const buffer = await bodyToBuffer(stream.readable);
-            return buffer;
-        } catch (_error) {
+            return await ReadableStreamSmallerThanLimitToBuffer(
+                body,
+                sizelimit,
+            );
+        } catch {
             return;
         }
     }
