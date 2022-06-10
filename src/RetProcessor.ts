@@ -1,7 +1,47 @@
 import { cloneResponseMutableHeaders } from "../response/cloneResponseMutableHeaders.ts";
-import { Context } from "./Context.ts";
-import { NextFunction, RetHandler } from "./Middleware.ts";
-
+import { Context, RequestOptions } from "./Context.ts";
+import {
+    NextFunction,
+    RequestOptionsPartial,
+    ResponseOptionsPartial,
+    RetHandler,
+} from "./Middleware.ts";
+function updateResponse(
+    context: Context,
+    response: Response | ResponseOptionsPartial,
+) {
+    const {
+        headers = context.response.headers,
+        status = context.response.status,
+        body = context.response.body,
+        statusText = context.response.statusText,
+    } = response;
+    context.response = cloneResponseMutableHeaders({
+        headers: headers instanceof Headers ? headers : new Headers(headers),
+        status,
+        body,
+        statusText,
+    });
+}
+function updateRequest(
+    context: Context,
+    request: Request | RequestOptionsPartial,
+) {
+    const {
+        url = context.request.url,
+        headers = context.request.headers,
+        method = context.request.method,
+        body = context.request.body,
+    } = request;
+    const req = new Request(url, { headers, method, body });
+    const options: RequestOptions = {
+        url: req.url,
+        headers: req.headers,
+        method: req.method,
+        body: req.body,
+    };
+    context.request = options;
+}
 export type RetProcessor = (
     ret_handler: RetHandler,
     context: Context,
@@ -9,43 +49,20 @@ export type RetProcessor = (
 ) => Promise<void> | void;
 export const ret_processor: RetProcessor = async (ret, context, next) => {
     /* headers 可能是不可变的 */
-    if (!ret) return;
+    if ("object" !== typeof ret) return;
     if (ret instanceof Response) {
-        context.response = cloneResponseMutableHeaders(ret);
+        updateResponse(context, ret);
         return;
     }
     if (ret instanceof Request) {
-        context.request = ret;
+        updateRequest(context, ret);
         return;
     }
-    if (ret.request instanceof Request) {
-        context.request = ret.request;
-    } else if (typeof ret.request === "object") {
-        const {
-            url = context.request.url,
-            headers = context.request.headers,
-            method = context.request.method,
-            body = context.request.body,
-        } = ret.request;
-        context.request = new Request(url, { headers, method, body });
+    if (typeof ret.request === "object") {
+        updateRequest(context, ret.request);
     }
-    if (ret.response instanceof Response) {
-        context.response = cloneResponseMutableHeaders(ret.response);
-    } else if (typeof ret.response === "object") {
-        const {
-            headers = context.response.headers,
-            status = context.response.status,
-            body = context.response.body,
-            statusText = context.response.statusText,
-        } = ret.response;
-        context.response = cloneResponseMutableHeaders({
-            headers: headers instanceof Headers
-                ? headers
-                : new Headers(headers),
-            status,
-            body,
-            statusText,
-        });
+    if (typeof ret.response === "object") {
+        updateResponse(context, ret.response);
     }
     const keys = Object.keys(ret);
     if (
@@ -54,20 +71,7 @@ export const ret_processor: RetProcessor = async (ret, context, next) => {
             keys.includes(key)
         )
     ) {
-        const {
-            headers = context.response.headers,
-            status = context.response.status,
-            body = context.response.body,
-            statusText = context.response.statusText,
-        } = ret;
-        context.response = cloneResponseMutableHeaders({
-            headers: headers instanceof Headers
-                ? headers
-                : new Headers(headers),
-            status,
-            body,
-            statusText,
-        });
+        updateResponse(context, ret);
     }
     if (ret.next) {
         await next();

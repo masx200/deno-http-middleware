@@ -1,3 +1,4 @@
+import { bodyToText } from "../body/bodyToText.ts";
 import { assert, assertEquals } from "../deps.ts";
 import { serve } from "../deps.ts";
 import { json_builder } from "../middleware/json_builder.ts";
@@ -83,7 +84,7 @@ Deno.test("json_builder-logger-request", async () => {
             const { request } = ctx;
             const { method } = request;
             const { pathname } = new URL(ctx.request.url);
-            const text = await request.text();
+            const text = await bodyToText(request.body);
             const body = {
                 method,
                 text,

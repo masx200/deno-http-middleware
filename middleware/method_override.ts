@@ -1,5 +1,5 @@
 import { METHODS } from "../deps.ts";
-import { Context } from "../src/Context.ts";
+import { Context, RequestOptions } from "../src/Context.ts";
 import { Middleware, RetHandler } from "../src/Middleware.ts";
 const context_to_original_Method = new WeakMap<Context, string>();
 
@@ -9,14 +9,14 @@ export function get_original_Method(ctx: Context): string | undefined {
 export const method_override: (
     options?: Partial<{
         getter: (
-            request: Request,
+            request: RequestOptions,
         ) => Promise<string | undefined | null> | string | undefined | null;
         methods: string[];
     }>,
 ) => Middleware = (options = {}) => {
     const methods = options.methods ?? ["POST"];
     const getter = options.getter ??
-        ((request: Request) => {
+        ((request: RequestOptions) => {
             return request.headers.get("X-HTTP-Method-Override");
         });
     return async function (context, next): Promise<RetHandler> {

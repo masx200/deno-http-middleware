@@ -19,7 +19,7 @@ import { NotFoundHandler } from "./src/NotFoundHandler.ts";
 import { notfound_handler } from "./src/notfound_handler.ts";
 import { response_builder, ResponseBuilder } from "./src/response_builder.ts";
 import { ret_processor, RetProcessor } from "./src/RetProcessor.ts";
-export { bodyToFormData, bodyToBlob, bodyToBuffer, bodyToJSON, bodyToText };
+export { bodyToBlob, bodyToBuffer, bodyToFormData, bodyToJSON, bodyToText };
 export {
     composeMiddleware,
     createHandler,
