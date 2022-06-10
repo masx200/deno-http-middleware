@@ -82,9 +82,9 @@
 
 也可以从 `deno.land`导入
 
-https://deno.land/x/masx200_deno_http_middleware@1.1.1/mod.ts
+https://deno.land/x/masx200_deno_http_middleware@1.2.1/mod.ts
 
-https://deno.land/x/masx200_deno_http_middleware@1.1.1/middleware.ts
+https://deno.land/x/masx200_deno_http_middleware@1.2.1/middleware.ts
 
 ### 使用自带的中间件举例
 
@@ -98,7 +98,7 @@ import {
     logger,
     method_override,
     stream_etag,
-} from "https://deno.land/x/masx200_deno_http_middleware@1.1.1/middleware.ts";
+} from "https://deno.land/x/masx200_deno_http_middleware@1.2.1/middleware.ts";
 const handler = createHandler([
     logger,
     conditional_get,
@@ -124,7 +124,7 @@ const handler = createHandler([
 
 ```ts
 import { serve } from "https://deno.land/std@0.138.0/http/server.ts";
-import { createHandler } from "https://deno.land/x/masx200_deno_http_middleware@1.1.1/mod.ts";
+import { createHandler } from "https://deno.land/x/masx200_deno_http_middleware@1.2.1/mod.ts";
 const port = Math.floor(Math.random() * 10000 + 10000);
 const handler = createHandler([
     async (ctx, next) => {
@@ -148,7 +148,7 @@ await p;
 
 ```ts
 import { serve } from "https://deno.land/std@0.138.0/http/server.ts";
-import { createHandler } from "https://deno.land/x/masx200_deno_http_middleware@1.1.1/mod.ts";
+import { createHandler } from "https://deno.land/x/masx200_deno_http_middleware@1.2.1/mod.ts";
 const port = Math.floor(Math.random() * 10000 + 10000);
 const handler = createHandler([
     async (ctx, next) => {
@@ -167,7 +167,7 @@ const p = serve(handler, { port: port });
 await p;
 ```
 
-### json builder
+### json builder 举例
 
 自带的 json 响应构建中间件的部分代码的例子
 
