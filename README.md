@@ -22,6 +22,10 @@
 
 #### 介绍
 
+### `get_original_Request`函数
+
+可以获得原本的请求对象
+
 ### `createHandler`函数
 
 根据中间件创建一个请求处理函数
@@ -54,9 +58,11 @@
 
 包含属性`connInfo`:连接的信息
 
-包含属性`request`:原生`Request`对象或者`Request`对象的部分属性
+包含属性`request`:`Request`对象的部分属性,属性可修改
 
-包含属性`response`:原生`Response`对象或者`Response`对象的部分属性
+因为原本的`Response`,`Request`的属性都是不可修改的,所以不用原本的`Response`,`Request`对象
+
+包含属性`response`:`Response`对象的部分属性,属性可修改
 
 ### 自带中间件
 

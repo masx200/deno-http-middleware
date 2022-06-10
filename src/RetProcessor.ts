@@ -6,6 +6,7 @@ import {
     ResponseOptionsPartial,
     RetHandler,
 } from "./Middleware.ts";
+import { request_to_options } from "./request_to_options.ts";
 function updateResponse(
     context: Context,
     response: Response | ResponseOptionsPartial,
@@ -33,13 +34,12 @@ function updateRequest(
         method = context.request.method,
         body = context.request.body,
     } = request;
-    const req = new Request(url, { headers, method, body });
-    const options: RequestOptions = {
-        url: req.url,
-        headers: req.headers,
-        method: req.method,
-        body: req.body,
-    };
+    const options: RequestOptions = request_to_options({
+        url,
+        headers,
+        method,
+        body,
+    });
     context.request = options;
 }
 export type RetProcessor = (

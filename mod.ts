@@ -5,7 +5,7 @@ import { bodyToJSON } from "./body/bodyToJSON.ts";
 import { bodyToText } from "./body/bodyToText.ts";
 import { composeMiddleware } from "./src/composeMiddleware.ts";
 import { Context } from "./src/Context.ts";
-import { createHandler } from "./src/createHandler.ts";
+import { createHandler, get_original_Request } from "./src/createHandler.ts";
 import { ErrorHandler } from "./src/ErrorHandler.ts";
 import { error_handler } from "./src/error_handler.ts";
 import {
@@ -24,6 +24,7 @@ export {
     composeMiddleware,
     createHandler,
     error_handler,
+    get_original_Request,
     notfound_handler,
     response_builder,
     ret_processor,
