@@ -1,3 +1,8 @@
+import { bodyToBlob } from "./body/bodyToBlob.ts";
+import { bodyToBuffer } from "./body/bodyToBuffer.ts";
+import { bodyToFormData } from "./body/bodyToFormData.ts";
+import { bodyToJSON } from "./body/bodyToJSON.ts";
+import { bodyToText } from "./body/bodyToText.ts";
 import { composeMiddleware } from "./src/composeMiddleware.ts";
 import { Context } from "./src/Context.ts";
 import { createHandler } from "./src/createHandler.ts";
@@ -14,7 +19,7 @@ import { NotFoundHandler } from "./src/NotFoundHandler.ts";
 import { notfound_handler } from "./src/notfound_handler.ts";
 import { response_builder, ResponseBuilder } from "./src/response_builder.ts";
 import { ret_processor, RetProcessor } from "./src/RetProcessor.ts";
-
+export { bodyToFormData, bodyToBlob, bodyToBuffer, bodyToJSON, bodyToText };
 export {
     composeMiddleware,
     createHandler,
