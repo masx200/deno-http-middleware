@@ -7,9 +7,9 @@ import {
     RetHandler,
 } from "./Middleware.ts";
 import { request_to_options } from "./request_to_options.ts";
-function updateResponse(
+export function updateResponse(
     context: Context,
-    response: Response | ResponseOptionsPartial,
+    response: Response | ResponseOptionsPartial
 ) {
     const {
         headers = context.response.headers,
@@ -24,9 +24,9 @@ function updateResponse(
         statusText,
     });
 }
-function updateRequest(
+export function updateRequest(
     context: Context,
-    request: Request | RequestOptionsPartial,
+    request: Request | RequestOptionsPartial
 ) {
     const {
         url = context.request.url,
@@ -45,7 +45,7 @@ function updateRequest(
 export type RetProcessor = (
     ret_handler: RetHandler,
     context: Context,
-    next: NextFunction,
+    next: NextFunction
 ) => Promise<void> | void;
 export const ret_processor: RetProcessor = async (ret, context, next) => {
     /* headers 可能是不可变的 */
