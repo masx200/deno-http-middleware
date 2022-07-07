@@ -9,7 +9,7 @@ import {
 import { request_to_options } from "./request_to_options.ts";
 export function updateResponse(
     context: Context,
-    response: Response | ResponseOptionsPartial
+    response: Response | ResponseOptionsPartial,
 ) {
     const {
         headers = context.response.headers,
@@ -26,7 +26,7 @@ export function updateResponse(
 }
 export function updateRequest(
     context: Context,
-    request: Request | RequestOptionsPartial
+    request: Request | RequestOptionsPartial,
 ) {
     const {
         url = context.request.url,
@@ -45,7 +45,7 @@ export function updateRequest(
 export type RetProcessor = (
     ret_handler: RetHandler,
     context: Context,
-    next: NextFunction
+    next: NextFunction,
 ) => Promise<void> | void;
 export const ret_processor: RetProcessor = async (ret, context, next) => {
     /* headers 可能是不可变的 */

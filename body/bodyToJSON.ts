@@ -1,8 +1,7 @@
 // deno-lint-ignore no-explicit-any
-export async function bodyToJSON<T=any>(
+export async function bodyToJSON<T = any>(
     body?: BodyInit | null,
-headers?: HeadersInit,
-    
+    headers?: HeadersInit,
 ): Promise<T> {
-    return await new Response(body,{headers}).json();
+    return await new Response(body, { headers }).json();
 }

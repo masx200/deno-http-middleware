@@ -41,4 +41,4 @@ export type {
     RetHandler,
     RetProcessor,
 };
-export * from "./middleware.ts"
+export * from "./middleware.ts";
