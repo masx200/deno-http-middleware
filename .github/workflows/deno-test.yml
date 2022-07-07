@@ -29,11 +29,11 @@ jobs:
         # uses: denoland/setup-deno@v1
         uses: denoland/setup-deno@v1.1.0
         with:
-          deno-version: v1.22.2
+          deno-version: v1.23.2
 
       # Uncomment this step to verify the use of 'deno fmt' on each commit.
-      # - name: Verify formatting
-      #   run: deno fmt --check
+      - name: check formatting
+        run: deno check --remote --unstable mod.ts
 
       - name: Run linter
         run: deno lint
