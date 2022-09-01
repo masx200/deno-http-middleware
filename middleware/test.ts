@@ -168,7 +168,7 @@ describe("options.origin=async function", async function (t) {
     const app = compose(
         cors({
             async origin(ctx) {
-                if (ctx.url.pathname === "/forbin") {
+                if (new URL(ctx.request.url).pathname === "/forbin") {
                     return false;
                 }
                 return "*";
@@ -346,7 +346,7 @@ describe("options.credentials=function", async function (t) {
     const app = compose(
         cors({
             credentials(ctx) {
-                return ctx.url.pathname !== "/forbin";
+                return new URL(ctx.request.url).pathname !== "/forbin";
             },
         }),
         () => json({ foo: "bar" }),

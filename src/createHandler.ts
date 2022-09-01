@@ -28,15 +28,15 @@ export function createHandler<T = Record<any, any>>(
         errorHandler?: ErrorHandler;
         responseBuilder?: ResponseBuilder;
         retProcessor?: RetProcessor;
-    } = {}
+    } = {},
 ): Handler {
     const composed = composeMiddleware(
         typeof middleware === "function" ? [middleware] : middleware,
-        retProcessor
+        retProcessor,
     );
     return async function (
         request: Request,
-        connInfo: ConnInfo
+        connInfo: ConnInfo,
     ): Promise<Response> {
         const context: Context<T> = createContext(request, connInfo);
         const next = async () => {
@@ -66,7 +66,7 @@ export function createContext<T = Record<any, any>>(
         remoteAddr: { transport: "tcp", hostname: "127.0.0.1", port: 0 },
         localAddr: { transport: "tcp", hostname: "127.0.0.1", port: 0 },
         alpnProtocol: null,
-    }
+    },
 ): Context<T> {
     const response = cloneResponseMutableHeaders(new Response());
     const context = {
