@@ -9,7 +9,7 @@ Deno.test("hello-world-logger-cors_all_get-sequence", async () => {
     const port = Math.floor(Math.random() * 20000 + 30000);
     const handler = createHandler([
         logger,
-        cors(),
+        cors({ origin: "*" }),
         async (_ctx, next) => {
             console.log(1);
             numbers.push(1);

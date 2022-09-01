@@ -1,7 +1,7 @@
 import { ConnInfo } from "../deps.ts";
 
 // deno-lint-ignore no-explicit-any
-export type Context<T = Record<any, any>> = {
+export type Context<T = Record<any, unknown>> = {
     connInfo: ConnInfo;
     request: RequestOptions;
     response: ResponseOptions;

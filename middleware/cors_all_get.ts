@@ -14,7 +14,7 @@ export function cors(options: CorsOptions = {}): Middleware {
         ...defaults,
         ...options,
     };
-    options.origin ??= "*";
+
     if (Array.isArray(options.exposeHeaders)) {
         options.exposeHeaders = options.exposeHeaders.join(",");
     }

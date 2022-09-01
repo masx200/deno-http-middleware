@@ -9,7 +9,7 @@ Deno.test(
     async () => {
         const filename = new URL("../README.md", import.meta.url);
         const controller = new AbortController();
-        const port = Math.floor(Math.random() * 20000 + 30000);
+        const port = Math.floor(Math.random() * 50000 + 10000);
         const handler = createHandler([
             logger,
             conditional_get,
@@ -55,7 +55,7 @@ Deno.test(
     async () => {
         const filename = new URL("../README.md", import.meta.url);
         const controller = new AbortController();
-        const port = Math.floor(Math.random() * 20000 + 30000);
+        const port = Math.floor(Math.random() * 50000 + 10000);
         const handler = createHandler([
             logger,
             conditional_get,
@@ -115,7 +115,7 @@ Deno.test(
     "etag-stream-body-smaller-than-sizelimit-should not cause the response stream to hang",
     async () => {
         const controller = new AbortController();
-        const port = Math.floor(Math.random() * 20000 + 30000);
+        const port = Math.floor(Math.random() * 50000 + 10000);
         const handler = createHandler([
             logger,
 

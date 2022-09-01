@@ -3,6 +3,8 @@ import { cors } from "./cors_all_get.ts";
 import { compose, Context, Middleware } from "../mod.ts";
 import { json } from "../deps.ts";
 import { expect } from "https://esm.sh/expect@29.0.1/";
+import { createContext } from "../src/createHandler.ts";
+import { createHandler } from "../src/createHandler.ts";
 
 const describe = Deno.test;
 describe("default options", async function (t) {
@@ -57,7 +59,7 @@ describe("default options", async function (t) {
     });
 });
 
-describe("options.origin=*", function (t) {
+describe("options.origin=*", async function (t) {
     const it = t.step;
     const app = compose(
         cors({
@@ -66,7 +68,7 @@ describe("options.origin=*", function (t) {
         () => json({ foo: "bar" }),
     );
 
-    it("should always set `Access-Control-Allow-Origin` to *", async () => {
+    await it("should always set `Access-Control-Allow-Origin` to *", async () => {
         await request(app)
             .get("/")
             .set("Origin", "https://hattipjs.org")
@@ -76,7 +78,7 @@ describe("options.origin=*", function (t) {
     });
 });
 
-describe("options.secureContext=true", function (t) {
+describe("options.secureContext=true", async function (t) {
     const it = t.step;
     const app = compose(
         cors({
@@ -85,7 +87,7 @@ describe("options.secureContext=true", function (t) {
         () => json({ foo: "bar" }),
     );
 
-    it("should always set `Cross-Origin-Opener-Policy` & `Cross-Origin-Embedder-Policy` on not OPTIONS", async () => {
+    await it("should always set `Cross-Origin-Opener-Policy` & `Cross-Origin-Embedder-Policy` on not OPTIONS", async () => {
         await request(app)
             .get("/")
             .set("Origin", "https://hattipjs.org")
@@ -95,7 +97,7 @@ describe("options.secureContext=true", function (t) {
             .expect(200);
     });
 
-    it("should always set `Cross-Origin-Opener-Policy` & `Cross-Origin-Embedder-Policy` on OPTIONS", async () => {
+    await it("should always set `Cross-Origin-Opener-Policy` & `Cross-Origin-Embedder-Policy` on OPTIONS", async () => {
         await request(app)
             .options("/")
             .set("Origin", "https://hattipjs.org")
@@ -106,7 +108,7 @@ describe("options.secureContext=true", function (t) {
     });
 });
 
-describe("options.secureContext=false", function (t) {
+describe("options.secureContext=false", async function (t) {
     const it = t.step;
     const app = compose(
         cors({
@@ -115,7 +117,7 @@ describe("options.secureContext=false", function (t) {
         () => json({ foo: "bar" }),
     );
 
-    it("should not set `Cross-Origin-Opener-Policy` & `Cross-Origin-Embedder-Policy`", async () => {
+    await it("should not set `Cross-Origin-Opener-Policy` & `Cross-Origin-Embedder-Policy`", async () => {
         await request(app)
             .get("/")
             .set("Origin", "https://hattipjs.org")
@@ -127,12 +129,12 @@ describe("options.secureContext=false", function (t) {
     });
 });
 
-describe("options.origin=function", function (t) {
+describe("options.origin=function", async function (t) {
     const it = t.step;
     const app = compose(
         cors({
             origin(ctx) {
-                if (ctx.url.pathname === "/forbin") {
+                if (new URL(ctx.request.url).pathname === "/forbin") {
                     return false;
                 }
                 return "*";
@@ -141,7 +143,7 @@ describe("options.origin=function", function (t) {
         () => json({ foo: "bar" }),
     );
 
-    it("should disable cors", async () => {
+    await it("should disable cors", async () => {
         await request(app)
             .get("/forbin")
             .set("Origin", "https://hattipjs.org")
@@ -151,7 +153,7 @@ describe("options.origin=function", function (t) {
             });
     });
 
-    it("should set access-control-allow-origin to *", async () => {
+    await it("should set access-control-allow-origin to *", async () => {
         await request(app)
             .get("/")
             .set("Origin", "https://hattipjs.org")
@@ -161,7 +163,7 @@ describe("options.origin=function", function (t) {
     });
 });
 
-describe("options.origin=async function", function (t) {
+describe("options.origin=async function", async function (t) {
     const it = t.step;
     const app = compose(
         cors({
@@ -175,7 +177,7 @@ describe("options.origin=async function", function (t) {
         () => json({ foo: "bar" }),
     );
 
-    it("should disable cors", async () => {
+    await it("should disable cors", async () => {
         await request(app)
             .get("/forbin")
             .set("Origin", "https://hattipjs.org")
@@ -185,7 +187,7 @@ describe("options.origin=async function", function (t) {
             });
     });
 
-    it("should set access-control-allow-origin to *", async () => {
+    await it("should set access-control-allow-origin to *", async () => {
         await request(app)
             .get("/")
             .set("Origin", "https://hattipjs.org")
@@ -195,7 +197,7 @@ describe("options.origin=async function", function (t) {
     });
 });
 
-describe("options.exposeHeaders", function (t) {
+describe("options.exposeHeaders", async function (t) {
     const it = t.step;
     it("should Access-Control-Expose-Headers: `content-length`", async () => {
         const app = compose(
@@ -213,7 +215,7 @@ describe("options.exposeHeaders", function (t) {
             .expect(200);
     });
 
-    it("should work with array", async () => {
+    await it("should work with array", async () => {
         const app = compose(
             cors({
                 exposeHeaders: ["content-length", "x-header"],
@@ -230,9 +232,9 @@ describe("options.exposeHeaders", function (t) {
     });
 });
 
-describe("options.maxAge", function (t) {
+describe("options.maxAge", async function (t) {
     const it = t.step;
-    it("should set maxAge with number", async () => {
+    await it("should set maxAge with number", async () => {
         const app = compose(
             cors({
                 maxAge: 3600,
@@ -248,7 +250,7 @@ describe("options.maxAge", function (t) {
             .expect(204);
     });
 
-    it("should set maxAge with string", async () => {
+    await it("should set maxAge with string", async () => {
         const app = compose(
             cors({
                 maxAge: "3600",
@@ -264,7 +266,7 @@ describe("options.maxAge", function (t) {
             .expect(204);
     });
 
-    it("should not set maxAge on simple request", async () => {
+    await it("should not set maxAge on simple request", async () => {
         const app = compose(
             cors({
                 maxAge: "3600",
@@ -282,7 +284,7 @@ describe("options.maxAge", function (t) {
     });
 });
 
-describe("options.credentials", function (t) {
+describe("options.credentials", async function (t) {
     const it = t.step;
     const app = compose(
         cors({
@@ -291,7 +293,7 @@ describe("options.credentials", function (t) {
         () => json({ foo: "bar" }),
     );
 
-    it("should enable Access-Control-Allow-Credentials on Simple request", async () => {
+    await it("should enable Access-Control-Allow-Credentials on Simple request", async () => {
         await request(app)
             .get("/")
             .set("Origin", "https://hattipjs.org")
@@ -300,7 +302,7 @@ describe("options.credentials", function (t) {
             .expect(200);
     });
 
-    it("should enable Access-Control-Allow-Credentials on Preflight request", async () => {
+    await it("should enable Access-Control-Allow-Credentials on Preflight request", async () => {
         await request(app)
             .options("/")
             .set("Origin", "https://hattipjs.org")
@@ -310,11 +312,11 @@ describe("options.credentials", function (t) {
     });
 });
 
-describe("options.credentials unset", function (t) {
+describe("options.credentials unset", async function (t) {
     const it = t.step;
     const app = compose(cors(), () => json({ foo: "bar" }));
 
-    it("should disable Access-Control-Allow-Credentials on Simple request", async () => {
+    await it("should disable Access-Control-Allow-Credentials on Simple request", async () => {
         await request(app)
             .get("/")
             .set("Origin", "https://hattipjs.org")
@@ -326,7 +328,7 @@ describe("options.credentials unset", function (t) {
             });
     });
 
-    it("should disable Access-Control-Allow-Credentials on Preflight request", async () => {
+    await it("should disable Access-Control-Allow-Credentials on Preflight request", async () => {
         await request(app)
             .options("/")
             .set("Origin", "https://hattipjs.org")
@@ -339,7 +341,7 @@ describe("options.credentials unset", function (t) {
     });
 });
 
-describe("options.credentials=function", function (t) {
+describe("options.credentials=function", async function (t) {
     const it = t.step;
     const app = compose(
         cors({
@@ -350,7 +352,7 @@ describe("options.credentials=function", function (t) {
         () => json({ foo: "bar" }),
     );
 
-    it("should enable Access-Control-Allow-Credentials on Simple request", async () => {
+    await it("should enable Access-Control-Allow-Credentials on Simple request", async () => {
         await request(app)
             .get("/")
             .set("Origin", "https://hattipjs.org")
@@ -359,7 +361,7 @@ describe("options.credentials=function", function (t) {
             .expect(200);
     });
 
-    it("should enable Access-Control-Allow-Credentials on Preflight request", async () => {
+    await it("should enable Access-Control-Allow-Credentials on Preflight request", async () => {
         await request(app)
             .options("/")
             .set("Origin", "https://hattipjs.org")
@@ -368,7 +370,7 @@ describe("options.credentials=function", function (t) {
             .expect(204);
     });
 
-    it("should disable Access-Control-Allow-Credentials on Simple request", async () => {
+    await it("should disable Access-Control-Allow-Credentials on Simple request", async () => {
         await request(app)
             .get("/forbin")
             .set("Origin", "https://hattipjs.org")
@@ -380,7 +382,7 @@ describe("options.credentials=function", function (t) {
             });
     });
 
-    it("should disable Access-Control-Allow-Credentials on Preflight request", async () => {
+    await it("should disable Access-Control-Allow-Credentials on Preflight request", async () => {
         await request(app)
             .options("/forbin")
             .set("Origin", "https://hattipjs.org")
@@ -393,7 +395,7 @@ describe("options.credentials=function", function (t) {
     });
 });
 
-describe("options.credentials=async function", function (t) {
+describe("options.credentials=async function", async function (t) {
     const it = t.step;
     const app = compose(
         cors({
@@ -404,7 +406,7 @@ describe("options.credentials=async function", function (t) {
         () => json({ foo: "bar" }),
     );
 
-    it("should enable Access-Control-Allow-Credentials on Simple request", async () => {
+    await it("should enable Access-Control-Allow-Credentials on Simple request", async () => {
         await request(app)
             .get("/")
             .set("Origin", "https://hattipjs.org")
@@ -413,7 +415,7 @@ describe("options.credentials=async function", function (t) {
             .expect(200);
     });
 
-    it("should enable Access-Control-Allow-Credentials on Preflight request", async () => {
+    await it("should enable Access-Control-Allow-Credentials on Preflight request", async () => {
         await request(app)
             .options("/")
             .set("Origin", "https://hattipjs.org")
@@ -423,9 +425,9 @@ describe("options.credentials=async function", function (t) {
     });
 });
 
-describe("options.allowHeaders", function (t) {
+describe("options.allowHeaders", async function (t) {
     const it = t.step;
-    it("should work with allowHeaders is string", async () => {
+    await it("should work with allowHeaders is string", async () => {
         const app = compose(
             cors({
                 allowHeaders: "X-PINGOTHER",
@@ -441,7 +443,7 @@ describe("options.allowHeaders", function (t) {
             .expect(204);
     });
 
-    it("should work with allowHeaders is array", async () => {
+    await it("should work with allowHeaders is array", async () => {
         const app = compose(
             cors({
                 allowHeaders: ["X-PINGOTHER"],
@@ -457,7 +459,7 @@ describe("options.allowHeaders", function (t) {
             .expect(204);
     });
 
-    it("should set Access-Control-Allow-Headers to request access-control-request-headers header", async () => {
+    await it("should set Access-Control-Allow-Headers to request access-control-request-headers header", async () => {
         const app = compose(cors(), () => json({ foo: "bar" }));
 
         await request(app)
@@ -470,9 +472,9 @@ describe("options.allowHeaders", function (t) {
     });
 });
 
-describe("options.allowMethods", function (t) {
+describe("options.allowMethods", async function (t) {
     const it = t.step;
-    it("should work with allowMethods is array", async () => {
+    await it("should work with allowMethods is array", async () => {
         const app = compose(
             cors({
                 allowMethods: ["GET", "POST"],
@@ -488,7 +490,7 @@ describe("options.allowMethods", function (t) {
             .expect(204);
     });
 
-    it("should skip allowMethods", async () => {
+    await it("should skip allowMethods", async () => {
         const app = compose(
             cors({
                 allowMethods: null,
@@ -506,7 +508,7 @@ describe("options.allowMethods", function (t) {
 
 describe(
     "other middleware has been set `Vary` header to Accept-Encoding",
-    function (t) {
+    async function (t) {
         const it = t.step;
         const app = compose(
             async (ctx) => {
@@ -518,7 +520,7 @@ describe(
             () => json({ foo: "bar" }),
         );
 
-        it("should append `Vary` header to Origin", async () => {
+        await it("should append `Vary` header to Origin", async () => {
             await request(app)
                 .get("/")
                 .set("Origin", "https://hattipjs.org")
@@ -529,7 +531,7 @@ describe(
     },
 );
 
-describe("options.privateNetworkAccess=false", function (t) {
+describe("options.privateNetworkAccess=false", async function (t) {
     const it = t.step;
     const app = compose(
         cors({
@@ -538,7 +540,7 @@ describe("options.privateNetworkAccess=false", function (t) {
         () => json({ foo: "bar" }),
     );
 
-    it("should not set `Access-Control-Allow-Private-Network` on not OPTIONS", async () => {
+    await it("should not set `Access-Control-Allow-Private-Network` on not OPTIONS", async () => {
         await request(app)
             .get("/")
             .set("Origin", "https://hattipjs.org")
@@ -550,7 +552,7 @@ describe("options.privateNetworkAccess=false", function (t) {
             });
     });
 
-    it("should not set `Access-Control-Allow-Private-Network` if `Access-Control-Request-Private-Network` not exist on OPTIONS", async () => {
+    await it("should not set `Access-Control-Allow-Private-Network` if `Access-Control-Request-Private-Network` not exist on OPTIONS", async () => {
         await request(app)
             .options("/")
             .set("Origin", "https://hattipjs.org")
@@ -562,7 +564,7 @@ describe("options.privateNetworkAccess=false", function (t) {
             });
     });
 
-    it("should not set `Access-Control-Allow-Private-Network` if `Access-Control-Request-Private-Network` exist on OPTIONS", async () => {
+    await it("should not set `Access-Control-Allow-Private-Network` if `Access-Control-Request-Private-Network` exist on OPTIONS", async () => {
         await request(app)
             .options("/")
             .set("Origin", "https://hattipjs.org")
@@ -576,7 +578,7 @@ describe("options.privateNetworkAccess=false", function (t) {
     });
 });
 
-describe("options.privateNetworkAccess=true", function (t) {
+describe("options.privateNetworkAccess=true", async function (t) {
     const it = t.step;
     const app = compose(
         cors({
@@ -585,7 +587,7 @@ describe("options.privateNetworkAccess=true", function (t) {
         () => json({ foo: "bar" }),
     );
 
-    it("should not set `Access-Control-Allow-Private-Network` on not OPTIONS", async () => {
+    await it("should not set `Access-Control-Allow-Private-Network` on not OPTIONS", async () => {
         await request(app)
             .get("/")
             .set("Origin", "https://hattipjs.org")
@@ -597,7 +599,7 @@ describe("options.privateNetworkAccess=true", function (t) {
             });
     });
 
-    it("should not set `Access-Control-Allow-Private-Network` if `Access-Control-Request-Private-Network` not exist on OPTIONS", async () => {
+    await it("should not set `Access-Control-Allow-Private-Network` if `Access-Control-Request-Private-Network` not exist on OPTIONS", async () => {
         await request(app)
             .options("/")
             .set("Origin", "https://hattipjs.org")
@@ -609,7 +611,7 @@ describe("options.privateNetworkAccess=true", function (t) {
             });
     });
 
-    it("should always set `Access-Control-Allow-Private-Network` if `Access-Control-Request-Private-Network` exist on OPTIONS", async () => {
+    await it("should always set `Access-Control-Allow-Private-Network` if `Access-Control-Request-Private-Network` exist on OPTIONS", async () => {
         await request(app)
             .options("/")
             .set("Origin", "https://hattipjs.org")
@@ -620,21 +622,26 @@ describe("options.privateNetworkAccess=true", function (t) {
     });
 });
 
-function makeRequestContext(
-    url: string,
-    options?: RequestInit,
-): Context {
-    return {
-        request: new Request(new URL(url, "http://example.com"), options),
-        // ip: "127.0.0.1",
-        // passThrough() {
-        //     // No op
-        // },
-        // waitUntil() {
-        //     // No op
-        // },
-        // platform: {},
-    };
+function makeRequestContext(url: string, options?: RequestInit): Context {
+    return createContext(
+        new Request(new URL(url, "http://example.com"), options),
+        {
+            remoteAddr: { transport: "tcp", hostname: "127.0.0.1", port: 0 },
+            localAddr: { transport: "tcp", hostname: "127.0.0.1", port: 0 },
+            alpnProtocol: null,
+        },
+    );
+    // return {
+    //     request: ,
+    //     ip: "127.0.0.1",
+    //     // passThrough() {
+    //     //     // No op
+    //     // },
+    //     // waitUntil() {
+    //     //     // No op
+    //     // },
+    //     // platform: {},
+    // };
 }
 
 function request(app: Middleware): RequestInterface {
@@ -650,7 +657,24 @@ function request(app: Middleware): RequestInterface {
 
         expect(arg: any, cb?: ((res: SimpleResponse) => void) | string) {
             if (!this._response) {
-                this._response = app(this._context!) as any;
+                const handler_fn = createHandler(app);
+                const request_obj = new Request(
+                    this._context!.request.url,
+                    this._context!.request,
+                );
+                this._response = handler_fn(request_obj, {
+                    remoteAddr: {
+                        transport: "tcp",
+                        hostname: "127.0.0.1",
+                        port: 0,
+                    },
+                    localAddr: {
+                        transport: "tcp",
+                        hostname: "127.0.0.1",
+                        port: 0,
+                    },
+                    alpnProtocol: null,
+                }) as any;
             }
 
             if (typeof arg === "object") {

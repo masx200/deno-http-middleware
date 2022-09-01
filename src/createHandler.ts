@@ -17,7 +17,7 @@ export function get_original_Request(ctx: Context): Request | undefined {
 }
 // deno-lint-ignore no-explicit-any
 export function createHandler<T = Record<any, any>>(
-    middleware: Middleware<T>[] = [],
+    middleware: Middleware<T>[] | Middleware<T> = [],
     {
         notfoundHandler = notfound_handler,
         errorHandler = error_handler,
@@ -28,14 +28,17 @@ export function createHandler<T = Record<any, any>>(
         errorHandler?: ErrorHandler;
         responseBuilder?: ResponseBuilder;
         retProcessor?: RetProcessor;
-    } = {},
+    } = {}
 ): Handler {
-    const composed = composeMiddleware(middleware, retProcessor);
+    const composed = composeMiddleware(
+        typeof middleware === "function" ? [middleware] : middleware,
+        retProcessor
+    );
     return async function (
         request: Request,
-        connInfo: ConnInfo,
+        connInfo: ConnInfo
     ): Promise<Response> {
-        const context: Context = createContext(request, connInfo);
+        const context: Context<T> = createContext(request, connInfo);
         const next = async () => {
             context.response = await notfoundHandler(context);
             return context.response;
@@ -53,20 +56,24 @@ export function createHandler<T = Record<any, any>>(
         }
     };
 }
-export function createContext(
+export function createContext<T = Record<any, any>>(
     request: Request,
     connInfo: Readonly<{
         readonly localAddr: Deno.Addr;
         readonly remoteAddr: Deno.Addr;
         alpnProtocol: string | null;
-    }>,
-) {
+    }> = {
+        remoteAddr: { transport: "tcp", hostname: "127.0.0.1", port: 0 },
+        localAddr: { transport: "tcp", hostname: "127.0.0.1", port: 0 },
+        alpnProtocol: null,
+    }
+): Context<T> {
     const response = cloneResponseMutableHeaders(new Response());
-    const context: Context = {
+    const context = {
         request: request_to_options(request),
         connInfo,
         response,
     };
     context_to_original_Request.set(context, request);
-    return context;
+    return context as Context<T>;
 }
