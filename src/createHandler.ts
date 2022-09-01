@@ -19,12 +19,13 @@ export function get_original_Request(ctx: Context): Request | undefined {
 
 export function handler<T = {}>(
     ...middleware: Array<Middleware<T>> | Array<Middleware<T>>[]
-): Handler {
+): Handler <T>{
     return createHandler(middleware.flat());
 }
-export type Handler = (
+export type Handler<T={}> = (
     request: Request,
     connInfo?: ConnInfo,
+extra?:T
 ) => Promise<Response>;
 
 // deno-lint-ignore no-explicit-any
@@ -41,7 +42,7 @@ export function createHandler<T = {}>(
         responseBuilder?: ResponseBuilder;
         retProcessor?: RetProcessor;
     } = {},
-): Handler {
+): Handler <T>{
     const composed = composeMiddleware(
         typeof middleware === "function" ? [middleware] : middleware,
         retProcessor,
@@ -52,9 +53,9 @@ export function createHandler<T = {}>(
             remoteAddr: { transport: "tcp", hostname: "127.0.0.1", port: 0 },
             localAddr: { transport: "tcp", hostname: "127.0.0.1", port: 0 },
             alpnProtocol: null,
-        },
+        },extra:T={} as T
     ): Promise<Response> {
-        const context: Context<T> = createContext(request, connInfo);
+        const context: Context<T> = createContext(request, connInfo,extra);
         const next = async () => {
             context.response = await notfoundHandler(context);
             return context.response;
@@ -82,13 +83,14 @@ export function createContext<T = {}>(
         remoteAddr: { transport: "tcp", hostname: "127.0.0.1", port: 0 },
         localAddr: { transport: "tcp", hostname: "127.0.0.1", port: 0 },
         alpnProtocol: null,
-    },
+    }
+,extra:T={} as T
 ): Context<T> {
     const response = cloneResponseMutableHeaders(new Response());
     const context = {
         request: request_to_options(request),
         connInfo,
-        response,
+        response,...extra
     };
     context_to_original_Request.set(context, request);
     return context as Context<T>;
