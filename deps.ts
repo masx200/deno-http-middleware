@@ -7,6 +7,7 @@ export {
 import {
     ConnInfo,
     Handler,
+    serve_http as serve,
 } from "https://deno.land/x/masx200_deno_serve_https@1.0.4/mod.ts";
 export type { ConnInfo, Handler };
 export { STATUS_TEXT } from "https://deno.land/std@0.153.0/http/http_status.ts";
@@ -16,7 +17,7 @@ export { encode };
 export { default as isPlainObject } from "https://cdn.skypack.dev/lodash@4.17.21/isPlainObject?dts";
 
 export { default as fresh } from "https://cdn.skypack.dev/fresh@0.5.2?dts";
-export { serve } from "https://deno.land/std@0.153.0/http/server.ts";
+export { serve };
 export { assertFalse };
 import { METHODS } from "https://deno.land/std@0.153.0/node/http.ts";
 export { METHODS };
