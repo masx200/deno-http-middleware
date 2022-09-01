@@ -61,22 +61,25 @@ test("calls next", async () => {
 });
 
 test("calls next when nothing is returned", async () => {
-    const h1: Middleware = (ctx) => {
+    const h1: Middleware = (ctx,next) => {
         if (ctx.request.url === "http://example.com/1") {
             return new Response("1");
         }
+        return  next()
     };
 
-    const h2: Middleware = (ctx) => {
+    const h2: Middleware = (ctx, next) => {
         if (ctx.request.url === "http://example.com/2") {
             return new Response("2");
         }
+        return next();
     };
 
-    const h3: Middleware = (ctx) => {
+    const h3: Middleware = (ctx, next) => {
         if (ctx.request.url === "http://example.com/3") {
             return new Response("3");
         }
+        return next();
     };
 
     const composed = handler(h1, h2, h3);
@@ -131,7 +134,7 @@ test("runs initial next", async () => {
 });
 
 test("flattens RequestHandlers", async () => {
-    const h1: Middleware = () => undefined;
+    const h1: Middleware = (_ctx,next) => next();
     const h2: Middleware = () => new Response("1");
 
     const composed = handler([h1, h2]);
@@ -155,8 +158,12 @@ test("installs default error handler", async () => {
 });
 
 test("calls handleError", async () => {
-    const h1: Middleware = (ctx) => {
-        ctx.handleError = (error: any) => new Response(error.message);
+    const h1: Middleware = async (_ctx, next) => {
+        try {
+            await next();
+        } catch (error) {
+            return new Response(error?.message);
+        }
     };
     const h2: Middleware = () => {
         throw new Error("1");
