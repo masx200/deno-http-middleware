@@ -30,11 +30,11 @@ Deno.test(
             {
                 const url = `http://localhost:${port}/test`;
                 const response = await fetch(url);
-                console.log(response);
+                // console.log(response);
                 const text = await response.text();
-                if (!response.ok) {
-                    console.log(text);
-                }
+                // if (!response.ok) {
+                //     // console.log(text);
+                // }
                 assert(response.ok);
                 assertEquals(response.status, 200);
 
@@ -79,11 +79,11 @@ Deno.test(
             {
                 const url = `http://localhost:${port}/test`;
                 const response = await fetch(url);
-                console.log(response);
+                // console.log(response);
                 const text = await response.text();
-                if (!response.ok) {
-                    console.log(text);
-                }
+                // if (!response.ok) {
+                //     console.log(text);
+                // }
                 assert(response.ok);
                 assertEquals(response.status, 200);
 
@@ -96,7 +96,7 @@ Deno.test(
                     const response = await fetch(url, {
                         headers: { "if-none-match": etag },
                     });
-                    console.log(response);
+                    // console.log(response);
                     assert(response.ok === false);
                     assertEquals(response.status, 304);
                     const text = await response.text();
@@ -132,11 +132,11 @@ Deno.test(
             {
                 const url = `http://localhost:${port}/test`;
                 const response = await fetch(url);
-                console.log(response);
+                // console.log(response);
                 const text = await response.text();
-                if (!response.ok) {
-                    console.log(text);
-                }
+                // if (!response.ok) {
+                //     console.log(text);
+                // }
                 assert(response.ok);
                 assertEquals(response.status, 200);
                 const content = "X".repeat(5000000);

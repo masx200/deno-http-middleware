@@ -9,7 +9,7 @@ import { Context } from "./src/Context.ts";
 import {
     createContext,
     createHandler,
-    get_original_Request,
+    getOriginalRequest,
     Handler,
     handler,
 } from "./src/createHandler.ts";
@@ -26,7 +26,7 @@ import { notfound_handler } from "./src/notfound_handler.ts";
 import { NotFoundHandler } from "./src/NotFoundHandler.ts";
 import { response_builder, ResponseBuilder } from "./src/response_builder.ts";
 import { ret_processor, RetProcessor } from "./src/RetProcessor.ts";
-import { ConnInfo, html, json, text } from "./deps.ts";
+import { html, json, text } from "./deps.ts";
 
 export {
     bodyToBlob,
@@ -44,15 +44,13 @@ export {
     createContext,
     createHandler,
     error_handler,
-    get_original_Request,
-    get_original_Request as getOriginalRequest,
+    getOriginalRequest as getOriginalRequest,
     handler,
     notfound_handler,
     response_builder,
     ret_processor,
 };
 export type {
-    ConnInfo,
     Context,
     ErrorHandler,
     Handler,

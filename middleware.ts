@@ -4,7 +4,7 @@ import { etag_builder } from "./middleware/etag_builder.ts";
 import { json_builder } from "./middleware/json_builder.ts";
 import { logger } from "./middleware/logger.ts";
 import {
-    get_original_Method,
+    getOriginalMethod,
     method_override,
 } from "./middleware/method_override.ts";
 import { stream_etag } from "./middleware/stream_etag.ts";
@@ -13,8 +13,7 @@ export {
     conditional_get,
     cors,
     etag_builder,
-    get_original_Method,
-    get_original_Method as getOriginalMethod,
+    getOriginalMethod as getOriginalMethod,
     json_builder,
     logger,
     method_override,

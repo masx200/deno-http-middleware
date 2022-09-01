@@ -11,14 +11,14 @@ Deno.test("hello-world-logger-cors_all_get-sequence", async () => {
         logger,
         cors({ origin: "*" }),
         async (_ctx, next) => {
-            console.log(1);
+            // console.log(1);
             numbers.push(1);
             await next();
-            console.log(3);
+            // console.log(3);
             numbers.push(3);
         },
         (ctx) => {
-            console.log(2);
+            // console.log(2);
             numbers.push(2);
             return { body: "hello world," + ctx.request.url };
         },
@@ -33,14 +33,14 @@ Deno.test("hello-world-logger-cors_all_get-sequence", async () => {
                 method,
                 headers: { Origin: `http://localhost:${port}` },
             });
-            console.log(response);
+            // console.log(response);
             assert(response.ok);
             assertEquals(response.status, 200);
             const text = await response.text();
             // console.log(text);
             assertEquals(text, "hello world," + url);
             const headers = response.headers;
-            console.log(headers);
+            // console.log(headers);
             // assertEquals(headers.get("access-control-allow-headers"), "*");
             // assertEquals(headers.get("access-control-allow-methods"), "*");
             assertEquals(headers.get("access-control-allow-origin"), "*");

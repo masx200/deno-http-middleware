@@ -22,7 +22,7 @@
 
 #### 介绍
 
-### `get_original_Request`函数
+### `getOriginalRequest`函数
 
 可以获得原本的请求对象
 
@@ -76,7 +76,7 @@
 
 `etag_builder`:给响应体不是 `stream` 的提供`etag`响应头的中间件
 
-`method_override`:覆盖请求方法的中间件,`get_original_Method`函数可以获得原本的请求方法.
+`method_override`:覆盖请求方法的中间件,`getOriginalMethod`函数可以获得原本的请求方法.
 
 `stream_etag`:把响应体从 `stream` 转换为 `buffer` 来计算 `etag` 的中间件
 
@@ -99,7 +99,7 @@ import {
     conditional_get,
     cors,
     etag_builder,
-    get_original_Method,
+    getOriginalMethod,
     json_builder,
     logger,
     method_override,
@@ -116,7 +116,7 @@ const handler = createHandler([
     stream_etag(),
     (ctx) => {
         const body = {
-            original_Method: get_original_Method(ctx),
+            original_Method: getOriginalMethod(ctx),
             override_method: ctx.request.method,
         };
         return { body };
@@ -198,17 +198,19 @@ export const json_builder: Middleware = async function (
         : void 0;
 };
 ```
+
 ### 自定义错误处理程序
+
 ```ts
 const h1: Middleware = async (_ctx, next) => {
-        try {
-            await next();
-        } catch (error) {
-            return new Response(error?.message);
-        }
-    };
-    const h2: Middleware = () => {
-        throw new Error("1");
-    };
-    const composed = handler(h1, h2);
+    try {
+        await next();
+    } catch (error) {
+        return new Response(error?.message);
+    }
+};
+const h2: Middleware = () => {
+    throw new Error("1");
+};
+const composed = handler(h1, h2);
 ```

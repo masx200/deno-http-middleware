@@ -21,7 +21,7 @@ Deno.test("error_handler", async () => {
     try {
         const url = `http://localhost:${port}/error`;
         const response = await fetch(url);
-        console.log(response);
+        // console.log(response);
         assertFalse(response.ok);
         assertEquals(response.status, 500);
         const text = await response.text();
@@ -43,7 +43,7 @@ Deno.test("notfound-handler", async () => {
     try {
         const url = `http://localhost:${port}/notfound`;
         const response = await fetch(url);
-        console.log(response);
+        // console.log(response);
         assertFalse(response.ok);
         assertEquals(response.status, 404);
         const text = await response.text();

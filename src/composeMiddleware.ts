@@ -1,13 +1,13 @@
+// deno-lint-ignore no-explicit-any
 // deno-lint-ignore-file ban-types
 import { ResponseOptions } from "./Context.ts";
 import { Middleware, RetHandler } from "./Middleware.ts";
 import { RetProcessor } from "./RetProcessor.ts";
 import { ret_processor } from "./RetProcessor.ts";
 /* https://github.com/koajs/compose */
-// deno-lint-ignore no-explicit-any
 export function composeMiddleware<T = {}>(
     middleware: Array<Middleware<T>>,
-    ret_processor_fn: RetProcessor = ret_processor,
+    ret_processor_fn: RetProcessor = ret_processor
 ): Middleware<T> {
     if (!Array.isArray(middleware)) {
         throw new TypeError("Middleware stack must be an array!");
@@ -25,7 +25,7 @@ export function composeMiddleware<T = {}>(
     }
     const ComposedMiddleware: Middleware<T> = async function (
         context,
-        next,
+        next
     ): Promise<RetHandler> {
         let index = -1;
         await dispatch(0);

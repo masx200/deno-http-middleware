@@ -4,7 +4,7 @@ import { Middleware, RetHandler } from "../src/Middleware.ts";
 
 const context_to_original_Method = new WeakMap<Context, string>();
 
-export function get_original_Method(ctx: Context): string | undefined {
+export function getOriginalMethod(ctx: Context): string | undefined {
     return context_to_original_Method.get(ctx);
 }
 export const method_override: (

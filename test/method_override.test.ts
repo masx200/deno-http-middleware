@@ -2,7 +2,7 @@ import { assert, assertEquals, serve } from "../deps.ts";
 import { json_builder } from "../middleware/json_builder.ts";
 import { logger } from "../middleware/logger.ts";
 import {
-    get_original_Method,
+    getOriginalMethod,
     method_override,
 } from "../middleware/method_override.ts";
 import { createHandler } from "../src/createHandler.ts";
@@ -16,7 +16,7 @@ Deno.test("method_override-get", async () => {
         json_builder,
         (ctx) => {
             const body = {
-                original_Method: get_original_Method(ctx),
+                original_Method: getOriginalMethod(ctx),
                 override_method: ctx.request.method,
                 "x-random-data": ctx.request.headers.get("x-random-data"),
             };
@@ -34,12 +34,12 @@ Deno.test("method_override-get", async () => {
             },
         });
         const headers = response.headers;
-        console.log(response);
+        // console.log(response);
         assert(response.ok);
         assert(headers.get("Content-Type")?.startsWith("application/json"));
         assertEquals(response.status, 200);
         const json = await response.json();
-        console.log(json);
+        // console.log(json);
         assertEquals(json, {
             original_Method: "GET",
             override_method: "GET",
@@ -59,7 +59,7 @@ Deno.test("method_override-get-post", async () => {
         json_builder,
         (ctx) => {
             const body = {
-                original_Method: get_original_Method(ctx),
+                original_Method: getOriginalMethod(ctx),
                 override_method: ctx.request.method,
                 "x-random-data": ctx.request.headers.get("x-random-data"),
             };
@@ -78,12 +78,12 @@ Deno.test("method_override-get-post", async () => {
             },
         });
         const headers = response.headers;
-        console.log(response);
+        // console.log(response);
         assert(response.ok);
         assert(headers.get("Content-Type")?.startsWith("application/json"));
         assertEquals(response.status, 200);
         const json = await response.json();
-        console.log(json);
+        // console.log(json);
         assertEquals(json, {
             original_Method: "GET",
             override_method: "GET",
@@ -105,7 +105,7 @@ Deno.test("method_override-post-put", async () => {
             const { url } = ctx.request;
             const body = {
                 url,
-                original_Method: get_original_Method(ctx),
+                original_Method: getOriginalMethod(ctx),
                 override_method: ctx.request.method,
                 "x-random-data": ctx.request.headers.get("x-random-data"),
             };
@@ -125,12 +125,12 @@ Deno.test("method_override-post-put", async () => {
             },
         });
         const headers = response.headers;
-        console.log(response);
+        // console.log(response);
         assert(response.ok);
         assert(headers.get("Content-Type")?.startsWith("application/json"));
         assertEquals(response.status, 200);
         const json = await response.json();
-        console.log(json);
+        // console.log(json);
         assertEquals(json, {
             url,
             original_Method: "POST",
@@ -151,7 +151,7 @@ Deno.test("method_override-post-unsupported", async () => {
         json_builder,
         (ctx) => {
             const body = {
-                original_Method: get_original_Method(ctx),
+                original_Method: getOriginalMethod(ctx),
                 override_method: ctx.request.method,
                 "x-random-data": ctx.request.headers.get("x-random-data"),
             };
@@ -171,12 +171,12 @@ Deno.test("method_override-post-unsupported", async () => {
             },
         });
         const headers = response.headers;
-        console.log(response);
+        // console.log(response);
         assert(response.ok);
         assert(headers.get("Content-Type")?.startsWith("application/json"));
         assertEquals(response.status, 200);
         const json = await response.json();
-        console.log(json);
+        // console.log(json);
         assertEquals(json, {
             original_Method: "POST",
             override_method: "POST",

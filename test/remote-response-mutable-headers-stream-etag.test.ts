@@ -38,11 +38,11 @@ Deno.test({
             {
                 const url = `http://localhost:${port}/test`;
                 const response = await fetch(url);
-                console.log(response);
+                // console.log(response);
                 const text = await response.text();
-                if (!response.ok) {
-                    console.log(text);
-                }
+                // if (!response.ok) {
+                //     // console.log(text);
+                // }
                 assert(response.ok);
                 assertEquals(response.status, 200);
                 assertEquals(

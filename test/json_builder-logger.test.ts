@@ -25,12 +25,12 @@ Deno.test("json_builder-logger-object", async () => {
         const url = `http://localhost:${port}/object`;
         const response = await fetch(url);
         const headers = response.headers;
-        console.log(response);
+        // console.log(response);
         assert(response.ok);
         assert(headers.get("Content-Type")?.startsWith("application/json"));
         assertEquals(response.status, 200);
         const json = await response.json();
-        console.log(json);
+        // console.log(json);
         assertEquals(json, { a: 1, b: 2, c: url });
     } finally {
         controller.abort();
@@ -59,12 +59,12 @@ Deno.test("json_builder-logger-array", async () => {
         const url = `http://localhost:${port}/array`;
         const response = await fetch(url);
         const headers = response.headers;
-        console.log(response);
+        // console.log(response);
         assert(response.ok);
         assert(headers.get("Content-Type")?.startsWith("application/json"));
         assertEquals(response.status, 200);
         const json = await response.json();
-        console.log(json);
+        // console.log(json);
         assertEquals(json, ["hello world,", url]);
     } finally {
         controller.abort();
@@ -105,12 +105,12 @@ Deno.test("json_builder-logger-request", async () => {
             },
         });
         const headers = response.headers;
-        console.log(response);
+        // console.log(response);
         assert(response.ok);
         assert(headers.get("Content-Type")?.startsWith("application/json"));
         assertEquals(response.status, 200);
         const json = await response.json();
-        console.log(json);
+        // console.log(json);
         assertEquals(json, {
             pathname: "/request",
             text: "1234567890",

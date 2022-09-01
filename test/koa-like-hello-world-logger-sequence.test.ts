@@ -10,14 +10,14 @@ Deno.test("koa-like-hello-world-logger-sequence", async () => {
         logger,
 
         async (_ctx, next) => {
-            console.log(1);
+            // console.log(1);
             numbers.push(1);
             await next();
-            console.log(3);
+            // console.log(3);
             numbers.push(3);
         },
         (ctx) => {
-            console.log(2);
+            // console.log(2);
             numbers.push(2);
             ctx.response.body = "hello world," + ctx.request.url;
             return;
@@ -30,7 +30,7 @@ Deno.test("koa-like-hello-world-logger-sequence", async () => {
         for (const method of ["GET", "POST"]) {
             const url = `http://localhost:${port}/helloworld`;
             const response = await fetch(url, { method });
-            console.log(response);
+            // console.log(response);
             assert(response.ok);
             assertEquals(response.status, 200);
             const text = await response.text();

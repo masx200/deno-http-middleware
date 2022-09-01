@@ -22,7 +22,7 @@ Deno.test("etag-conditional_get-non-empty-body-text", async () => {
         const etag = await (async () => {
             const url = `http://localhost:${port}/test`;
             const response = await fetch(url);
-            console.log(response);
+            // console.log(response);
             assert(response.ok);
             assertEquals(response.status, 200);
             const text = await response.text();
@@ -31,13 +31,13 @@ Deno.test("etag-conditional_get-non-empty-body-text", async () => {
             return response.headers.get("etag");
         })();
         assert(etag);
-        console.log(etag);
+        // console.log(etag);
         {
             const url = `http://localhost:${port}/test`;
             const response = await fetch(url, {
                 headers: { "if-none-match": etag },
             });
-            console.log(response);
+            // console.log(response);
             assert(response.ok === false);
             assertEquals(response.status, 304);
             const text = await response.text();
@@ -80,7 +80,7 @@ Deno.test("etag-conditional_get-empty-body", async () => {
         {
             const url = `http://localhost:${port}/test`;
             const response = await fetch(url);
-            console.log(response);
+            // console.log(response);
             assert(response.ok);
             assertEquals(response.status, 200);
             const text = await response.text();
@@ -88,13 +88,13 @@ Deno.test("etag-conditional_get-empty-body", async () => {
             assertEquals(text, "");
             const etag = response.headers.get("etag");
             assert(etag);
-            console.log(etag);
+            // console.log(etag);
             {
                 const url = `http://localhost:${port}/test`;
                 const response = await fetch(url, {
                     headers: { "if-none-match": etag },
                 });
-                console.log(response);
+                // console.log(response);
                 assert(response.ok === false);
                 assertEquals(response.status, 304);
                 const text = await response.text();
@@ -128,7 +128,7 @@ Deno.test("etag-conditional_get-non-empty-body-json", async () => {
         const etag = await (async () => {
             const url = `http://localhost:${port}/test`;
             const response = await fetch(url);
-            console.log(response);
+            // console.log(response);
             assert(response.ok);
             assertEquals(response.status, 200);
             const json = await response.json();
@@ -138,7 +138,7 @@ Deno.test("etag-conditional_get-non-empty-body-json", async () => {
             return response.headers.get("etag");
         })();
         assert(etag);
-        console.log(etag);
+        // console.log(etag);
         {
             const url = `http://localhost:${port}/test`;
             const response = await fetch(url, {
@@ -146,7 +146,7 @@ Deno.test("etag-conditional_get-non-empty-body-json", async () => {
             });
             const headers = response.headers;
             assert(headers.get("Content-Type")?.startsWith("application/json"));
-            console.log(response);
+            // console.log(response);
             assert(response.ok === false);
             assertEquals(response.status, 304);
             const text = await response.text();
