@@ -8,7 +8,7 @@ import {
     ConnInfo,
     Handler,
     serve_http as serve,
-} from "https://deno.land/x/masx200_deno_serve_https@1.0.4/mod.ts";
+} from "https://deno.land/x/masx200_deno_serve_https@1.0.5/mod.ts";
 export type { ConnInfo, Handler };
 export { STATUS_TEXT } from "https://deno.land/std@0.153.0/http/http_status.ts";
 import { encode } from "https://deno.land/std@0.153.0/encoding/hex.ts";
