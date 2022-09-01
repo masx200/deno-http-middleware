@@ -1,15 +1,15 @@
-// deno-lint-ignore-file require-await
-import { cors } from "./cors_all_get.ts";
-import { compose, Context, Middleware } from "../mod.ts";
-import { json } from "../deps.ts";
 import { expect } from "expect";
-import { createContext } from "../src/createHandler.ts";
-import { createHandler } from "../src/createHandler.ts";
+
+import { json } from "../deps.ts";
+import { compose, Context, logger, Middleware } from "../mod.ts";
+import { createContext, createHandler } from "../src/createHandler.ts";
+// deno-lint-ignore-file require-await require-await
+import { cors } from "./cors_all_get.ts";
 
 const describe = Deno.test;
 describe("default options", async function (t) {
     const it = t.step;
-    const app = compose(cors(), () => json({ foo: "bar" }));
+    const app = compose(logger, cors(), () => json({ foo: "bar" }));
 
     await it("should not set `Access-Control-Allow-Origin` when request Origin header missing", async () => {
         await request(app)
@@ -62,6 +62,7 @@ describe("default options", async function (t) {
 describe("options.origin=*", async function (t) {
     const it = t.step;
     const app = compose(
+        logger,
         cors({
             origin: "*",
         }),
@@ -81,6 +82,7 @@ describe("options.origin=*", async function (t) {
 describe("options.secureContext=true", async function (t) {
     const it = t.step;
     const app = compose(
+        logger,
         cors({
             secureContext: true,
         }),
@@ -111,6 +113,7 @@ describe("options.secureContext=true", async function (t) {
 describe("options.secureContext=false", async function (t) {
     const it = t.step;
     const app = compose(
+        logger,
         cors({
             secureContext: false,
         }),
@@ -132,6 +135,7 @@ describe("options.secureContext=false", async function (t) {
 describe("options.origin=function", async function (t) {
     const it = t.step;
     const app = compose(
+        logger,
         async (_ctx, next) => {
             // console.log(ctx);
             await next();
@@ -175,6 +179,7 @@ describe("options.origin=function", async function (t) {
 describe("options.origin=async function", async function (t) {
     const it = t.step;
     const app = compose(
+        logger,
         cors({
             async origin(ctx) {
                 if (new URL(ctx.request.url).pathname === "/forbin") {
@@ -210,6 +215,7 @@ describe("options.exposeHeaders", async function (t) {
     const it = t.step;
     await it("should Access-Control-Expose-Headers: `content-length`", async () => {
         const app = compose(
+            logger,
             cors({
                 exposeHeaders: "content-length",
             }),
@@ -245,6 +251,7 @@ describe("options.maxAge", async function (t) {
     const it = t.step;
     await it("should set maxAge with number", async () => {
         const app = compose(
+            logger,
             cors({
                 maxAge: 3600,
             }),
@@ -296,6 +303,7 @@ describe("options.maxAge", async function (t) {
 describe("options.credentials", async function (t) {
     const it = t.step;
     const app = compose(
+        logger,
         cors({
             credentials: true,
         }),
@@ -323,7 +331,7 @@ describe("options.credentials", async function (t) {
 
 describe("options.credentials unset", async function (t) {
     const it = t.step;
-    const app = compose(cors(), () => json({ foo: "bar" }));
+    const app = compose(logger, cors(), () => json({ foo: "bar" }));
 
     await it("should disable Access-Control-Allow-Credentials on Simple request", async () => {
         await request(app)
@@ -353,6 +361,7 @@ describe("options.credentials unset", async function (t) {
 describe("options.credentials=function", async function (t) {
     const it = t.step;
     const app = compose(
+        logger,
         cors({
             credentials(ctx) {
                 return new URL(ctx.request.url).pathname !== "/forbin";
@@ -407,6 +416,7 @@ describe("options.credentials=function", async function (t) {
 describe("options.credentials=async function", async function (t) {
     const it = t.step;
     const app = compose(
+        logger,
         cors({
             async credentials() {
                 return true;
@@ -438,6 +448,7 @@ describe("options.allowHeaders", async function (t) {
     const it = t.step;
     await it("should work with allowHeaders is string", async () => {
         const app = compose(
+            logger,
             cors({
                 allowHeaders: "X-PINGOTHER",
             }),
@@ -485,6 +496,7 @@ describe("options.allowMethods", async function (t) {
     const it = t.step;
     await it("should work with allowMethods is array", async () => {
         const app = compose(
+            logger,
             cors({
                 allowMethods: ["GET", "POST"],
             }),
@@ -520,6 +532,7 @@ describe(
     async function (t) {
         const it = t.step;
         const app = compose(
+            logger,
             async (_ctx, next) => {
                 const response = await next();
                 response.headers.append("Vary", "Accept-Encoding");
@@ -543,6 +556,7 @@ describe(
 describe("options.privateNetworkAccess=false", async function (t) {
     const it = t.step;
     const app = compose(
+        logger,
         cors({
             privateNetworkAccess: false,
         }),
@@ -590,6 +604,7 @@ describe("options.privateNetworkAccess=false", async function (t) {
 describe("options.privateNetworkAccess=true", async function (t) {
     const it = t.step;
     const app = compose(
+        logger,
         cors({
             privateNetworkAccess: true,
         }),

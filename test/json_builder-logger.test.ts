@@ -40,7 +40,7 @@ Deno.test("json_builder-logger-object", async () => {
 
 Deno.test("json_builder-logger-array", async () => {
     const controller = new AbortController();
-    const port = Math.floor(Math.random() * 30000 + 20000);
+    const port = Math.floor(Math.random() * 50000 + 10000);
     const handler = createHandler([
         logger,
         json_builder,

@@ -16,6 +16,10 @@ const context_to_original_Request = new WeakMap<Context, Request>();
 export function getOriginalRequest(ctx: Context): Request | undefined {
     return context_to_original_Request.get(ctx);
 }
+const context_to_original_Options = new WeakMap<Context<any>, any>();
+export function getOriginalOptions<T = {}>(ctx: Context<T>): T | undefined {
+    return context_to_original_Options.get(ctx);
+}
 
 export function handler<T = {}>(
     ...middleware: Array<Middleware<T>> | Array<Middleware<T>>[]
@@ -73,12 +77,13 @@ export function createContext<T = {}>(
     options: T = {} as T,
 ): Context<T> {
     const response = cloneResponseMutableHeaders(new Response());
-    const context = {
+    const context: Context<T> = {
         request: request_to_options(request),
-        arguments: { request, options: options },
+        // arguments: { request, options: options },
         response,
         ...options,
     };
     context_to_original_Request.set(context, request);
+    context_to_original_Options.set(context, options);
     return context as Context<T>;
 }

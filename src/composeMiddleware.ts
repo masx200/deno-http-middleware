@@ -2,8 +2,8 @@
 // deno-lint-ignore-file ban-types
 import { ResponseOptions } from "./Context.ts";
 import { Middleware, RetHandler } from "./Middleware.ts";
-import { RetProcessor } from "./RetProcessor.ts";
-import { ret_processor } from "./RetProcessor.ts";
+import { ret_processor, RetProcessor } from "./RetProcessor.ts";
+
 /**
  * compose middleware
 https://github.com/koajs/compose

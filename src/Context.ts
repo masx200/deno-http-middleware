@@ -2,7 +2,7 @@
 export type Context<T = {}> = {
     request: RequestOptions;
     response: ResponseOptions;
-    arguments: { request: Request; options: T };
+    // arguments: { request: Request; options: T };
 } & T;
 
 export interface ResponseOptions {

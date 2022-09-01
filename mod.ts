@@ -3,12 +3,14 @@ import { bodyToBuffer } from "./body/bodyToBuffer.ts";
 import { bodyToFormData } from "./body/bodyToFormData.ts";
 import { bodyToJSON } from "./body/bodyToJSON.ts";
 import { bodyToText } from "./body/bodyToText.ts";
+import { html, json, text } from "./deps.ts";
 import { CorsOptions } from "./middleware/cors_all_get.ts";
 import { compose, composeMiddleware } from "./src/composeMiddleware.ts";
 import { Context } from "./src/Context.ts";
 import {
     createContext,
     createHandler,
+    getOriginalOptions,
     getOriginalRequest,
     Handler,
     handler,
@@ -26,7 +28,6 @@ import { notfound_handler } from "./src/notfound_handler.ts";
 import { NotFoundHandler } from "./src/NotFoundHandler.ts";
 import { response_builder, ResponseBuilder } from "./src/response_builder.ts";
 import { ret_processor, RetProcessor } from "./src/RetProcessor.ts";
-import { html, json, text } from "./deps.ts";
 
 export {
     bodyToBlob,
@@ -34,6 +35,7 @@ export {
     bodyToFormData,
     bodyToJSON,
     bodyToText,
+    getOriginalOptions,
     html,
     json,
     text,

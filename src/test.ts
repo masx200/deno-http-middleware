@@ -1,15 +1,16 @@
 // deno-lint-ignore-file require-await
 import { expect } from "expect";
-import { Middleware } from "./Middleware.ts";
+import { logger } from "../middleware/logger.ts";
 
 import { handler } from "./createHandler.ts";
+import { Middleware } from "./Middleware.ts";
 
 const { test } = Deno;
 test("calls in order", async () => {
     const h1: Middleware = () => new Response("1");
     const h2: Middleware = () => new Response("2");
 
-    const composed = handler(h1, h2);
+    const composed = handler(logger, h1, h2);
 
     const r1 = await (await composed(new Request("http://example.com"))).text();
 
@@ -38,7 +39,7 @@ test("calls next", async () => {
         return next();
     };
 
-    const composed = handler(h1, h2, h3);
+    const composed = handler(logger, h1, h2, h3);
 
     const r1 = await (
         await composed(new Request("http://example.com/1"))
@@ -82,7 +83,7 @@ test("calls next when nothing is returned", async () => {
         return next();
     };
 
-    const composed = handler(h1, h2, h3);
+    const composed = handler(logger, h1, h2, h3);
 
     const r1 = await (
         await composed(new Request("http://example.com/1"))
@@ -112,7 +113,7 @@ test("sets headers in middleware", async () => {
 
     const RequestHandler: Middleware = async () => new Response("test");
 
-    const composed = handler(middleware, RequestHandler);
+    const composed = handler(logger, middleware, RequestHandler);
 
     const response = await composed(new Request("http://example.com"));
 
@@ -126,7 +127,7 @@ test("runs initial next", async () => {
         return response;
     };
 
-    const composed = handler(middleware);
+    const composed = handler(logger, middleware);
 
     const response = await composed(new Request("http://example.com"));
 
@@ -137,7 +138,7 @@ test("flattens RequestHandlers", async () => {
     const h1: Middleware = (_ctx, next) => next();
     const h2: Middleware = () => new Response("1");
 
-    const composed = handler([h1, h2]);
+    const composed = handler([logger, h1, h2]);
 
     const r1 = await (
         await composed(new Request("http://example.com"))
@@ -150,7 +151,7 @@ test("installs default error handler", async () => {
     const h1: Middleware = () => {
         throw new Error("1");
     };
-    const composed = handler(h1);
+    const composed = handler(logger, h1);
 
     const r = await composed(new Request("http://example.com"));
 
@@ -168,7 +169,7 @@ test("calls handleError", async () => {
     const h2: Middleware = () => {
         throw new Error("1");
     };
-    const composed = handler(h1, h2);
+    const composed = handler(logger, h1, h2);
 
     const r = await composed(new Request("http://example.com"));
 
