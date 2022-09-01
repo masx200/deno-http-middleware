@@ -68,7 +68,7 @@
 
 `conditional_get`:条件`GET`请求中间件
 
-`cors_all_get`:完全跨域`GET`请求中间件
+`cors`:完全跨域`GET`请求中间件
 
 `logger`:日志中间件
 
@@ -88,28 +88,28 @@
 
 也可以从 `deno.land`导入
 
-https://deno.land/x/masx200_deno_http_middleware@1.2.1/mod.ts
+https://deno.land/x/masx200_deno_http_middleware/mod.ts
 
-https://deno.land/x/masx200_deno_http_middleware@1.2.1/middleware.ts
+https://deno.land/x/masx200_deno_http_middleware/middleware.ts
 
 ### 使用自带的中间件举例
 
 ```ts
 import {
     conditional_get,
-    cors_all_get,
+    cors,
     etag_builder,
     get_original_Method,
     json_builder,
     logger,
     method_override,
     stream_etag,
-} from "https://deno.land/x/masx200_deno_http_middleware@1.2.1/middleware.ts";
+} from "https://deno.land/x/masx200_deno_http_middleware/middleware.ts";
 const handler = createHandler([
     logger,
     conditional_get,
     method_override(),
-    cors_all_get,
+    cors(),
 
     json_builder,
     etag_builder,

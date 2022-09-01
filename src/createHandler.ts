@@ -44,6 +44,7 @@ export function createHandler(
         context_to_original_Request.set(context, request);
         const next = async () => {
             context.response = await notfoundHandler(context);
+            return context.response;
         };
         try {
             const ret_handler: RetHandler = await composed(context, next);

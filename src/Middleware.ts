@@ -1,9 +1,9 @@
-import { Context } from "./Context.ts";
+import { Context, ResponseOptions } from "./Context.ts";
 export type Middleware = (
     context: Context,
     next: NextFunction,
 ) => Promise<RetHandler> | RetHandler;
-export type NextFunction = () => Promise<void> | void;
+export type NextFunction = () => Promise<ResponseOptions> | ResponseOptions;
 
 export type RetHandler =
     | void

@@ -1,6 +1,7 @@
-import { Middleware } from "./Middleware.ts";
+import { ResponseOptions } from "./Context.ts";
+import { Middleware, RetHandler } from "./Middleware.ts";
 import { RetProcessor } from "./RetProcessor.ts";
-
+/* https://github.com/koajs/compose */
 export function composeMiddleware(
     middleware: Array<Middleware>,
     ret_processor: RetProcessor,
@@ -22,11 +23,11 @@ export function composeMiddleware(
     const ComposedMiddleware: Middleware = async function (
         context,
         next,
-    ): Promise<void> {
+    ): Promise<RetHandler> {
         let index = -1;
         await dispatch(0);
 
-        async function dispatch(i: number): Promise<void> {
+        async function dispatch(i: number): Promise<RetHandler> {
             if (i <= index) throw new Error("next() called multiple times");
 
             index = i;
@@ -34,8 +35,9 @@ export function composeMiddleware(
             if (i === middleware.length) return await next();
             if (!fn) throw new Error("middleware is not function");
             try {
-                const ne = async function (): Promise<void> {
+                const ne = async function (): Promise<ResponseOptions> {
                     await dispatch.bind(null, i + 1)();
+                    return context.response;
                 };
                 const ret_handler = await fn(context, ne);
                 await ret_processor(ret_handler, context, ne);

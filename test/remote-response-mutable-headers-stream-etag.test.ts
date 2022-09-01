@@ -1,7 +1,7 @@
 import { assert, assertEquals, serve } from "../deps.ts";
 import {
     conditional_get,
-    cors_all_get,
+    cors,
     etag_builder,
     json_builder,
     logger,
@@ -19,7 +19,7 @@ Deno.test({
         const port = Math.floor(Math.random() * 20000 + 30000);
         const handler = createHandler([
             logger,
-            cors_all_get,
+            cors(),
             json_builder,
             etag_builder,
             conditional_get,

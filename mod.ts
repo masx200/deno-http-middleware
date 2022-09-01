@@ -3,6 +3,7 @@ import { bodyToBuffer } from "./body/bodyToBuffer.ts";
 import { bodyToFormData } from "./body/bodyToFormData.ts";
 import { bodyToJSON } from "./body/bodyToJSON.ts";
 import { bodyToText } from "./body/bodyToText.ts";
+import { CorsOptions } from "./middleware/cors_all_get.ts";
 import { composeMiddleware } from "./src/composeMiddleware.ts";
 import { Context } from "./src/Context.ts";
 import { createHandler, get_original_Request } from "./src/createHandler.ts";
@@ -42,3 +43,4 @@ export type {
     RetProcessor,
 };
 export * from "./middleware.ts";
+export type { CorsOptions };

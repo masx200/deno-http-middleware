@@ -8,7 +8,7 @@ import { createHandler } from "../src/createHandler.ts";
 
 Deno.test("etag-conditional_get-non-empty-body-text", async () => {
     const controller = new AbortController();
-    const port = Math.floor(Math.random() * 20000 + 30000);
+    const port = Math.floor(Math.random() * 50000 + 10000);
     const handler = createHandler([
         logger,
         conditional_get,
@@ -66,7 +66,7 @@ Deno.test("etag-conditional_get-non-empty-body-text", async () => {
 
 Deno.test("etag-conditional_get-empty-body", async () => {
     const controller = new AbortController();
-    const port = Math.floor(Math.random() * 20000 + 30000);
+    const port = Math.floor(Math.random() * 50000 + 10000);
     const handler = createHandler([
         logger,
         conditional_get,
@@ -111,7 +111,7 @@ Deno.test("etag-conditional_get-empty-body", async () => {
 });
 Deno.test("etag-conditional_get-non-empty-body-json", async () => {
     const controller = new AbortController();
-    const port = Math.floor(Math.random() * 20000 + 30000);
+    const port = Math.floor(Math.random() * 50000 + 10000);
     const handler = createHandler([
         logger,
         conditional_get,
