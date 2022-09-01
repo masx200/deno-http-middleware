@@ -5,10 +5,9 @@ export const logger = async function (
     context: Context,
     next: NextFunction,
 ): Promise<RetHandler> {
-    const { request} = context;
+    const { request } = context;
     const { url, method, headers } = request;
 
-    
     console.log("request", {
         url,
         method,
