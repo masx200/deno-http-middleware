@@ -24,7 +24,8 @@ export function handler<T = {}>(
 }
 export type Handler<T={}> = (
     request: Request,
-    connInfo?: ConnInfo,extra?:T={}
+    connInfo?: ConnInfo,
+extra:T={}
 ) => Promise<Response>;
 
 // deno-lint-ignore no-explicit-any
@@ -52,7 +53,7 @@ export function createHandler<T = {}>(
             remoteAddr: { transport: "tcp", hostname: "127.0.0.1", port: 0 },
             localAddr: { transport: "tcp", hostname: "127.0.0.1", port: 0 },
             alpnProtocol: null,
-        },extra?:T={}
+        },extra:T={}
     ): Promise<Response> {
         const context: Context<T> = createContext(request, connInfo,extra);
         const next = async () => {
@@ -82,7 +83,8 @@ export function createContext<T = {}>(
         remoteAddr: { transport: "tcp", hostname: "127.0.0.1", port: 0 },
         localAddr: { transport: "tcp", hostname: "127.0.0.1", port: 0 },
         alpnProtocol: null,
-    },extra?:T={}
+    }
+,extra:T={}
 ): Context<T> {
     const response = cloneResponseMutableHeaders(new Response());
     const context = {
