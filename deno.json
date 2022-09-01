@@ -1,6 +1,6 @@
 {
     "tasks": {
-        "udd": "udd '*/*.ts' '*.ts'",
+        "udd": " deno run -A https://deno.land/x/udd/main.ts '*/*.ts' '*.ts'",
         "test": "deno test -A --unstable --trace-ops"
     },
     "fmt": {
