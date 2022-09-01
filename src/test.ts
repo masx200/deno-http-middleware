@@ -17,25 +17,25 @@ test("calls in order", async () => {
 });
 
 test("calls next", async () => {
-    const h1: Middleware = (ctx) => {
+    const h1: Middleware = (ctx, next) => {
         if (ctx.request.url === "http://example.com/1") {
             return new Response("1");
         }
-        return ctx.next();
+        return next();
     };
 
-    const h2: Middleware = (ctx) => {
+    const h2: Middleware = (ctx, next) => {
         if (ctx.request.url === "http://example.com/2") {
             return new Response("2");
         }
-        return ctx.next();
+        return next();
     };
 
-    const h3: Middleware = (ctx) => {
+    const h3: Middleware = (ctx, next) => {
         if (ctx.request.url === "http://example.com/3") {
             return new Response("3");
         }
-        return ctx.next();
+        return next();
     };
 
     const composed = handler(h1, h2, h3);
@@ -101,8 +101,8 @@ test("calls next when nothing is returned", async () => {
 });
 
 test("sets headers in middleware", async () => {
-    const middleware: Middleware = async (ctx) => {
-        const response = await ctx.next();
+    const middleware: Middleware = async (_ctx, next) => {
+        const response = await next();
         response.headers.set("x-test", "test");
         return response;
     };
@@ -117,8 +117,8 @@ test("sets headers in middleware", async () => {
 });
 
 test("runs initial next", async () => {
-    const middleware: Middleware = async (ctx) => {
-        const response = await ctx.next();
+    const middleware: Middleware = async (_ctx, next) => {
+        const response = await next();
         response.headers.set("x-test", "test");
         return response;
     };
