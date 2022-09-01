@@ -198,3 +198,17 @@ export const json_builder: Middleware = async function (
         : void 0;
 };
 ```
+### 自定义错误处理程序
+```ts
+const h1: Middleware = async (_ctx, next) => {
+        try {
+            await next();
+        } catch (error) {
+            return new Response(error?.message);
+        }
+    };
+    const h2: Middleware = () => {
+        throw new Error("1");
+    };
+    const composed = handler(h1, h2);
+```
