@@ -1,5 +1,4 @@
 import { STATUS_TEXT } from "../deps.ts";
-
 import { ErrorHandler } from "./ErrorHandler.ts";
 
 // deno-lint-ignore require-await

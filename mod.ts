@@ -7,8 +7,8 @@ import { CorsOptions } from "./middleware/cors_all_get.ts";
 import { composeMiddleware } from "./src/composeMiddleware.ts";
 import { Context } from "./src/Context.ts";
 import { createHandler, get_original_Request } from "./src/createHandler.ts";
-import { ErrorHandler } from "./src/ErrorHandler.ts";
 import { error_handler } from "./src/error_handler.ts";
+import { ErrorHandler } from "./src/ErrorHandler.ts";
 import {
     Middleware,
     NextFunction,
@@ -16,16 +16,19 @@ import {
     ResponseOptionsPartial,
     RetHandler,
 } from "./src/Middleware.ts";
-import { NotFoundHandler } from "./src/NotFoundHandler.ts";
 import { notfound_handler } from "./src/notfound_handler.ts";
+import { NotFoundHandler } from "./src/NotFoundHandler.ts";
 import { response_builder, ResponseBuilder } from "./src/response_builder.ts";
 import { ret_processor, RetProcessor } from "./src/RetProcessor.ts";
+
 export { bodyToBlob, bodyToBuffer, bodyToFormData, bodyToJSON, bodyToText };
 export {
     composeMiddleware,
+    composeMiddleware as compose,
     createHandler,
     error_handler,
     get_original_Request,
+    get_original_Request as getOriginalRequest,
     notfound_handler,
     response_builder,
     ret_processor,

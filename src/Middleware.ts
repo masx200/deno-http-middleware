@@ -1,4 +1,5 @@
 import { Context, ResponseOptions } from "./Context.ts";
+
 export type Middleware = (
     context: Context,
     next: NextFunction,

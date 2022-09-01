@@ -1,7 +1,9 @@
-import { Middleware } from "../src/Middleware.ts";
 import { createEtagHash as calculate } from "../response/createEtagHash.ts";
 import { Context } from "../src/Context.ts";
-import { ReadableStreamSmallerThanLimitToBuffer } from "../utils/ReadableStreamSmallerThanLimitToBuffer.ts";
+import { Middleware } from "../src/Middleware.ts";
+import {
+    ReadableStreamSmallerThanLimitToBuffer,
+} from "../utils/ReadableStreamSmallerThanLimitToBuffer.ts";
 
 export function stream_etag(options?: {
     sizelimit?: number | undefined;

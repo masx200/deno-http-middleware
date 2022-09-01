@@ -7,6 +7,7 @@ import {
     RetHandler,
 } from "./Middleware.ts";
 import { request_to_options } from "./request_to_options.ts";
+
 export function updateResponse(
     context: Context,
     response: Response | ResponseOptionsPartial,

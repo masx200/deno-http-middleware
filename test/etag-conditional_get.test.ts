@@ -1,8 +1,6 @@
-import { assert, assertEquals } from "../deps.ts";
-import { serve } from "../deps.ts";
+import { assert, assertEquals, serve } from "../deps.ts";
 import { conditional_get } from "../middleware/conditional_get.ts";
 import { etag_builder } from "../middleware/etag_builder.ts";
-
 import { logger } from "../middleware/logger.ts";
 import { createHandler } from "../src/createHandler.ts";
 

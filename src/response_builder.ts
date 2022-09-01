@@ -1,4 +1,5 @@
 import { Context } from "./Context.ts";
+
 export type ResponseBuilder = (
     response: Context["response"],
 ) => Promise<Response> | Response;

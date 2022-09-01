@@ -1,7 +1,5 @@
-import { assert, assertEquals } from "../deps.ts";
-import { serve } from "../deps.ts";
+import { assert, assertEquals, serve } from "../deps.ts";
 import { json_builder } from "../middleware/json_builder.ts";
-
 import { logger } from "../middleware/logger.ts";
 import {
     get_original_Method,

@@ -1,6 +1,4 @@
-import { assertEquals, assertFalse } from "../deps.ts";
-import { serve } from "../deps.ts";
-
+import { assertEquals, assertFalse, serve } from "../deps.ts";
 import { logger } from "../middleware/logger.ts";
 import { createHandler } from "../src/createHandler.ts";
 

@@ -14,6 +14,7 @@ export {
     cors,
     etag_builder,
     get_original_Method,
+    get_original_Method as getOriginalMethod,
     json_builder,
     logger,
     method_override,

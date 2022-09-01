@@ -1,5 +1,4 @@
 import { STATUS_TEXT } from "../deps.ts";
-
 import { NotFoundHandler } from "./NotFoundHandler.ts";
 
 export const notfound_handler: NotFoundHandler =

@@ -1,6 +1,7 @@
 import { METHODS } from "../deps.ts";
 import { Context, RequestOptions } from "../src/Context.ts";
 import { Middleware, RetHandler } from "../src/Middleware.ts";
+
 const context_to_original_Method = new WeakMap<Context, string>();
 
 export function get_original_Method(ctx: Context): string | undefined {

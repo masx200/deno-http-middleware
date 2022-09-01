@@ -7,7 +7,6 @@ import {
     logger,
     stream_etag,
 } from "../middleware.ts";
-
 import { createHandler } from "../src/createHandler.ts";
 
 Deno.test({
