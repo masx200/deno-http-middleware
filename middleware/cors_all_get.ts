@@ -41,7 +41,8 @@ export function cors(options: CorsOptions = {}): Middleware {
         let origin: string | boolean = "*";
         if (typeof options.origin === "function") {
             origin = await options.origin(ctx);
-            if (!origin) return;
+
+            if (!origin) return next();
         } else {
             origin = options.origin || requestOrigin;
         }
@@ -97,7 +98,7 @@ export function cors(options: CorsOptions = {}): Middleware {
             // The request is outside the scope of this specification.
             if (!ctx.request.headers.get("Access-Control-Request-Method")) {
                 // this not preflight request, ignore it
-                return;
+                return next();
             }
 
             set("Access-Control-Allow-Origin", origin);
