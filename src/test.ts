@@ -61,11 +61,11 @@ test("calls next", async () => {
 });
 
 test("calls next when nothing is returned", async () => {
-    const h1: Middleware = (ctx,next) => {
+    const h1: Middleware = (ctx, next) => {
         if (ctx.request.url === "http://example.com/1") {
             return new Response("1");
         }
-        return  next()
+        return next();
     };
 
     const h2: Middleware = (ctx, next) => {
@@ -134,7 +134,7 @@ test("runs initial next", async () => {
 });
 
 test("flattens RequestHandlers", async () => {
-    const h1: Middleware = (_ctx,next) => next();
+    const h1: Middleware = (_ctx, next) => next();
     const h2: Middleware = () => new Response("1");
 
     const composed = handler([h1, h2]);
