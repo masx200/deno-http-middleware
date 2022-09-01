@@ -56,7 +56,7 @@
 
 ### 上下文`context`对象
 
-包含属性`connInfo`:连接的信息
+
 
 包含属性`request`:`Request`对象的部分属性,属性可修改
 
