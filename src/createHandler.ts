@@ -25,7 +25,7 @@ export function handler<T = {}>(
 export type Handler<T={}> = (
     request: Request,
     connInfo?: ConnInfo,
-extra:T={}
+extra?:T
 ) => Promise<Response>;
 
 // deno-lint-ignore no-explicit-any
