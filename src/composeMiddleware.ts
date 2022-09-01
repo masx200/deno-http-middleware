@@ -52,7 +52,7 @@ export function composeMiddleware<T = Record<any, any>>(
 }
 // deno-lint-ignore no-explicit-any
 export function compose<T = Record<any, any>>(
-    ...middleware: Array<Middleware<T>>
-) {
-    return composeMiddleware(middleware);
+    ...middleware: Array<Middleware<T>> | Array<Middleware<T>>[]
+): Middleware<T> {
+    return composeMiddleware(middleware.flat());
 }

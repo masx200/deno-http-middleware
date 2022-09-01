@@ -2,7 +2,7 @@
 import { cors } from "./cors_all_get.ts";
 import { compose, Context, Middleware } from "../mod.ts";
 import { json } from "../deps.ts";
-import { expect } from "https://esm.sh/expect@29.0.1/";
+import { expect } from "expect";
 import { createContext } from "../src/createHandler.ts";
 import { createHandler } from "../src/createHandler.ts";
 

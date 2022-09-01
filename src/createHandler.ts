@@ -1,4 +1,4 @@
-import { ConnInfo, Handler } from "../deps.ts";
+import { ConnInfo } from "../deps.ts";
 import { cloneResponseMutableHeaders } from "../response/cloneResponseMutableHeaders.ts";
 import { composeMiddleware } from "./composeMiddleware.ts";
 import { Context } from "./Context.ts";
@@ -15,6 +15,17 @@ const context_to_original_Request = new WeakMap<Context, Request>();
 export function get_original_Request(ctx: Context): Request | undefined {
     return context_to_original_Request.get(ctx);
 }
+
+export function handler<T = Record<any, any>>(
+    ...middleware: Array<Middleware<T>> | Array<Middleware<T>>[]
+): Handler {
+    return createHandler(middleware.flat());
+}
+export type Handler = (
+    request: Request,
+    connInfo?: ConnInfo,
+) => Promise<Response>;
+
 // deno-lint-ignore no-explicit-any
 export function createHandler<T = Record<any, any>>(
     middleware: Middleware<T>[] | Middleware<T> = [],
@@ -36,7 +47,11 @@ export function createHandler<T = Record<any, any>>(
     );
     return async function (
         request: Request,
-        connInfo: ConnInfo,
+        connInfo: ConnInfo = {
+            remoteAddr: { transport: "tcp", hostname: "127.0.0.1", port: 0 },
+            localAddr: { transport: "tcp", hostname: "127.0.0.1", port: 0 },
+            alpnProtocol: null,
+        },
     ): Promise<Response> {
         const context: Context<T> = createContext(request, connInfo);
         const next = async () => {

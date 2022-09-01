@@ -10,6 +10,8 @@ import {
     createContext,
     createHandler,
     get_original_Request,
+    Handler,
+    handler,
 } from "./src/createHandler.ts";
 import { error_handler } from "./src/error_handler.ts";
 import { ErrorHandler } from "./src/ErrorHandler.ts";
@@ -24,7 +26,7 @@ import { notfound_handler } from "./src/notfound_handler.ts";
 import { NotFoundHandler } from "./src/NotFoundHandler.ts";
 import { response_builder, ResponseBuilder } from "./src/response_builder.ts";
 import { ret_processor, RetProcessor } from "./src/RetProcessor.ts";
-import { html, json, text } from "./deps.ts";
+import { ConnInfo, html, json, text } from "./deps.ts";
 
 export {
     bodyToBlob,
@@ -44,13 +46,16 @@ export {
     error_handler,
     get_original_Request,
     get_original_Request as getOriginalRequest,
+    handler,
     notfound_handler,
     response_builder,
     ret_processor,
 };
 export type {
+    ConnInfo,
     Context,
     ErrorHandler,
+    Handler,
     Middleware,
     NextFunction,
     NotFoundHandler,
