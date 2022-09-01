@@ -37,7 +37,7 @@ describe("default options", async function (t) {
             .expect("Access-Control-Allow-Origin", "http://koajs.com")
             .expect(
                 "Access-Control-Allow-Methods",
-                "GET,HEAD,PUT,POST,DELETE,PATCH",
+                "GET,HEAD,PUT,POST,DELETE,PATCH"
             )
             .expect(204);
     });
@@ -65,7 +65,7 @@ describe("options.origin=*", async function (t) {
         cors({
             origin: "*",
         }),
-        () => json({ foo: "bar" }),
+        () => json({ foo: "bar" })
     );
 
     await it("should always set `Access-Control-Allow-Origin` to *", async () => {
@@ -84,7 +84,7 @@ describe("options.secureContext=true", async function (t) {
         cors({
             secureContext: true,
         }),
-        () => json({ foo: "bar" }),
+        () => json({ foo: "bar" })
     );
 
     await it("should always set `Cross-Origin-Opener-Policy` & `Cross-Origin-Embedder-Policy` on not OPTIONS", async () => {
@@ -114,7 +114,7 @@ describe("options.secureContext=false", async function (t) {
         cors({
             secureContext: false,
         }),
-        () => json({ foo: "bar" }),
+        () => json({ foo: "bar" })
     );
 
     await it("should not set `Cross-Origin-Opener-Policy` & `Cross-Origin-Embedder-Policy`", async () => {
@@ -132,15 +132,25 @@ describe("options.secureContext=false", async function (t) {
 describe("options.origin=function", async function (t) {
     const it = t.step;
     const app = compose(
+        async (ctx, next) => {
+            console.log(ctx);
+            await next();
+            console.log(ctx);
+        },
         cors({
             origin(ctx) {
+                // console.log(ctx);
                 if (new URL(ctx.request.url).pathname === "/forbin") {
                     return false;
                 }
                 return "*";
             },
         }),
-        () => json({ foo: "bar" }),
+
+        (ctx) => {
+            console.log(ctx);
+            return json({ foo: "bar" });
+        }
     );
 
     await it("should disable cors", async () => {
@@ -149,6 +159,7 @@ describe("options.origin=function", async function (t) {
             .set("Origin", "https://hattipjs.org")
             .expect({ foo: "bar" })
             .expect(200, function (res) {
+                console.log(res);
                 assert(!res.headers["access-control-allow-origin"]);
             });
     });
@@ -174,7 +185,7 @@ describe("options.origin=async function", async function (t) {
                 return "*";
             },
         }),
-        () => json({ foo: "bar" }),
+        () => json({ foo: "bar" })
     );
 
     await it("should disable cors", async () => {
@@ -204,7 +215,7 @@ describe("options.exposeHeaders", async function (t) {
             cors({
                 exposeHeaders: "content-length",
             }),
-            () => json({ foo: "bar" }),
+            () => json({ foo: "bar" })
         );
 
         await request(app)
@@ -220,7 +231,7 @@ describe("options.exposeHeaders", async function (t) {
             cors({
                 exposeHeaders: ["content-length", "x-header"],
             }),
-            () => json({ foo: "bar" }),
+            () => json({ foo: "bar" })
         );
 
         await request(app)
@@ -239,7 +250,7 @@ describe("options.maxAge", async function (t) {
             cors({
                 maxAge: 3600,
             }),
-            () => json({ foo: "bar" }),
+            () => json({ foo: "bar" })
         );
 
         await request(app)
@@ -255,7 +266,7 @@ describe("options.maxAge", async function (t) {
             cors({
                 maxAge: "3600",
             }),
-            () => json({ foo: "bar" }),
+            () => json({ foo: "bar" })
         );
 
         await request(app)
@@ -271,7 +282,7 @@ describe("options.maxAge", async function (t) {
             cors({
                 maxAge: "3600",
             }),
-            () => json({ foo: "bar" }),
+            () => json({ foo: "bar" })
         );
 
         await request(app)
@@ -290,7 +301,7 @@ describe("options.credentials", async function (t) {
         cors({
             credentials: true,
         }),
-        () => json({ foo: "bar" }),
+        () => json({ foo: "bar" })
     );
 
     await it("should enable Access-Control-Allow-Credentials on Simple request", async () => {
@@ -349,7 +360,7 @@ describe("options.credentials=function", async function (t) {
                 return new URL(ctx.request.url).pathname !== "/forbin";
             },
         }),
-        () => json({ foo: "bar" }),
+        () => json({ foo: "bar" })
     );
 
     await it("should enable Access-Control-Allow-Credentials on Simple request", async () => {
@@ -403,7 +414,7 @@ describe("options.credentials=async function", async function (t) {
                 return true;
             },
         }),
-        () => json({ foo: "bar" }),
+        () => json({ foo: "bar" })
     );
 
     await it("should enable Access-Control-Allow-Credentials on Simple request", async () => {
@@ -432,7 +443,7 @@ describe("options.allowHeaders", async function (t) {
             cors({
                 allowHeaders: "X-PINGOTHER",
             }),
-            () => json({ foo: "bar" }),
+            () => json({ foo: "bar" })
         );
 
         await request(app)
@@ -448,7 +459,7 @@ describe("options.allowHeaders", async function (t) {
             cors({
                 allowHeaders: ["X-PINGOTHER"],
             }),
-            () => json({ foo: "bar" }),
+            () => json({ foo: "bar" })
         );
 
         await request(app)
@@ -479,7 +490,7 @@ describe("options.allowMethods", async function (t) {
             cors({
                 allowMethods: ["GET", "POST"],
             }),
-            () => json({ foo: "bar" }),
+            () => json({ foo: "bar" })
         );
 
         await request(app)
@@ -495,7 +506,7 @@ describe("options.allowMethods", async function (t) {
             cors({
                 allowMethods: null,
             }),
-            () => json({ foo: "bar" }),
+            () => json({ foo: "bar" })
         );
 
         await request(app)
@@ -506,30 +517,27 @@ describe("options.allowMethods", async function (t) {
     });
 });
 
-describe(
-    "other middleware has been set `Vary` header to Accept-Encoding",
-    async function (t) {
-        const it = t.step;
-        const app = compose(
-            async (ctx) => {
-                const response = await ctx.next();
-                response.headers.append("Vary", "Accept-Encoding");
-                return response;
-            },
-            cors(),
-            () => json({ foo: "bar" }),
-        );
+describe("other middleware has been set `Vary` header to Accept-Encoding", async function (t) {
+    const it = t.step;
+    const app = compose(
+        async (ctx) => {
+            const response = await ctx.next();
+            response.headers.append("Vary", "Accept-Encoding");
+            return response;
+        },
+        cors(),
+        () => json({ foo: "bar" })
+    );
 
-        await it("should append `Vary` header to Origin", async () => {
-            await request(app)
-                .get("/")
-                .set("Origin", "https://hattipjs.org")
-                .expect("Vary", "Origin, Accept-Encoding")
-                .expect({ foo: "bar" })
-                .expect(200);
-        });
-    },
-);
+    await it("should append `Vary` header to Origin", async () => {
+        await request(app)
+            .get("/")
+            .set("Origin", "https://hattipjs.org")
+            .expect("Vary", "Origin, Accept-Encoding")
+            .expect({ foo: "bar" })
+            .expect(200);
+    });
+});
 
 describe("options.privateNetworkAccess=false", async function (t) {
     const it = t.step;
@@ -537,7 +545,7 @@ describe("options.privateNetworkAccess=false", async function (t) {
         cors({
             privateNetworkAccess: false,
         }),
-        () => json({ foo: "bar" }),
+        () => json({ foo: "bar" })
     );
 
     await it("should not set `Access-Control-Allow-Private-Network` on not OPTIONS", async () => {
@@ -547,7 +555,7 @@ describe("options.privateNetworkAccess=false", async function (t) {
             .set("Access-Control-Request-Method", "PUT")
             .expect(200, (res) => {
                 assert(
-                    !("Access-Control-Allow-Private-Network" in res.headers),
+                    !("Access-Control-Allow-Private-Network" in res.headers)
                 );
             });
     });
@@ -559,7 +567,7 @@ describe("options.privateNetworkAccess=false", async function (t) {
             .set("Access-Control-Request-Method", "PUT")
             .expect(204, (res) => {
                 assert(
-                    !("Access-Control-Allow-Private-Network" in res.headers),
+                    !("Access-Control-Allow-Private-Network" in res.headers)
                 );
             });
     });
@@ -572,7 +580,7 @@ describe("options.privateNetworkAccess=false", async function (t) {
             .set("Access-Control-Request-Private-Network", "true")
             .expect(204, (res) => {
                 assert(
-                    !("Access-Control-Allow-Private-Network" in res.headers),
+                    !("Access-Control-Allow-Private-Network" in res.headers)
                 );
             });
     });
@@ -584,7 +592,7 @@ describe("options.privateNetworkAccess=true", async function (t) {
         cors({
             privateNetworkAccess: true,
         }),
-        () => json({ foo: "bar" }),
+        () => json({ foo: "bar" })
     );
 
     await it("should not set `Access-Control-Allow-Private-Network` on not OPTIONS", async () => {
@@ -594,7 +602,7 @@ describe("options.privateNetworkAccess=true", async function (t) {
             .set("Access-Control-Request-Method", "PUT")
             .expect(200, (res) => {
                 assert(
-                    !("Access-Control-Allow-Private-Network" in res.headers),
+                    !("Access-Control-Allow-Private-Network" in res.headers)
                 );
             });
     });
@@ -606,7 +614,7 @@ describe("options.privateNetworkAccess=true", async function (t) {
             .set("Access-Control-Request-Method", "PUT")
             .expect(204, (res) => {
                 assert(
-                    !("Access-Control-Allow-Private-Network" in res.headers),
+                    !("Access-Control-Allow-Private-Network" in res.headers)
                 );
             });
     });
@@ -629,7 +637,7 @@ function makeRequestContext(url: string, options?: RequestInit): Context {
             remoteAddr: { transport: "tcp", hostname: "127.0.0.1", port: 0 },
             localAddr: { transport: "tcp", hostname: "127.0.0.1", port: 0 },
             alpnProtocol: null,
-        },
+        }
     );
     // return {
     //     request: ,
@@ -660,7 +668,7 @@ function request(app: Middleware): RequestInterface {
                 const handler_fn = createHandler(app);
                 const request_obj = new Request(
                     this._context!.request.url,
-                    this._context!.request,
+                    this._context!.request
                 );
                 this._response = handler_fn(request_obj, {
                     remoteAddr: {
@@ -676,10 +684,11 @@ function request(app: Middleware): RequestInterface {
                     alpnProtocol: null,
                 }) as any;
             }
-
+            this._response!.then(console.log);
             if (typeof arg === "object") {
+                this._response!.then(console.log);
                 expect(
-                    this._response!.then((r) => r.json()),
+                    this._response!.then((r) => r.json())
                 ).resolves.toStrictEqual(arg);
             } else if (typeof arg === "number") {
                 return this._response!.then((r) => {
@@ -693,7 +702,7 @@ function request(app: Middleware): RequestInterface {
                 });
             } else if (typeof arg === "string") {
                 expect(
-                    this._response!.then((r) => r.headers.get(arg)),
+                    this._response!.then((r) => r.headers.get(arg))
                 ).resolves.toBe(cb);
             }
 
