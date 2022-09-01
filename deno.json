@@ -3,6 +3,9 @@
         "udd": " deno run -A https://deno.land/x/udd/main.ts '*/*.ts' '*.ts'",
         "test": "deno test -A --unstable --trace-ops"
     },
+    "lint": {
+        "rules": { "exclude": ["no-explicit-any"] }
+    },
     "fmt": {
         "files": {
             "exclude": [

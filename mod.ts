@@ -4,9 +4,13 @@ import { bodyToFormData } from "./body/bodyToFormData.ts";
 import { bodyToJSON } from "./body/bodyToJSON.ts";
 import { bodyToText } from "./body/bodyToText.ts";
 import { CorsOptions } from "./middleware/cors_all_get.ts";
-import { composeMiddleware } from "./src/composeMiddleware.ts";
+import { compose, composeMiddleware } from "./src/composeMiddleware.ts";
 import { Context } from "./src/Context.ts";
-import { createHandler, get_original_Request } from "./src/createHandler.ts";
+import {
+    createContext,
+    createHandler,
+    get_original_Request,
+} from "./src/createHandler.ts";
 import { error_handler } from "./src/error_handler.ts";
 import { ErrorHandler } from "./src/ErrorHandler.ts";
 import {
@@ -20,11 +24,22 @@ import { notfound_handler } from "./src/notfound_handler.ts";
 import { NotFoundHandler } from "./src/NotFoundHandler.ts";
 import { response_builder, ResponseBuilder } from "./src/response_builder.ts";
 import { ret_processor, RetProcessor } from "./src/RetProcessor.ts";
+import { html, json, text } from "./deps.ts";
 
-export { bodyToBlob, bodyToBuffer, bodyToFormData, bodyToJSON, bodyToText };
 export {
+    bodyToBlob,
+    bodyToBuffer,
+    bodyToFormData,
+    bodyToJSON,
+    bodyToText,
+    html,
+    json,
+    text,
+};
+export {
+    compose,
     composeMiddleware,
-    composeMiddleware as compose,
+    createContext,
     createHandler,
     error_handler,
     get_original_Request,

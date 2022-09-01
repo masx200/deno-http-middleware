@@ -50,3 +50,9 @@ export function composeMiddleware<T = Record<any, any>>(
     };
     return ComposedMiddleware;
 }
+// deno-lint-ignore no-explicit-any
+export function compose<T = Record<any, any>>(
+    ...middleware: Array<Middleware<T>>
+) {
+    return composeMiddleware(middleware);
+}

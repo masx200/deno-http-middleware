@@ -1,12 +1,13 @@
+// deno-lint-ignore-file require-await
 import { cors } from "./cors_all_get.ts";
-import { compose } from "../mod.ts";
+import { compose, Context, Middleware } from "../mod.ts";
 import { json } from "../deps.ts";
 import { expect } from "https://esm.sh/expect@29.0.1/";
 
 const describe = Deno.test;
 describe("default options", async function (t) {
     const it = t.step;
-    const app = compose([cors(), () => json({ foo: "bar" })]);
+    const app = compose(cors(), () => json({ foo: "bar" }));
 
     await it("should not set `Access-Control-Allow-Origin` when request Origin header missing", async () => {
         await request(app)
@@ -56,7 +57,8 @@ describe("default options", async function (t) {
     });
 });
 
-describe("options.origin=*", function () {
+describe("options.origin=*", function (t) {
+    const it = t.step;
     const app = compose(
         cors({
             origin: "*",
@@ -74,7 +76,8 @@ describe("options.origin=*", function () {
     });
 });
 
-describe("options.secureContext=true", function () {
+describe("options.secureContext=true", function (t) {
+    const it = t.step;
     const app = compose(
         cors({
             secureContext: true,
@@ -103,7 +106,8 @@ describe("options.secureContext=true", function () {
     });
 });
 
-describe("options.secureContext=false", function () {
+describe("options.secureContext=false", function (t) {
+    const it = t.step;
     const app = compose(
         cors({
             secureContext: false,
@@ -123,7 +127,8 @@ describe("options.secureContext=false", function () {
     });
 });
 
-describe("options.origin=function", function () {
+describe("options.origin=function", function (t) {
+    const it = t.step;
     const app = compose(
         cors({
             origin(ctx) {
@@ -156,7 +161,8 @@ describe("options.origin=function", function () {
     });
 });
 
-describe("options.origin=async function", function () {
+describe("options.origin=async function", function (t) {
+    const it = t.step;
     const app = compose(
         cors({
             async origin(ctx) {
@@ -189,7 +195,8 @@ describe("options.origin=async function", function () {
     });
 });
 
-describe("options.exposeHeaders", function () {
+describe("options.exposeHeaders", function (t) {
+    const it = t.step;
     it("should Access-Control-Expose-Headers: `content-length`", async () => {
         const app = compose(
             cors({
@@ -223,7 +230,8 @@ describe("options.exposeHeaders", function () {
     });
 });
 
-describe("options.maxAge", function () {
+describe("options.maxAge", function (t) {
+    const it = t.step;
     it("should set maxAge with number", async () => {
         const app = compose(
             cors({
@@ -274,7 +282,8 @@ describe("options.maxAge", function () {
     });
 });
 
-describe("options.credentials", function () {
+describe("options.credentials", function (t) {
+    const it = t.step;
     const app = compose(
         cors({
             credentials: true,
@@ -301,7 +310,8 @@ describe("options.credentials", function () {
     });
 });
 
-describe("options.credentials unset", function () {
+describe("options.credentials unset", function (t) {
+    const it = t.step;
     const app = compose(cors(), () => json({ foo: "bar" }));
 
     it("should disable Access-Control-Allow-Credentials on Simple request", async () => {
@@ -329,7 +339,8 @@ describe("options.credentials unset", function () {
     });
 });
 
-describe("options.credentials=function", function () {
+describe("options.credentials=function", function (t) {
+    const it = t.step;
     const app = compose(
         cors({
             credentials(ctx) {
@@ -382,7 +393,8 @@ describe("options.credentials=function", function () {
     });
 });
 
-describe("options.credentials=async function", function () {
+describe("options.credentials=async function", function (t) {
+    const it = t.step;
     const app = compose(
         cors({
             async credentials() {
@@ -411,7 +423,8 @@ describe("options.credentials=async function", function () {
     });
 });
 
-describe("options.allowHeaders", function () {
+describe("options.allowHeaders", function (t) {
+    const it = t.step;
     it("should work with allowHeaders is string", async () => {
         const app = compose(
             cors({
@@ -457,7 +470,8 @@ describe("options.allowHeaders", function () {
     });
 });
 
-describe("options.allowMethods", function () {
+describe("options.allowMethods", function (t) {
+    const it = t.step;
     it("should work with allowMethods is array", async () => {
         const app = compose(
             cors({
@@ -490,28 +504,33 @@ describe("options.allowMethods", function () {
     });
 });
 
-describe("other middleware has been set `Vary` header to Accept-Encoding", function () {
-    const app = compose(
-        async (ctx) => {
-            const response = await ctx.next();
-            response.headers.append("Vary", "Accept-Encoding");
-            return response;
-        },
-        cors(),
-        () => json({ foo: "bar" }),
-    );
+describe(
+    "other middleware has been set `Vary` header to Accept-Encoding",
+    function (t) {
+        const it = t.step;
+        const app = compose(
+            async (ctx) => {
+                const response = await ctx.next();
+                response.headers.append("Vary", "Accept-Encoding");
+                return response;
+            },
+            cors(),
+            () => json({ foo: "bar" }),
+        );
 
-    it("should append `Vary` header to Origin", async () => {
-        await request(app)
-            .get("/")
-            .set("Origin", "https://hattipjs.org")
-            .expect("Vary", "Origin, Accept-Encoding")
-            .expect({ foo: "bar" })
-            .expect(200);
-    });
-});
+        it("should append `Vary` header to Origin", async () => {
+            await request(app)
+                .get("/")
+                .set("Origin", "https://hattipjs.org")
+                .expect("Vary", "Origin, Accept-Encoding")
+                .expect({ foo: "bar" })
+                .expect(200);
+        });
+    },
+);
 
-describe("options.privateNetworkAccess=false", function () {
+describe("options.privateNetworkAccess=false", function (t) {
+    const it = t.step;
     const app = compose(
         cors({
             privateNetworkAccess: false,
@@ -557,7 +576,8 @@ describe("options.privateNetworkAccess=false", function () {
     });
 });
 
-describe("options.privateNetworkAccess=true", function () {
+describe("options.privateNetworkAccess=true", function (t) {
+    const it = t.step;
     const app = compose(
         cors({
             privateNetworkAccess: true,
@@ -603,23 +623,23 @@ describe("options.privateNetworkAccess=true", function () {
 function makeRequestContext(
     url: string,
     options?: RequestInit,
-): AdapterRequestContext {
+): Context {
     return {
         request: new Request(new URL(url, "http://example.com"), options),
-        ip: "127.0.0.1",
-        passThrough() {
-            // No op
-        },
-        waitUntil() {
-            // No op
-        },
-        platform: {},
+        // ip: "127.0.0.1",
+        // passThrough() {
+        //     // No op
+        // },
+        // waitUntil() {
+        //     // No op
+        // },
+        // platform: {},
     };
 }
 
-function request(app: HattipHandler): RequestInterface {
+function request(app: Middleware): RequestInterface {
     const result = {
-        _context: null as null | AdapterRequestContext,
+        _context: null as null | Context,
 
         _response: null as null | Promise<Response>,
 

@@ -35,13 +35,7 @@ export function createHandler<T = Record<any, any>>(
         request: Request,
         connInfo: ConnInfo,
     ): Promise<Response> {
-        const response = cloneResponseMutableHeaders(new Response());
-        const context: Context = {
-            request: request_to_options(request),
-            connInfo,
-            response,
-        };
-        context_to_original_Request.set(context, request);
+        const context: Context = createContext(request, connInfo);
         const next = async () => {
             context.response = await notfoundHandler(context);
             return context.response;
@@ -58,4 +52,21 @@ export function createHandler<T = Record<any, any>>(
             return await responseBuilder(context.response);
         }
     };
+}
+export function createContext(
+    request: Request,
+    connInfo: Readonly<{
+        readonly localAddr: Deno.Addr;
+        readonly remoteAddr: Deno.Addr;
+        alpnProtocol: string | null;
+    }>,
+) {
+    const response = cloneResponseMutableHeaders(new Response());
+    const context: Context = {
+        request: request_to_options(request),
+        connInfo,
+        response,
+    };
+    context_to_original_Request.set(context, request);
+    return context;
 }
