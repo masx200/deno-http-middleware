@@ -1,7 +1,8 @@
+// deno-lint-ignore-file ban-types
 import { Context, ResponseOptions } from "./Context.ts";
 
 // deno-lint-ignore no-explicit-any
-export type Middleware<T = Record<any, any>> = (
+export type Middleware<T = {}> = (
     context: Context<T>,
     next: NextFunction,
 ) => Promise<RetHandler> | RetHandler;

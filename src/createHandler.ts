@@ -1,3 +1,4 @@
+// deno-lint-ignore-file ban-types
 import { ConnInfo } from "../deps.ts";
 import { cloneResponseMutableHeaders } from "../response/cloneResponseMutableHeaders.ts";
 import { composeMiddleware } from "./composeMiddleware.ts";
@@ -16,7 +17,7 @@ export function get_original_Request(ctx: Context): Request | undefined {
     return context_to_original_Request.get(ctx);
 }
 
-export function handler<T = Record<any, any>>(
+export function handler<T = {}>(
     ...middleware: Array<Middleware<T>> | Array<Middleware<T>>[]
 ): Handler {
     return createHandler(middleware.flat());
@@ -27,7 +28,7 @@ export type Handler = (
 ) => Promise<Response>;
 
 // deno-lint-ignore no-explicit-any
-export function createHandler<T = Record<any, any>>(
+export function createHandler<T = {}>(
     middleware: Middleware<T>[] | Middleware<T> = [],
     {
         notfoundHandler = notfound_handler,
@@ -71,7 +72,7 @@ export function createHandler<T = Record<any, any>>(
         }
     };
 }
-export function createContext<T = Record<any, any>>(
+export function createContext<T = {}>(
     request: Request,
     connInfo: Readonly<{
         readonly localAddr: Deno.Addr;

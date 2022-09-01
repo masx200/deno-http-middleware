@@ -1,10 +1,11 @@
+// deno-lint-ignore-file ban-types
 import { ResponseOptions } from "./Context.ts";
 import { Middleware, RetHandler } from "./Middleware.ts";
 import { RetProcessor } from "./RetProcessor.ts";
 import { ret_processor } from "./RetProcessor.ts";
 /* https://github.com/koajs/compose */
 // deno-lint-ignore no-explicit-any
-export function composeMiddleware<T = Record<any, any>>(
+export function composeMiddleware<T = {}>(
     middleware: Array<Middleware<T>>,
     ret_processor_fn: RetProcessor = ret_processor,
 ): Middleware<T> {
@@ -17,12 +18,12 @@ export function composeMiddleware<T = Record<any, any>>(
         }
     }
     if (middleware.length === 0) {
-        const result: Middleware = async (_context, next) => {
+        const result: Middleware<T> = async (_context, next) => {
             await next();
         };
         return result;
     }
-    const ComposedMiddleware: Middleware = async function (
+    const ComposedMiddleware: Middleware<T> = async function (
         context,
         next,
     ): Promise<RetHandler> {
@@ -51,7 +52,7 @@ export function composeMiddleware<T = Record<any, any>>(
     return ComposedMiddleware;
 }
 // deno-lint-ignore no-explicit-any
-export function compose<T = Record<any, any>>(
+export function compose<T = {}>(
     ...middleware: Array<Middleware<T>> | Array<Middleware<T>>[]
 ): Middleware<T> {
     return composeMiddleware(middleware.flat());

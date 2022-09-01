@@ -5,7 +5,7 @@
         "test": "deno test -A --unstable --trace-ops"
     },
     "lint": {
-        "rules": { "exclude": ["no-explicit-any"] }
+        "rules": { "exclude": ["no-explicit-any", "ban-types"] }
     },
     "fmt": {
         "files": {
