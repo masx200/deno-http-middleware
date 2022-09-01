@@ -11,7 +11,7 @@ import { createHandler } from "../src/createHandler.ts";
 
 Deno.test("method_override-get", async () => {
     const controller = new AbortController();
-    const port = Math.floor(Math.random() * 30000 + 20000);
+    const port = Math.floor(Math.random() * 30000 + 10000);
     const handler = createHandler([
         logger,
         method_override(),
@@ -54,7 +54,7 @@ Deno.test("method_override-get", async () => {
 });
 Deno.test("method_override-get-post", async () => {
     const controller = new AbortController();
-    const port = Math.floor(Math.random() * 30000 + 20000);
+    const port = Math.floor(Math.random() * 30000 + 10000);
     const handler = createHandler([
         logger,
         method_override(),
@@ -98,7 +98,7 @@ Deno.test("method_override-get-post", async () => {
 });
 Deno.test("method_override-post-put", async () => {
     const controller = new AbortController();
-    const port = Math.floor(Math.random() * 30000 + 20000);
+    const port = Math.floor(Math.random() * 30000 + 10000);
     const handler = createHandler([
         logger,
         method_override(),
@@ -146,7 +146,7 @@ Deno.test("method_override-post-put", async () => {
 });
 Deno.test("method_override-post-unsupported", async () => {
     const controller = new AbortController();
-    const port = Math.floor(Math.random() * 30000 + 20000);
+    const port = Math.floor(Math.random() * 30000 + 10000);
     const handler = createHandler([
         logger,
         method_override(),
