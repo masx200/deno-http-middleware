@@ -1,12 +1,13 @@
 import { ResponseOptions } from "./Context.ts";
 import { Middleware, RetHandler } from "./Middleware.ts";
 import { RetProcessor } from "./RetProcessor.ts";
-
+import { ret_processor } from "./RetProcessor.ts";
 /* https://github.com/koajs/compose */
-export function composeMiddleware(
-    middleware: Array<Middleware>,
-    ret_processor: RetProcessor,
-): Middleware {
+// deno-lint-ignore no-explicit-any
+export function composeMiddleware<T = Record<any, any>>(
+    middleware: Array<Middleware<T>>,
+    ret_processor_fn: RetProcessor = ret_processor,
+): Middleware<T> {
     if (!Array.isArray(middleware)) {
         throw new TypeError("Middleware stack must be an array!");
     }
@@ -41,7 +42,7 @@ export function composeMiddleware(
                     return context.response;
                 };
                 const ret_handler = await fn(context, ne);
-                await ret_processor(ret_handler, context, ne);
+                await ret_processor_fn(ret_handler, context, ne);
             } catch (err) {
                 throw err;
             }
