@@ -4,10 +4,13 @@ import { ResponseOptions } from "./Context.ts";
 import { Middleware, RetHandler } from "./Middleware.ts";
 import { RetProcessor } from "./RetProcessor.ts";
 import { ret_processor } from "./RetProcessor.ts";
-/* https://github.com/koajs/compose */
+/**
+ * compose middleware
+https://github.com/koajs/compose
+*/
 export function composeMiddleware<T = {}>(
     middleware: Array<Middleware<T>>,
-    ret_processor_fn: RetProcessor = ret_processor
+    ret_processor_fn: RetProcessor = ret_processor,
 ): Middleware<T> {
     if (!Array.isArray(middleware)) {
         throw new TypeError("Middleware stack must be an array!");
@@ -25,7 +28,7 @@ export function composeMiddleware<T = {}>(
     }
     const ComposedMiddleware: Middleware<T> = async function (
         context,
-        next
+        next,
     ): Promise<RetHandler> {
         let index = -1;
         await dispatch(0);

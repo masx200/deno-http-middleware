@@ -1,5 +1,5 @@
 // deno-lint-ignore-file ban-types
-import { ConnInfo } from "../deps.ts";
+
 import { cloneResponseMutableHeaders } from "../response/cloneResponseMutableHeaders.ts";
 import { composeMiddleware } from "./composeMiddleware.ts";
 import { Context } from "./Context.ts";
@@ -24,8 +24,7 @@ export function handler<T = {}>(
 }
 export type Handler<T = {}> = (
     request: Request,
-    connInfo?: ConnInfo,
-    extra?: T,
+    options?: T,
 ) => Promise<Response>;
 
 // deno-lint-ignore no-explicit-any
@@ -49,14 +48,9 @@ export function createHandler<T = {}>(
     );
     return async function (
         request: Request,
-        connInfo: ConnInfo = {
-            remoteAddr: { transport: "tcp", hostname: "127.0.0.1", port: 0 },
-            localAddr: { transport: "tcp", hostname: "127.0.0.1", port: 0 },
-            alpnProtocol: null,
-        },
-        extra: T = {} as T,
+        options: T = {} as T,
     ): Promise<Response> {
-        const context: Context<T> = createContext(request, connInfo, extra);
+        const context: Context<T> = createContext(request, options);
         const next = async () => {
             context.response = await notfoundHandler(context);
             return context.response;
@@ -76,23 +70,14 @@ export function createHandler<T = {}>(
 }
 export function createContext<T = {}>(
     request: Request,
-    connInfo: Readonly<{
-        readonly localAddr: Deno.Addr;
-        readonly remoteAddr: Deno.Addr;
-        alpnProtocol: string | null;
-    }> = {
-        remoteAddr: { transport: "tcp", hostname: "127.0.0.1", port: 0 },
-        localAddr: { transport: "tcp", hostname: "127.0.0.1", port: 0 },
-        alpnProtocol: null,
-    },
-    extra: T = {} as T,
+    options: T = {} as T,
 ): Context<T> {
     const response = cloneResponseMutableHeaders(new Response());
     const context = {
         request: request_to_options(request),
-        connInfo,
+        arguments: { request, options: options },
         response,
-        ...extra,
+        ...options,
     };
     context_to_original_Request.set(context, request);
     return context as Context<T>;

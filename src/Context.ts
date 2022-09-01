@@ -1,10 +1,8 @@
-import { ConnInfo } from "../deps.ts";
-
 // deno-lint-ignore no-explicit-any
 export type Context<T = {}> = {
-    connInfo: ConnInfo;
     request: RequestOptions;
     response: ResponseOptions;
+    arguments: { request: Request; options: T };
 } & T;
 
 export interface ResponseOptions {

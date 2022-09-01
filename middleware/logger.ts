@@ -8,7 +8,7 @@ export const logger = async function (
     const { request } = context;
     const { url, method, headers } = request;
     console.log("request", {
-        ...context.connInfo,
+        ...context,
         url,
         method,
         headers: Object.fromEntries(headers),
