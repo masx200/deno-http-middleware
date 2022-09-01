@@ -1,7 +1,8 @@
 import { Context, ResponseOptions } from "./Context.ts";
 
-export type Middleware = (
-    context: Context,
+// deno-lint-ignore no-explicit-any
+export type Middleware<T = Record<any, any>> = (
+    context: Context<T>,
     next: NextFunction,
 ) => Promise<RetHandler> | RetHandler;
 export type NextFunction = () => Promise<ResponseOptions> | ResponseOptions;

@@ -1,10 +1,11 @@
 import { ConnInfo } from "../deps.ts";
 
-export type Context = {
+// deno-lint-ignore no-explicit-any
+export type Context<T = Record<any, any>> = {
     connInfo: ConnInfo;
     request: RequestOptions;
     response: ResponseOptions;
-};
+} & T;
 
 export interface ResponseOptions {
     headers: Headers;

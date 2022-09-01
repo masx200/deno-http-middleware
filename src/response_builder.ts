@@ -1,11 +1,11 @@
-import { Context } from "./Context.ts";
+import { ResponseOptions } from "./Context.ts";
 
 export type ResponseBuilder = (
-    response: Context["response"],
+    response: ResponseOptions,
 ) => Promise<Response> | Response;
 // deno-lint-ignore require-await
 export const response_builder: ResponseBuilder = async function (
-    response: Context["response"],
+    response: ResponseOptions,
 ): Promise<Response> {
     const { body } = response;
 

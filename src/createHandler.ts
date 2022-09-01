@@ -15,8 +15,9 @@ const context_to_original_Request = new WeakMap<Context, Request>();
 export function get_original_Request(ctx: Context): Request | undefined {
     return context_to_original_Request.get(ctx);
 }
-export function createHandler(
-    middleware: Middleware[] = [],
+// deno-lint-ignore no-explicit-any
+export function createHandler<T = Record<any, any>>(
+    middleware: Middleware<T>[] = [],
     {
         notfoundHandler = notfound_handler,
         errorHandler = error_handler,
