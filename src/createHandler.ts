@@ -53,7 +53,7 @@ export function createHandler<T = {}>(
             remoteAddr: { transport: "tcp", hostname: "127.0.0.1", port: 0 },
             localAddr: { transport: "tcp", hostname: "127.0.0.1", port: 0 },
             alpnProtocol: null,
-        },extra:T={}
+        },extra:T={} as T
     ): Promise<Response> {
         const context: Context<T> = createContext(request, connInfo,extra);
         const next = async () => {
@@ -84,7 +84,7 @@ export function createContext<T = {}>(
         localAddr: { transport: "tcp", hostname: "127.0.0.1", port: 0 },
         alpnProtocol: null,
     }
-,extra:T={}
+,extra:T={} as T
 ): Context<T> {
     const response = cloneResponseMutableHeaders(new Response());
     const context = {
