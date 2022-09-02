@@ -163,7 +163,7 @@ test("calls handleError", async () => {
         try {
             await next();
         } catch (error) {
-            return new Response(error?.message);
+            return new Response(error?.message, { status: 500 });
         }
     };
     const h2: Middleware = () => {

@@ -204,7 +204,7 @@ const h1: Middleware = async (_ctx, next) => {
     try {
         await next();
     } catch (error) {
-        return new Response(error?.message);
+        return new Response(error?.message, { status: 500 });
     }
 };
 const h2: Middleware = () => {
