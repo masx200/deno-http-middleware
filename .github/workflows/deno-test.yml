@@ -33,7 +33,7 @@ jobs:
 
       # Uncomment this step to verify the use of 'deno fmt' on each commit.
       - name: check formatting
-        run: deno check --remote --unstable mod.ts
+        run: deno check  --unstable mod.ts
 
       - name: Run linter
         run: deno lint
