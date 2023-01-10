@@ -1,7 +1,7 @@
 {
     "importMap": "import_map.json",
     "tasks": {
-        "udd": " deno run -A https://deno.land/x/udd/main.ts '*/*.ts' '*.ts' '*.json'",
+        "udd": " deno run -A https://deno.land/x/udd@0.8.2/main.ts '*/*.ts' '*.ts' '*.json'",
         "test": "deno test -A --unstable --trace-ops"
     },
     "lint": {
