@@ -21,4 +21,4 @@ export { default as fresh } from "https://cdn.skypack.dev/fresh@0.5.2?dts";
 export { serve };
 export { assertFalse };
 export { METHODS };
-export { html, json, text } from "https://esm.sh/@hattip/response@0.0.26";
+export { html, json, text } from "https://esm.sh/@hattip/response@0.0.27";
