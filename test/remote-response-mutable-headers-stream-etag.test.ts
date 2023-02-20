@@ -12,7 +12,8 @@ import { createHandler } from "../src/createHandler.ts";
 Deno.test({
     name: "remote-response-mutable-headers-stream-etag",
     async fn() {
-        const remote_url = "https://deno.com/deploy";
+        const headers={"user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"}
+        const remote_url = "https://www.qq.com/";
         const random_data = String(Math.random());
         const controller = new AbortController();
         const port = Math.floor(Math.random() * 20000 + 30000);
@@ -28,7 +29,7 @@ Deno.test({
                 ctx.response.headers.set("x-random-data", random_data);
             },
             async () => {
-                return await fetch(remote_url, {});
+                return await fetch(remote_url, {headers});
             },
         ]);
 
@@ -49,7 +50,7 @@ Deno.test({
                     random_data,
                     response.headers.get("x-random-data"),
                 );
-                const content = await (await fetch(remote_url)).text();
+                const content = await (await fetch(remote_url, {headers})).text();
 
                 assertEquals(text, content);
                 const etag = response.headers.get("etag");
