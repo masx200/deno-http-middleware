@@ -3,17 +3,17 @@ export {
     assertEquals,
     assertInstanceOf,
     assertNotEquals,
-} from "https://deno.land/std@0.177.0/testing/asserts.ts";
-import { encode } from "https://deno.land/std@0.177.0/encoding/hex.ts";
-import { METHODS } from "https://deno.land/std@0.177.0/node/http.ts";
-import { assertFalse } from "https://deno.land/std@0.177.0/testing/asserts.ts";
+} from "https://deno.land/std@0.178.0/testing/asserts.ts";
+import { encode } from "https://deno.land/std@0.178.0/encoding/hex.ts";
+import { METHODS } from "https://deno.land/std@0.178.0/node/http.ts";
+import { assertFalse } from "https://deno.land/std@0.178.0/testing/asserts.ts";
 import {
     ConnInfo,
     serve_http as serve,
-} from "https://deno.land/x/masx200_deno_serve_https@1.0.5/mod.ts";
+} from "https://deno.land/x/masx200_deno_serve_https@1.0.6/mod.ts";
 
 export type { ConnInfo };
-export { STATUS_TEXT } from "https://deno.land/std@0.177.0/http/http_status.ts";
+export { STATUS_TEXT } from "https://deno.land/std@0.178.0/http/http_status.ts";
 export { encode };
 export { default as isPlainObject } from "https://cdn.skypack.dev/lodash@4.17.21/isPlainObject?dts";
 
