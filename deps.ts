@@ -5,7 +5,7 @@ export {
     assertNotEquals,
 } from "https://deno.land/std@0.177.0/testing/asserts.ts";
 import { encode } from "https://deno.land/std@0.177.0/encoding/hex.ts";
-import { METHODS } from "https://deno.land/std@0.177.0/node/http.ts";
+import { METHODS } from "node:http";
 import { assertFalse } from "https://deno.land/std@0.177.0/testing/asserts.ts";
 import {
     ConnInfo,
