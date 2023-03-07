@@ -1,5 +1,5 @@
 {
     "imports": {
-        "expect": "https://esm.sh/expect@29.4.3/"
+        "expect": "https://esm.sh/expect@29.5.0/"
     }
 }
