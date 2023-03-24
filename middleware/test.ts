@@ -675,7 +675,7 @@ function makeRequestContext(url: string, options?: RequestInit): Context {
 function request(app: Middleware): RequestInterface {
     let _context = null as null | Context,
         _response = null as null | Promise<Response>;
-
+    let promise = null as Promise<RequestInterface> | null;
     const result = {
         request(method: string, url: string) {
             /* this. */ _context = makeRequestContext(url, { method });
@@ -710,7 +710,7 @@ function request(app: Middleware): RequestInterface {
             // this._response!.then(console.log);
             if (typeof arg === "object") {
                 // deno-lint-ignore no-async-promise-executor
-                return new Promise<RequestInterface>(
+                promise = new Promise<RequestInterface>(
                     async (resolve, reject) => {
                         try {
                             assertEquals(
@@ -727,19 +727,23 @@ function request(app: Middleware): RequestInterface {
                 );
                 // this._response!.then(console.log);
             } else if (typeof arg === "number") {
-                return /* this. */ _response!.then((r) => {
-                    assertEquals(r.status, arg);
+                return Promise.resolve(promise).then(() => {
+                    return _response!.then((r) => {
+                        assertEquals(r.status, arg);
 
-                    if (typeof cb === "function") {
-                        cb({
-                            headers: Object.fromEntries(r.headers.entries()),
-                        });
-                    }
-                    return this;
-                });
+                        if (typeof cb === "function") {
+                            cb({
+                                headers: Object.fromEntries(
+                                    r.headers.entries(),
+                                ),
+                            });
+                        }
+                        return this;
+                    });
+                }); /* this. */
             } else if (typeof arg === "string") {
                 // deno-lint-ignore no-async-promise-executor
-                return new Promise<RequestInterface>(
+                promise = new Promise<RequestInterface>(
                     async (resolve, reject) => {
                         try {
                             assertEquals(
