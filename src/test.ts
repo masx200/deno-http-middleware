@@ -1,9 +1,10 @@
-// deno-lint-ignore-file require-await
-import { expect } from "expect";
+import { Middleware } from "./Middleware.ts";
+import { assertEquals } from "https://deno.land/std@0.181.0/testing/asserts.ts";
+import { handler } from "./createHandler.ts";
 import { logger } from "../middleware/logger.ts";
 
-import { handler } from "./createHandler.ts";
-import { Middleware } from "./Middleware.ts";
+// deno-lint-ignore-file require-await
+// import { expect } from "expect";
 
 const { test } = Deno;
 test("calls in order", async () => {
@@ -13,8 +14,8 @@ test("calls in order", async () => {
     const composed = handler(logger, h1, h2);
 
     const r1 = await (await composed(new Request("http://example.com"))).text();
-
-    expect(r1).toEqual("1");
+    assertEquals(r1, "1");
+    // expect(r1).toEqual("1");
 });
 
 test("calls next", async () => {
@@ -44,21 +45,25 @@ test("calls next", async () => {
     const r1 = await (
         await composed(new Request("http://example.com/1"))
     )?.text();
-    expect(r1).toEqual("1");
+    // expect(r1).toEqual("1");
+    assertEquals(r1, "1");
 
     const r2 = await (
         await composed(new Request("http://example.com/2"))
     )?.text();
-    expect(r2).toEqual("2");
+    // expect(r2).toEqual("2");
+    assertEquals(r2, "2");
 
     const r3 = await (
         await composed(new Request("http://example.com/3"))
     )?.text();
-    expect(r3).toEqual("3");
+    assertEquals(r3, "3");
+    // expect(r3).toEqual("3");
 
     const r4 = await composed(new Request("http://example.com/nope"));
 
-    expect(r4?.status).toEqual(404);
+    // expect(r4?.status).toEqual(404);
+    assertEquals(r4?.status, 404);
 });
 
 test("calls next when nothing is returned", async () => {
@@ -88,20 +93,24 @@ test("calls next when nothing is returned", async () => {
     const r1 = await (
         await composed(new Request("http://example.com/1"))
     )?.text();
-    expect(r1).toEqual("1");
+    // expect(r1).toEqual("1");
+    assertEquals(r1, "1");
 
     const r2 = await (
         await composed(new Request("http://example.com/2"))
     )?.text();
-    expect(r2).toEqual("2");
+    // expect(r2).toEqual("2");
+    assertEquals(r2, "2");
 
     const r3 = await (
         await composed(new Request("http://example.com/3"))
     )?.text();
-    expect(r3).toEqual("3");
+    // expect(r3).toEqual("3");
+    assertEquals(r3, "3");
 
     const r4 = await composed(new Request("http://example.com/nope"));
-    expect(r4?.status).toEqual(404);
+    // expect(r4?.status).toEqual(404);
+    assertEquals(r4?.status, 404);
 });
 
 test("sets headers in middleware", async () => {
@@ -117,7 +126,7 @@ test("sets headers in middleware", async () => {
 
     const response = await composed(new Request("http://example.com"));
 
-    expect(response?.headers.get("x-test")).toEqual("test");
+    assertEquals(response?.headers.get("x-test"), "test");
 });
 
 test("runs initial next", async () => {
@@ -130,8 +139,7 @@ test("runs initial next", async () => {
     const composed = handler(logger, middleware);
 
     const response = await composed(new Request("http://example.com"));
-
-    expect(response?.headers.get("x-test")).toEqual("test");
+    assertEquals(response?.headers.get("x-test"), "test");
 });
 
 test("flattens RequestHandlers", async () => {
@@ -144,7 +152,7 @@ test("flattens RequestHandlers", async () => {
         await composed(new Request("http://example.com"))
     )?.text();
 
-    expect(r1).toEqual("1");
+    assertEquals(r1, "1");
 });
 
 test("installs default error handler", async () => {
@@ -155,7 +163,7 @@ test("installs default error handler", async () => {
 
     const r = await composed(new Request("http://example.com"));
 
-    expect(r.status).toEqual(500);
+    assertEquals(r.status, 500);
 });
 
 test("calls handleError", async () => {
@@ -173,5 +181,5 @@ test("calls handleError", async () => {
 
     const r = await composed(new Request("http://example.com"));
 
-    expect(r.text()).resolves.toEqual("1");
+    assertEquals(await r.text(), "1");
 });

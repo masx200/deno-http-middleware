@@ -1,10 +1,12 @@
-import { expect } from "expect";
+// import { expect } from "expect";
 
-import { json } from "../deps.ts";
 import { compose, Context, logger, Middleware } from "../mod.ts";
+import { assertEquals, json } from "../deps.ts";
 import { createContext, createHandler } from "../src/createHandler.ts";
-// deno-lint-ignore-file require-await require-await
+
 import { cors } from "./cors_all_get.ts";
+
+// deno-lint-ignore-file require-await require-await
 
 const describe = Deno.test;
 describe("default options", async function (t) {
@@ -341,7 +343,7 @@ describe("options.credentials unset", async function (t) {
             .expect(200, function (response) {
                 const header =
                     response.headers["access-control-allow-credentials"];
-                expect(header).toBeUndefined();
+                assertEquals(typeof header, "undefined"); //.toBeUndefined();
             });
     });
 
