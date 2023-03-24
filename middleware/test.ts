@@ -1,12 +1,12 @@
-// import { expect } from "expect";
-
 import { compose, Context, logger, Middleware } from "../mod.ts";
-import { assertEquals, json } from "../deps.ts";
+import { assert, assertEquals, json } from "../deps.ts";
 import { createContext, createHandler } from "../src/createHandler.ts";
 
 import { cors } from "./cors_all_get.ts";
 
-// deno-lint-ignore-file require-await require-await
+// import { expect } from "expect";
+
+// deno-lint-ignore-file require-await require-await no-async-promise-executor
 
 const describe = Deno.test;
 describe("default options", async function (t) {
@@ -355,7 +355,7 @@ describe("options.credentials unset", async function (t) {
             .expect(204, function (response) {
                 const header =
                     response.headers["access-control-allow-credentials"];
-                expect(header).toBeUndefined();
+                assertEquals(typeof header, "undefined"); // expect(header).toBeUndefined();
             });
     });
 });
@@ -398,7 +398,8 @@ describe("options.credentials=function", async function (t) {
             .expect(200, function (response) {
                 const header =
                     response.headers["access-control-allow-credentials"];
-                expect(header).toBeUndefined();
+                assertEquals(typeof header, "undefined");
+                // expect(header).toBeUndefined();
             });
     });
 
@@ -410,7 +411,8 @@ describe("options.credentials=function", async function (t) {
             .expect(204, function (response) {
                 const header =
                     response.headers["access-control-allow-credentials"];
-                expect(header).toBeUndefined();
+                assertEquals(typeof header, "undefined");
+                // expect(header).toBeUndefined();
             });
     });
 });
@@ -671,24 +673,27 @@ function makeRequestContext(url: string, options?: RequestInit): Context {
 }
 
 function request(app: Middleware): RequestInterface {
+    let _context = null as null | Context,
+        _response = null as null | Promise<Response>;
+
     const result = {
-        _context: null as null | Context,
-
-        _response: null as null | Promise<Response>,
-
         request(method: string, url: string) {
-            this._context = makeRequestContext(url, { method });
+            /* this. */ _context = makeRequestContext(url, { method });
             return this;
         },
-
-        expect(arg: any, cb?: ((res: SimpleResponse) => void) | string) {
-            if (!this._response) {
+        // deno-lint-ignore ban-ts-comment
+        //@ts-ignore
+        expect(
+            arg: any,
+            cb?: ((res: SimpleResponse) => void) | string,
+        ): RequestInterface | Promise<RequestInterface> {
+            if (!(/* this. */ _response)) {
                 const handler_fn = createHandler(app);
                 const request_obj = new Request(
-                    this._context!.request.url,
-                    this._context!.request,
+                    /* this. */ _context!.request.url,
+                    /*  this. */ _context!.request,
                 );
-                this._response = handler_fn(request_obj, {
+                /*  this */ /* . */ _response = handler_fn(request_obj, {
                     remoteAddr: {
                         transport: "tcp",
                         hostname: "127.0.0.1",
@@ -704,31 +709,58 @@ function request(app: Middleware): RequestInterface {
             }
             // this._response!.then(console.log);
             if (typeof arg === "object") {
+                // deno-lint-ignore no-async-promise-executor
+                return new Promise<RequestInterface>(
+                    async (resolve, reject) => {
+                        try {
+                            assertEquals(
+                                /* this. */ await _response!.then((r) =>
+                                    r.json()
+                                ),
+                                arg,
+                            );
+                            resolve(this);
+                        } catch (error) {
+                            reject(error);
+                        }
+                    },
+                );
                 // this._response!.then(console.log);
-                expect(
-                    this._response!.then((r) => r.json()),
-                ).resolves.toStrictEqual(arg);
             } else if (typeof arg === "number") {
-                return this._response!.then((r) => {
-                    expect(r.status).toBe(arg);
+                return /* this. */ _response!.then((r) => {
+                    assertEquals(r.status, arg);
 
                     if (typeof cb === "function") {
                         cb({
                             headers: Object.fromEntries(r.headers.entries()),
                         });
                     }
+                    return this;
                 });
             } else if (typeof arg === "string") {
-                expect(
-                    this._response!.then((r) => r.headers.get(arg)),
-                ).resolves.toBe(cb);
+                // deno-lint-ignore no-async-promise-executor
+                return new Promise<RequestInterface>(
+                    async (resolve, reject) => {
+                        try {
+                            assertEquals(
+                                await /* this. */ _response!.then((r) =>
+                                    r.headers.get(arg)
+                                ),
+                                cb,
+                            );
+                            resolve(this);
+                        } catch (error) {
+                            reject(error);
+                        }
+                    },
+                );
             }
 
             return this;
         },
 
         set(key: string, value: string) {
-            this._context!.request.headers.set(key, value);
+            /* this. */ _context!.request.headers.set(key, value);
             return this;
         },
 
@@ -739,7 +771,7 @@ function request(app: Middleware): RequestInterface {
         options(url: string) {
             return this.request("OPTIONS", url);
         },
-    };
+    } satisfies RequestInterface;
 
     return result as RequestInterface;
 }
@@ -749,9 +781,9 @@ interface SimpleResponse {
 }
 
 // deno-lint-ignore no-explicit-any
-function assert(arg: any) {
-    expect(arg).toBeTruthy();
-}
+// function assert(arg: any) {
+//     expect(arg).toBeTruthy();
+// }
 
 interface RequestInterface {
     set(key: string, value: string): RequestInterface;
@@ -759,5 +791,9 @@ interface RequestInterface {
     options(url: string): RequestInterface;
     expect(body: Record<string, string>): RequestInterface;
     expect(header: string, value: string): RequestInterface;
-    expect(status: number, cb?: (res: SimpleResponse) => void): Promise<void>;
+    expect(
+        status: number,
+        cb?: (res: SimpleResponse) => void,
+    ): Promise<RequestInterface>;
+    request(method: string, url: string): RequestInterface;
 }
