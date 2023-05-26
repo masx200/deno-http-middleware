@@ -1,5 +1,5 @@
 import { Middleware } from "./Middleware.ts";
-import { assertEquals } from "https://deno.land/std@0.188.0/testing/asserts.ts";
+import { assertEquals } from "https://deno.land/std@0.189.0/testing/asserts.ts";
 import { handler } from "./createHandler.ts";
 import { logger } from "../middleware/logger.ts";
 
