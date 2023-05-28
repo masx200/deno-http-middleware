@@ -1,22 +1,23 @@
 // deno-lint-ignore-file ban-types
 
-import { cloneResponseMutableHeaders } from "../response/cloneResponseMutableHeaders.ts";
-import { composeMiddleware } from "./composeMiddleware.ts";
-import { Context } from "./Context.ts";
-import { error_handler } from "./error_handler.ts";
-import { ErrorHandler } from "./ErrorHandler.ts";
 import { Middleware, RetHandler } from "./Middleware.ts";
-import { notfound_handler } from "./notfound_handler.ts";
-import { NotFoundHandler } from "./NotFoundHandler.ts";
-import { request_to_options } from "./request_to_options.ts";
 import { response_builder, ResponseBuilder } from "./response_builder.ts";
 import { ret_processor, RetProcessor } from "./RetProcessor.ts";
+
+import { Context } from "./Context.ts";
+import { ErrorHandler } from "./ErrorHandler.ts";
+import { NotFoundHandler } from "./NotFoundHandler.ts";
+import { cloneResponseMutableHeaders } from "../response/cloneResponseMutableHeaders.ts";
+import { composeMiddleware } from "./composeMiddleware.ts";
+import { error_handler } from "./error_handler.ts";
+import { notfound_handler } from "./notfound_handler.ts";
+import { request_to_options } from "./request_to_options.ts";
 
 const context_to_original_Request = new WeakMap<Context, Request>();
 export function getOriginalRequest(ctx: Context): Request | undefined {
     return context_to_original_Request.get(ctx);
 }
-const context_to_original_Options = new WeakMap<Context<any>, any>();
+export const context_to_original_Options = new WeakMap<Context<any>, any>();
 export function getOriginalOptions<T = {}>(ctx: Context<T>): T | undefined {
     return context_to_original_Options.get(ctx);
 }

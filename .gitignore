@@ -117,3 +117,4 @@ dist
 .vscode
 src/.vscode/settings.json
 deno.lock
+checks.json
