@@ -1,19 +1,17 @@
 // deno-lint-ignore-file ban-types
 
+import { composeMiddleware } from "./composeMiddleware.ts";
+import { Context } from "./Context.ts";
+import { createContext } from "./createContext.ts";
+import { error_handler } from "./error_handler.ts";
+import { ErrorHandler } from "./ErrorHandler.ts";
 import { Middleware, RetHandler } from "./Middleware.ts";
+import { notfound_handler } from "./notfound_handler.ts";
+import { NotFoundHandler } from "./NotFoundHandler.ts";
 import { response_builder, ResponseBuilder } from "./response_builder.ts";
 import { ret_processor, RetProcessor } from "./RetProcessor.ts";
 
-import { Context } from "./Context.ts";
-import { ErrorHandler } from "./ErrorHandler.ts";
-import { NotFoundHandler } from "./NotFoundHandler.ts";
-import { cloneResponseMutableHeaders } from "../response/cloneResponseMutableHeaders.ts";
-import { composeMiddleware } from "./composeMiddleware.ts";
-import { error_handler } from "./error_handler.ts";
-import { notfound_handler } from "./notfound_handler.ts";
-import { request_to_options } from "./request_to_options.ts";
-
-const context_to_original_Request = new WeakMap<Context, Request>();
+export const context_to_original_Request = new WeakMap<Context, Request>();
 export function getOriginalRequest(ctx: Context): Request | undefined {
     return context_to_original_Request.get(ctx);
 }
@@ -72,19 +70,4 @@ export function createHandler<T = {}>(
             return await responseBuilder(context.response);
         }
     };
-}
-export function createContext<T = {}>(
-    request: Request,
-    options: T = {} as T,
-): Context<T> {
-    const response = cloneResponseMutableHeaders(new Response());
-    const context: Context<T> = {
-        request: request_to_options(request),
-        // arguments: { request, options: options },
-        response,
-        ...options,
-    };
-    context_to_original_Request.set(context, request);
-    context_to_original_Options.set(context, options);
-    return context as Context<T>;
 }

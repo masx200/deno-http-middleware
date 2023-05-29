@@ -1,7 +1,7 @@
-import { compose, Context, logger, Middleware } from "../mod.ts";
 import { assert, assertEquals, json } from "../deps.ts";
-import { createContext, createHandler } from "../src/createHandler.ts";
-
+import { compose, Context, logger, Middleware } from "../mod.ts";
+import { createContext } from "../src/createContext.ts";
+import { createHandler } from "../src/createHandler.ts";
 import { cors } from "./cors_all_get.ts";
 
 // import { expect } from "expect";

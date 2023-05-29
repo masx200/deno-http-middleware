@@ -1,4 +1,5 @@
 {
     "imports": {
+        "node:http2": "npm:@types/node@20.2.5/http2.d.ts"
     }
 }

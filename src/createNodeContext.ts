@@ -1,10 +1,10 @@
-import { Context } from "./Context.ts";
-import type { IncomingMessage } from "node:http";
-import { IncomingMessageToRequest } from "./IncomingMessageToRequest.ts";
 import { cloneResponseMutableHeaders } from "../response/cloneResponseMutableHeaders.ts";
+import { Context } from "./Context.ts";
 import { context_toIncomingMessage } from "./getIncomingMessage.ts";
+import { IncomingMessageToRequest } from "./IncomingMessageToRequest.ts";
 import { request_to_options } from "./request_to_options.ts";
 
+import type { IncomingMessage } from "./RequestListener.ts";
 export function createNodeContext(
     request: IncomingMessage,
 ): Context {

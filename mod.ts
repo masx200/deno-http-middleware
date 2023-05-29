@@ -7,8 +7,8 @@ import { html, json, text } from "./deps.ts";
 import { CorsOptions } from "./middleware/cors_all_get.ts";
 import { compose, composeMiddleware } from "./src/composeMiddleware.ts";
 import { Context } from "./src/Context.ts";
+import { createContext } from "./src/createContext.ts";
 import {
-    createContext,
     createHandler,
     getOriginalOptions,
     getOriginalRequest,

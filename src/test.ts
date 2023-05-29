@@ -1,7 +1,8 @@
-import { Middleware } from "./Middleware.ts";
 import { assertEquals } from "https://deno.land/std@0.189.0/testing/asserts.ts";
-import { handler } from "./createHandler.ts";
+
 import { logger } from "../middleware/logger.ts";
+import { handler } from "./createHandler.ts";
+import { Middleware } from "./Middleware.ts";
 
 // deno-lint-ignore-file require-await
 // import { expect } from "expect";
