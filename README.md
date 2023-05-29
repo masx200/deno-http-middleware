@@ -191,7 +191,7 @@ import { Middleware, RetHandler } from "../src/Middleware.ts";
 
 export const json_builder: Middleware = async function (
     context,
-    next
+    next,
 ): Promise<RetHandler> {
     await next();
     const { response } = context;
@@ -255,8 +255,8 @@ const server = createServer(
                 url: ctx.request.url,
                 headers: Object.fromEntries(ctx.request.headers),
             });
-        }
-    )
+        },
+    ),
 );
 const port = 9000;
 server.listen(port, () => console.log("http server listening port:" + port));

@@ -1,4 +1,7 @@
 {
+    "test": {
+        "files": { "exclude": ["test.mjs"] }
+    },
     "importMap": "import_map.json",
     "tasks": {
         "udd": " deno run -A https://deno.land/x/udd@0.8.2/main.ts '*/*.ts' '*.ts' '*.json'",
@@ -11,9 +14,7 @@
     },
     "fmt": {
         "files": {
-            "exclude": [
-                "node_modules"
-            ]
+            "exclude": ["node_modules"]
         },
         "options": {
             "indentWidth": 4,

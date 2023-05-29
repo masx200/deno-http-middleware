@@ -28,8 +28,8 @@ test("http get", async () => {
                     url: ctx.request.url,
                     headers: Object.fromEntries(ctx.request.headers),
                 });
-            }
-        )
+            },
+        ),
     );
     try {
         const port = 19000;
@@ -48,6 +48,7 @@ test("http get", async () => {
         assert.equal(data.remoteAddress, "::ffff:127.0.0.1");
         assert.equal(data.method, "GET");
         assert.equal(data.url, "http://127.0.0.1:" + port + "/");
+        assert.equal(data.localPort, port);
     } catch (e) {
         throw e;
     } finally {
@@ -79,8 +80,8 @@ test("http post", async () => {
                     url: ctx.request.url,
                     headers: Object.fromEntries(ctx.request.headers),
                 });
-            }
-        )
+            },
+        ),
     );
     try {
         const port = 19002;
@@ -95,6 +96,7 @@ test("http post", async () => {
         console.log(res);
         const data = await res.json();
         console.log(data);
+        assert.equal(data.localPort, port);
         assert.equal(res.status, 200);
         assert.equal(data.remoteAddress, "::ffff:127.0.0.1");
         assert.equal(data.method, "POST");
