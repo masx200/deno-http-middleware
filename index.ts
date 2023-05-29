@@ -13,7 +13,6 @@ import {
 import { response_builder, ResponseBuilder } from "./src/response_builder.ts";
 import { ret_processor, RetProcessor } from "./src/RetProcessor.ts";
 import { compose, composeMiddleware } from "./src/composeMiddleware.ts";
-import { getOriginalOptions, getOriginalRequest } from "./src/createHandler.ts";
 import { html, json, text } from "./deps.ts";
 
 import { Context } from "./src/Context.ts";
@@ -27,6 +26,7 @@ import { bodyToJSON } from "./body/bodyToJSON.ts";
 import { bodyToText } from "./body/bodyToText.ts";
 import { createNodeContext } from "./src/createNodeContext.ts";
 import { error_handler } from "./src/error_handler.ts";
+import { getIncomingMessage } from "./src/getIncomingMessage";
 import { notfound_handler } from "./src/notfound_handler.ts";
 
 export {
@@ -35,7 +35,7 @@ export {
     bodyToFormData,
     bodyToJSON,
     bodyToText,
-    getOriginalOptions,
+    getIncomingMessage,
     html,
     json,
     text,
@@ -46,7 +46,6 @@ export {
     createNodeContext,
     createRequestListener,
     error_handler,
-    getOriginalRequest as getOriginalRequest,
     listener,
     notfound_handler,
     response_builder,

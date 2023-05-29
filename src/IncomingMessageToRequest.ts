@@ -42,5 +42,7 @@ export function IncomingMessageToRequest(
             },
         });
     }
-    return new Request(url, { headers, method, body });
+    // deno-lint-ignore ban-ts-comment
+    //@ts-ignore
+    return new Request(url, { headers, method, body, duplex: "half" });
 }

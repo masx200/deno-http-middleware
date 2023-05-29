@@ -2,6 +2,8 @@
 
 `Deno` 原生 HTTP 服务器的中间件框架
 
+也提供了对于`nodejs`环境的适配
+
 这个中间件框架受到`Koa`的启发
 
 核心模块保持简洁,完全函数式编程,
@@ -83,6 +85,12 @@
 1. `Deno` 1.21.1
 
 #### 使用说明
+
+使用npm安装
+
+```
+npm i "@masx200/deno-http-middleware"
+```
 
 也可以从 `deno.land`导入
 
@@ -211,4 +219,36 @@ const h2: Middleware = () => {
     throw new Error("1");
 };
 const composed = handler(h1, h2);
+```
+
+## 在nodejs上运行一个简单的http服务器
+
+```ts
+import {
+    getIncomingMessage,
+    json,
+    listener,
+} from "@masx200/deno-http-middleware";
+
+import { createServer } from "http";
+
+const server = createServer(
+    listener((ctx, next) => {
+        const socket = getIncomingMessage(ctx).socket;
+        const { localAddress, localPort, remoteAddress, remotePort } = socket;
+
+        return json({
+            localAddress,
+            localPort,
+            remoteAddress,
+            remotePort,
+            method: ctx.request.method,
+            url: ctx.request.url,
+            headers: Object.fromEntries(ctx.request.headers),
+        });
+    }),
+);
+const port = 9000;
+server.listen(port, () => console.log("http server listening port:" + port));
+//server.close();
 ```
