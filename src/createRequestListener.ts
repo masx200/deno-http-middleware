@@ -1,7 +1,7 @@
 import { Middleware, RetHandler } from "./Middleware.ts";
 import type { RequestListener, ServerResponse } from "node:http";
-import { ResponseBuilder, response_builder } from "./response_builder.ts";
-import { RetProcessor, ret_processor } from "./RetProcessor.ts";
+import { response_builder, ResponseBuilder } from "./response_builder.ts";
+import { ret_processor, RetProcessor } from "./RetProcessor.ts";
 
 import { ErrorHandler } from "./ErrorHandler.ts";
 import type { IncomingMessage } from "node:http";
@@ -12,6 +12,11 @@ import { createNodeContext } from "./createNodeContext.ts";
 import { error_handler } from "./error_handler.ts";
 import { notfound_handler } from "./notfound_handler.ts";
 
+export function listener(
+    ...middleware: Array<Middleware> | Array<Middleware>[]
+): RequestListener {
+    return createRequestListener(middleware.flat());
+}
 export type { RequestListener };
 export function createRequestListener(
     middleware: Middleware[] = [],
