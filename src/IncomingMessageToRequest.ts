@@ -1,11 +1,11 @@
-import type { ServerRequest } from "./RequestListener.ts";
+import type { IncomingMessage } from "./RequestListener.ts";
 
 export function IncomingMessageToRequest(
-    request: ServerRequest,
+    request: IncomingMessage,
 ): Request {
     const method = request.method ?? "GET";
 
-    const host = request.headers.host ?? "localhost";
+    const host = request.authority ?? request.headers.host ?? "localhost";
     // deno-lint-ignore ban-ts-comment
     //@ts-ignore
     const protocol = (true === request.socket["encrypted"])
