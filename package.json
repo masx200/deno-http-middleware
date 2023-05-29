@@ -1,6 +1,6 @@
 {
     "name": "@masx200/deno-http-middleware",
-    "version": "3.0.1",
+    "version": "3.0.2",
     "type": "module",
     "description": "`Deno` 原生 HTTP 服务器的中间件框架",
     "main": "./dist/index.js",
