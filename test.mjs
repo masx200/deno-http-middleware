@@ -1,7 +1,7 @@
 import { getIncomingMessage, json, listener } from "./dist/index.js";
 
-import assert from "assert";
-import { createServer } from "http";
+import assert from "node:assert";
+import { createServer } from "node:http";
 import test from "node:test";
 
 test("http get", async () => {
