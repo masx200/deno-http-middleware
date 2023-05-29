@@ -86,7 +86,7 @@
 
 #### 使用说明
 
-使用npm安装
+使用 npm 安装
 
 ```
 npm i "@masx200/deno-http-middleware"
@@ -191,7 +191,7 @@ import { Middleware, RetHandler } from "../src/Middleware.ts";
 
 export const json_builder: Middleware = async function (
     context,
-    next,
+    next
 ): Promise<RetHandler> {
     await next();
     const { response } = context;
@@ -221,7 +221,7 @@ const h2: Middleware = () => {
 const composed = handler(h1, h2);
 ```
 
-## 在nodejs上运行一个简单的http服务器
+## 在 `nodejs` 上运行一个简单的 `http` 服务器
 
 ```ts
 import {
@@ -233,20 +233,30 @@ import {
 import { createServer } from "http";
 
 const server = createServer(
-    listener((ctx, next) => {
-        const socket = getIncomingMessage(ctx).socket;
-        const { localAddress, localPort, remoteAddress, remotePort } = socket;
+    listener(
+        async (_ctx, next) => {
+            try {
+                await next();
+            } catch (error) {
+                return new Response(error?.message, { status: 500 });
+            }
+        },
+        (ctx, next) => {
+            const socket = getIncomingMessage(ctx).socket;
+            const { localAddress, localPort, remoteAddress, remotePort } =
+                socket;
 
-        return json({
-            localAddress,
-            localPort,
-            remoteAddress,
-            remotePort,
-            method: ctx.request.method,
-            url: ctx.request.url,
-            headers: Object.fromEntries(ctx.request.headers),
-        });
-    }),
+            return json({
+                localAddress,
+                localPort,
+                remoteAddress,
+                remotePort,
+                method: ctx.request.method,
+                url: ctx.request.url,
+                headers: Object.fromEntries(ctx.request.headers),
+            });
+        }
+    )
 );
 const port = 9000;
 server.listen(port, () => console.log("http server listening port:" + port));

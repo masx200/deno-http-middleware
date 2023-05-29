@@ -6,21 +6,30 @@ import test from "node:test";
 
 test("http get", async () => {
     const server = createServer(
-        listener((ctx, next) => {
-            const socket = getIncomingMessage(ctx).socket;
-            const { localAddress, localPort, remoteAddress, remotePort } =
-                socket;
+        listener(
+            async (_ctx, next) => {
+                try {
+                    await next();
+                } catch (error) {
+                    return new Response(error?.message, { status: 500 });
+                }
+            },
+            (ctx, _next) => {
+                const socket = getIncomingMessage(ctx).socket;
+                const { localAddress, localPort, remoteAddress, remotePort } =
+                    socket;
 
-            return json({
-                localAddress,
-                localPort,
-                remoteAddress,
-                remotePort,
-                method: ctx.request.method,
-                url: ctx.request.url,
-                headers: Object.fromEntries(ctx.request.headers),
-            });
-        })
+                return json({
+                    localAddress,
+                    localPort,
+                    remoteAddress,
+                    remotePort,
+                    method: ctx.request.method,
+                    url: ctx.request.url,
+                    headers: Object.fromEntries(ctx.request.headers),
+                });
+            }
+        )
     );
     try {
         const port = 19000;
@@ -48,21 +57,30 @@ test("http get", async () => {
 
 test("http post", async () => {
     const server = createServer(
-        listener((ctx, next) => {
-            const socket = getIncomingMessage(ctx).socket;
-            const { localAddress, localPort, remoteAddress, remotePort } =
-                socket;
+        listener(
+            async (_ctx, next) => {
+                try {
+                    await next();
+                } catch (error) {
+                    return new Response(error?.message, { status: 500 });
+                }
+            },
+            (ctx, _next) => {
+                const socket = getIncomingMessage(ctx).socket;
+                const { localAddress, localPort, remoteAddress, remotePort } =
+                    socket;
 
-            return json({
-                localAddress,
-                localPort,
-                remoteAddress,
-                remotePort,
-                method: ctx.request.method,
-                url: ctx.request.url,
-                headers: Object.fromEntries(ctx.request.headers),
-            });
-        })
+                return json({
+                    localAddress,
+                    localPort,
+                    remoteAddress,
+                    remotePort,
+                    method: ctx.request.method,
+                    url: ctx.request.url,
+                    headers: Object.fromEntries(ctx.request.headers),
+                });
+            }
+        )
     );
     try {
         const port = 19002;
