@@ -8,10 +8,10 @@ import { ret_processor, RetProcessor } from "./RetProcessor.ts";
  * compose middleware
 https://github.com/koajs/compose
 */
-export function composeMiddleware<T = {}>(
-    middleware: Array<Middleware<T>>,
+export function composeMiddleware(
+    middleware: Array<Middleware>,
     ret_processor_fn: RetProcessor = ret_processor,
-): Middleware<T> {
+): Middleware {
     if (!Array.isArray(middleware)) {
         throw new TypeError("Middleware stack must be an array!");
     }
@@ -21,12 +21,12 @@ export function composeMiddleware<T = {}>(
         }
     }
     if (middleware.length === 0) {
-        const result: Middleware<T> = async (_context, next) => {
+        const result: Middleware = async (_context, next) => {
             await next();
         };
         return result;
     }
-    const ComposedMiddleware: Middleware<T> = async function (
+    const ComposedMiddleware: Middleware = async function (
         context,
         next,
     ): Promise<RetHandler> {
@@ -55,8 +55,8 @@ export function composeMiddleware<T = {}>(
     return ComposedMiddleware;
 }
 // deno-lint-ignore no-explicit-any
-export function compose<T = {}>(
-    ...middleware: Array<Middleware<T>> | Array<Middleware<T>>[]
-): Middleware<T> {
+export function compose(
+    ...middleware: Array<Middleware> | Array<Middleware>[]
+): Middleware {
     return composeMiddleware(middleware.flat());
 }

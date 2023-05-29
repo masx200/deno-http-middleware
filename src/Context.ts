@@ -1,9 +1,9 @@
 // deno-lint-ignore no-explicit-any
-export type Context<T = {}> = {
+export type Context = {
     request: RequestOptions;
     response: ResponseOptions;
     // arguments: { request: Request; options: T };
-} & T;
+};
 
 export interface ResponseOptions {
     headers: Headers;

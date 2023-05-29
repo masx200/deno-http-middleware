@@ -8,7 +8,7 @@ import ts from "rollup-plugin-ts";
 export default defineConfig([
     {
         external: ["@hattip/response"],
-        input: "./index.ts",
+        input: "./mod.ts",
         output: {
             file: "./dist/index.js",
             format: "esm",

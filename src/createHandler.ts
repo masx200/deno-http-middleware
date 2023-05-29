@@ -12,27 +12,20 @@ import { response_builder, ResponseBuilder } from "./response_builder.ts";
 import { ret_processor, RetProcessor } from "./RetProcessor.ts";
 
 export const context_to_original_Request = new WeakMap<Context, Request>();
-export function getOriginalRequest(ctx: Context): Request | undefined {
-    return context_to_original_Request.get(ctx);
-}
-export const context_to_original_Options = new WeakMap<Context<any>, any>();
-export function getOriginalOptions<T = {}>(ctx: Context<T>): T | undefined {
-    return context_to_original_Options.get(ctx);
-}
-
-export function handler<T = {}>(
-    ...middleware: Array<Middleware<T>> | Array<Middleware<T>>[]
-): Handler<T> {
+export const context_to_original_Options = new WeakMap<Context, any>();
+export function handler(
+    ...middleware: Array<Middleware> | Array<Middleware>[]
+): Handler {
     return createHandler(middleware.flat());
 }
-export type Handler<T = {}> = (
+export type Handler = (
     request: Request,
-    options?: T,
+    options?: any,
 ) => Promise<Response>;
 
 // deno-lint-ignore no-explicit-any
-export function createHandler<T = {}>(
-    middleware: Middleware<T>[] | Middleware<T> = [],
+export function createHandler(
+    middleware: Middleware[] | Middleware = [],
     {
         notfoundHandler = notfound_handler,
         errorHandler = error_handler,
@@ -44,16 +37,16 @@ export function createHandler<T = {}>(
         responseBuilder?: ResponseBuilder;
         retProcessor?: RetProcessor;
     } = {},
-): Handler<T> {
+): Handler {
     const composed = composeMiddleware(
         typeof middleware === "function" ? [middleware] : middleware,
         retProcessor,
     );
     return async function (
         request: Request,
-        options: T = {} as T,
+        options: any = {},
     ): Promise<Response> {
-        const context: Context<T> = createContext(request, options);
+        const context: Context = createContext(request, options);
         const next = async () => {
             context.response = await notfoundHandler(context);
             return context.response;

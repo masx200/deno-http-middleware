@@ -6,18 +6,18 @@ import {
 } from "./createHandler.ts";
 import { request_to_options } from "./request_to_options.ts";
 
-export function createContext<T = {}>(
+export function createContext(
     request: Request,
-    options: T = {} as T,
-): Context<T> {
+    options: any = {},
+): Context {
     const response = cloneResponseMutableHeaders(new Response());
-    const context: Context<T> = {
+    const context: Context = {
         request: request_to_options(request),
         // arguments: { request, options: options },
         response,
-        ...options,
+        // ...options,
     };
     context_to_original_Request.set(context, request);
     context_to_original_Options.set(context, options);
-    return context as Context<T>;
+    return context as Context;
 }

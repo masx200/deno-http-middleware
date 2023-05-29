@@ -8,6 +8,9 @@
         "test": "deno test -A --unstable --trace-ops"
     },
     "lint": {
+        "files": {
+            "exclude": ["node_modules", "dist"]
+        },
         "rules": {
             "exclude": ["no-explicit-any", "ban-types", "require-await"]
         }
