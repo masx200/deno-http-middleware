@@ -98,6 +98,12 @@ https://deno.land/x/masx200_deno_http_middleware/mod.ts
 
 https://deno.land/x/masx200_deno_http_middleware/middleware.ts
 
+`deno` 要设定`--import-map`参数
+
+```
+--import-map https://deno.land/x/masx200_deno_http_middleware@3.0.2/import_map.json
+```
+
 ### 使用自带的中间件举例
 
 ```ts
