@@ -1,6 +1,6 @@
 import { Middleware } from "./Middleware.ts";
 import type { RequestListener } from "./RequestListener.ts";
-import { createRequestListener } from "./createRequestListener";
+import { createRequestListener } from "./createRequestListener.ts";
 
 export function listener(
     ...middleware: Array<Middleware> | Array<Middleware>[]

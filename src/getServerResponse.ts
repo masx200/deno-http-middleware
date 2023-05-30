@@ -1,5 +1,5 @@
-import { Context } from "./Context";
-import { ServerResponse } from "./RequestListener";
+import { Context } from "./Context.ts";
+import { ServerResponse } from "./RequestListener.ts";
 
 export const context_toServerResponse = new WeakMap<
     Context,
