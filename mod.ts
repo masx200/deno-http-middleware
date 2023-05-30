@@ -8,7 +8,6 @@ import {
 } from "./src/Middleware.ts";
 import {
     createRequestListener,
-    listener,
     RequestListener,
 } from "./src/createRequestListener.ts";
 import { response_builder, ResponseBuilder } from "./src/response_builder.ts";
@@ -32,6 +31,7 @@ import { getIncomingMessage } from "./src/getIncomingMessage.ts";
 import { getOriginalOptions } from "./src/getOriginalOptions.ts";
 import { getOriginalRequest } from "./src/getOriginalRequest.ts";
 import { getServerResponse } from "./src/getServerResponse";
+import { listener } from "./src/listener";
 import { notfound_handler } from "./src/notfound_handler.ts";
 
 export * from "./middleware.ts";

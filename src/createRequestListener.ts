@@ -12,11 +12,6 @@ import { createNodeContext } from "./createNodeContext.ts";
 import { error_handler } from "./error_handler.ts";
 import { notfound_handler } from "./notfound_handler.ts";
 
-export function listener(
-    ...middleware: Array<Middleware> | Array<Middleware>[]
-): RequestListener {
-    return createRequestListener(middleware.flat());
-}
 export type { RequestListener };
 export function createRequestListener(
     middleware: Middleware[] = [],
