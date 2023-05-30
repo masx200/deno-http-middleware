@@ -31,47 +31,48 @@ import { error_handler } from "./src/error_handler.ts";
 import { getIncomingMessage } from "./src/getIncomingMessage.ts";
 import { getOriginalOptions } from "./src/getOriginalOptions.ts";
 import { getOriginalRequest } from "./src/getOriginalRequest.ts";
+import { getServerResponse } from "./src/getServerResponse";
 import { notfound_handler } from "./src/notfound_handler.ts";
 
+export * from "./middleware.ts";
 export {
     bodyToBlob,
     bodyToBuffer,
     bodyToFormData,
     bodyToJSON,
     bodyToText,
-    getOriginalOptions,
-    html,
-    json,
-    text,
-};
-export {
     compose,
     composeMiddleware,
     createContext,
     createHandler,
+    createNodeContext,
+    createRequestListener,
     error_handler,
+    getIncomingMessage,
+    getOriginalOptions,
     getOriginalRequest,
+    getServerResponse,
     handler,
+    html,
+    json,
+    listener,
     notfound_handler,
     response_builder,
     ret_processor,
+    text,
 };
 export type {
     Context,
+    CorsOptions,
     ErrorHandler,
     Handler,
     Middleware,
     NextFunction,
     NotFoundHandler,
+    RequestListener,
     RequestOptionsPartial,
     ResponseBuilder,
     ResponseOptionsPartial,
     RetHandler,
     RetProcessor,
 };
-export * from "./middleware.ts";
-export type { CorsOptions };
-export { getIncomingMessage };
-export { createNodeContext, createRequestListener, listener };
-export type { RequestListener };
-export * from "./middleware.ts";

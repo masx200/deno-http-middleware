@@ -1,16 +1,17 @@
+import { Middleware, RetHandler } from "./Middleware.ts";
+import type { RequestListener, ServerResponse } from "./RequestListener.ts";
+import { response_builder, ResponseBuilder } from "./response_builder.ts";
+import { ret_processor, RetProcessor } from "./RetProcessor.ts";
+
+import { ErrorHandler } from "./ErrorHandler.ts";
+import type { IncomingMessage } from "./RequestListener.ts";
+import { NotFoundHandler } from "./NotFoundHandler.ts";
+import { ResponseToServerResponse } from "./ResponseToServerResponse.ts";
 import { composeMiddleware } from "./composeMiddleware.ts";
 import { createNodeContext } from "./createNodeContext.ts";
 import { error_handler } from "./error_handler.ts";
-import { ErrorHandler } from "./ErrorHandler.ts";
-import { Middleware, RetHandler } from "./Middleware.ts";
 import { notfound_handler } from "./notfound_handler.ts";
-import { NotFoundHandler } from "./NotFoundHandler.ts";
-import { response_builder, ResponseBuilder } from "./response_builder.ts";
-import { ResponseToServerResponse } from "./ResponseToServerResponse.ts";
-import { ret_processor, RetProcessor } from "./RetProcessor.ts";
 
-import type { RequestListener, ServerResponse } from "./RequestListener.ts";
-import type { IncomingMessage } from "./RequestListener.ts";
 export function listener(
     ...middleware: Array<Middleware> | Array<Middleware>[]
 ): RequestListener {
@@ -39,7 +40,7 @@ export function createRequestListener(
         request: IncomingMessage,
         response: ServerResponse,
     ): Promise<void> {
-        const context = createNodeContext(request);
+        const context = createNodeContext(request, response);
         const next = async () => {
             context.response = await notfoundHandler(context);
             return context.response;
