@@ -7,7 +7,7 @@
     "types": "./dist/index.d.ts",
     "directories": {},
     "scripts": {
-        "test": "node --test test.mjs",
+        "test": "node --test test/test.mjs",
         "rollup": "rollup -c rollup.config.mjs"
     },
     "keywords": [],

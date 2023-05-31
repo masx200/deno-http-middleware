@@ -1,6 +1,6 @@
 {
     "test": {
-        "files": { "exclude": ["test.mjs"] }
+        "files": { "exclude": ["node_modules", "test/test.mjs", "dist"] }
     },
     "importMap": "import_map.json",
     "tasks": {
@@ -17,7 +17,7 @@
     },
     "fmt": {
         "files": {
-            "exclude": ["node_modules"]
+            "exclude": ["node_modules", "dist"]
         },
         "options": {
             "indentWidth": 4,
