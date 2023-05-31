@@ -32,7 +32,8 @@ Deno.test("serveDir", async () => {
     });
     try {
         const res = await fetch(`http://localhost:${port}/README.md`);
-
+        console.log(res);
+        assert(res.ok);
         const text = await res.text();
         assert(text.length);
         const file = await Deno.readTextFile("./README.md");
