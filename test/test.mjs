@@ -1,4 +1,4 @@
-import { getIncomingMessage, json, listener } from "./dist/index.js";
+import { getIncomingMessage, json, listener } from "../dist/index.js";
 
 import assert from "node:assert";
 import { createServer } from "node:http";
