@@ -7,7 +7,7 @@ export async function createEtagHash(
     const weak = options.weak;
     const def = '"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"';
     if (message.length === 0) return weak ? "W/" + def : def;
-    const algorithm = "sha-1";
+    const algorithm = "SHA-256";
     const encoder = new TextEncoder();
     const decoder = new TextDecoder();
     const msgUint8 = message instanceof Uint8Array
