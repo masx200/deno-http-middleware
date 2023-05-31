@@ -28,5 +28,5 @@ jobs:
       
     - run: npm i -g cnpm
     - run: cnpm i    
-    - run: npm run rollup
+    - run: npm run build
     - run: npm test

@@ -8,7 +8,7 @@
     "directories": {},
     "scripts": {
         "test": "node --test test/test.mjs",
-        "rollup": "rollup -c rollup.config.mjs"
+        "build": "rollup -c rollup.config.mjs"
     },
     "keywords": [],
     "author": "masx200 <34191203+masx200@users.noreply.github.com>",
