@@ -45,6 +45,7 @@ test("koa static file server", async () => {
 
     const start = masas[1];
     const stop = masas[2];
+    const mid = masas[0];
     const server = createServer(
         listener(async (_ctx, next) => {
             try {
@@ -54,7 +55,7 @@ test("koa static file server", async () => {
                     status: 500,
                 });
             }
-        }, masas[0]),
+        }, mid),
     );
     try {
         await start();
