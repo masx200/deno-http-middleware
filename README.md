@@ -2,7 +2,7 @@
 
 `Deno` 原生 HTTP 服务器的中间件框架
 
-也提供了对于`nodejs`环境的适配,可以使用`requestListenerToMiddleWare`函数把`nodejs`的请求处理器转换为中间件,也可以使用`listener`函数把中间件转换为`nodejs`的请求处理器
+## 提供了对于`nodejs`环境的适配,可以使用`requestListenerToMiddleWare`函数把`nodejs`的请求处理器转换为中间件,也可以使用`listener`函数把中间件转换为`nodejs`的请求处理器
 
 这个中间件框架受到`Koa`的启发
 
