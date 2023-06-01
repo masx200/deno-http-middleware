@@ -89,7 +89,7 @@ test("koa static file server", async () => {
 test("requestListenerToMiddleWare get", async () => {
     const port = Math.floor(Math.random() * 55535 + 10000);
 
-    const [mid, start, stop] = requestListenerToMiddleWare((req, res) => {
+    const [mid, start, stop] = requestListenerToMiddleWare((_req, res) => {
         // console.log(req, res);
         res.statusCode = 200;
         // debugger;
@@ -191,7 +191,7 @@ test("requestListenerToMiddleWare post", async () => {
 
 test("requestListenerToMiddleWare 404", async () => {
     const port = Math.floor(Math.random() * 55535 + 10000);
-    const [mid, start, stop] = requestListenerToMiddleWare((req, res) => {
+    const [mid, start, stop] = requestListenerToMiddleWare((_req, res) => {
         // console.log(req, res);
         res.statusCode = 404;
         // debugger;
