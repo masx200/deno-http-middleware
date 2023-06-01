@@ -40,12 +40,15 @@ export class MockServerRequest extends IncomingMessage implements PassThrough {
     _transform(
         chunk: any,
         encoding: BufferEncoding,
-        callback: TransformCallback,
+        callback: TransformCallback
     ): void {
         PassThrough.prototype._transform.call(this, chunk, encoding, callback);
     }
     _flush(callback: TransformCallback): void {
-        PassThrough.prototype._flush.call(this, callback);
+        // errored: TypeError: Cannot read properties of undefined (reading 'call')
+        // PassThrough.prototype._flush.call(this, callback);
+
+        callback();
     }
     writable: boolean = false;
     writableEnded: boolean = false;
@@ -59,13 +62,13 @@ export class MockServerRequest extends IncomingMessage implements PassThrough {
     _write(
         chunk: any,
         encoding: BufferEncoding,
-        callback: (error?: Error | null | undefined) => void,
+        callback: (error?: Error | null | undefined) => void
     ): void {
         PassThrough.prototype._write.call(this, chunk, encoding, callback);
     }
     _writev?(
         chunks: { chunk: any; encoding: BufferEncoding }[],
-        callback: (error?: Error | null | undefined) => void,
+        callback: (error?: Error | null | undefined) => void
     ): void {
         PassThrough.prototype._writev?.call(this, chunks, callback);
     }
@@ -75,11 +78,11 @@ export class MockServerRequest extends IncomingMessage implements PassThrough {
     write(
         chunk: any,
         encoding?: BufferEncoding | undefined,
-        cb?: ((error: Error | null | undefined) => void) | undefined,
+        cb?: ((error: Error | null | undefined) => void) | undefined
     ): boolean;
     write(
         chunk: any,
-        cb?: ((error: Error | null | undefined) => void) | undefined,
+        cb?: ((error: Error | null | undefined) => void) | undefined
     ): boolean;
     write(chunk: unknown, encoding?: unknown, cb?: unknown): boolean {
         //@ts-ignore
@@ -94,7 +97,7 @@ export class MockServerRequest extends IncomingMessage implements PassThrough {
     end(
         chunk: any,
         encoding?: BufferEncoding | undefined,
-        cb?: (() => void) | undefined,
+        cb?: (() => void) | undefined
     ): this;
     end(chunk?: unknown, encoding?: unknown, cb?: unknown): this {
         //@ts-ignore
