@@ -67,12 +67,13 @@ test("http post", async () => {
                     return new Response(error?.message, { status: 500 });
                 }
             },
-            (ctx, _next) => {
+            async (ctx, _next) => {
                 const socket = getIncomingMessage(ctx).socket;
                 const { localAddress, localPort, remoteAddress, remotePort } =
                     socket;
-
+                const body = await ctx.request.text();
                 return json({
+                    body,
                     localAddress,
                     localPort,
                     remoteAddress,
@@ -92,9 +93,13 @@ test("http post", async () => {
                 res();
             });
         });
-        const res = await fetch("http://127.0.0.1:" + port, { method: "POST" });
+        const res = await fetch("http://127.0.0.1:" + port, {
+            method: "POST",
+            body: "hello world!",
+        });
         console.log(res);
         const data = await res.json();
+        assert.equal(data.body, "hello world!");
         console.log(data);
         assert.equal(data.localPort, port);
         assert.equal(res.status, 200);
