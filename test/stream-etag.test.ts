@@ -1,8 +1,9 @@
 import { assert, assertEquals, serve } from "../deps.ts";
+
 import { conditional_get } from "../middleware/conditional_get.ts";
+import { createHandler } from "../src/createHandler.ts";
 import { logger } from "../middleware/logger.ts";
 import { stream_etag } from "../middleware/stream_etag.ts";
-import { createHandler } from "../src/createHandler.ts";
 
 Deno.test(
     "etag-conditional_get-stream-body-greater-than-sizelimit",
@@ -55,7 +56,7 @@ Deno.test(
     async () => {
         const filename = new URL("../README.md", import.meta.url);
         const controller = new AbortController();
-        const port = Math.floor(Math.random() * 50000 + 10000);
+        const port = Math.floor(Math.random() * 45535 + 20000);
         const handler = createHandler([
             logger,
             conditional_get,

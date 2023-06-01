@@ -13,7 +13,7 @@ export class MockServerResponse extends PassThrough implements ServerResponse {
         this.#serverResponse = new ServerResponse(req);
         const transform = new TransformStream<Uint8Array>();
         this.#readable = transform.readable;
-
+        //@ts-ignore
         this.pipe(Writable.fromWeb(transform.writable));
     }
     get statusCode(): number {
@@ -31,9 +31,11 @@ export class MockServerResponse extends PassThrough implements ServerResponse {
     }
 
     public get strictContentLength(): boolean {
+        //@ts-ignore
         return this.#serverResponse.strictContentLength;
     }
     public set strictContentLength(value: boolean) {
+        //@ts-ignore
         this.#serverResponse.strictContentLength = value;
     }
     assignSocket(socket: Socket): void {
@@ -133,6 +135,7 @@ export class MockServerResponse extends PassThrough implements ServerResponse {
         return this;
     }
     appendHeader(name: string, value: string | readonly string[]): this {
+        //@ts-ignore
         this.#serverResponse.appendHeader(name, value);
         return this;
     }

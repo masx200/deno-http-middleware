@@ -51,8 +51,8 @@ test("koa static file server", async () => {
             },
             requestListenerToMiddleWare((req, res) => {
                 app.callback()(req, res);
-            })
-        )
+            }),
+        ),
     );
     try {
         await new Promise((res) => {
@@ -71,7 +71,7 @@ test("koa static file server", async () => {
 
         assert.equal(
             data,
-            new TextDecoder().decode(await fse.readFile("./README.md"))
+            new TextDecoder().decode(await fse.readFile("./README.md")),
         );
         console.log(Object.fromEntries(res.headers));
     } catch (e) {
@@ -99,8 +99,8 @@ test("requestListenerToMiddleWare", async () => {
                 res.statusCode = 200;
                 // debugger;
                 res.end("hello world!");
-            })
-        )
+            }),
+        ),
     );
     try {
         await new Promise((res) => {

@@ -60,9 +60,11 @@ export class MockServerRequest extends PassThrough implements IncomingMessage {
     }
 
     get headersDistinct(): NodeJS.Dict<string[]> {
+        //@ts-ignore
         return this.#incomingMessage.headersDistinct;
     }
     set headersDistinct(value) {
+        //@ts-ignore
         this.#incomingMessage.headersDistinct = value;
     }
     get rawHeaders(): string[] {
@@ -72,6 +74,7 @@ export class MockServerRequest extends PassThrough implements IncomingMessage {
         return this.#incomingMessage.trailers;
     }
     get trailersDistinct(): NodeJS.Dict<string[]> {
+        //@ts-ignore
         return this.#incomingMessage.trailersDistinct;
     }
     get rawTrailers(): string[] {
