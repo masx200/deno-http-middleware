@@ -1,89 +1,82 @@
+import { IncomingMessage, ServerResponse } from "node:http";
+import { OutgoingHttpHeader, OutgoingHttpHeaders } from "http";
 import { PassThrough, Writable } from "node:stream";
 
-import { IncomingMessage } from "node:http";
-import { ServerResponse } from "node:http";
-import { TransformCallback } from "stream";
+import { Socket } from "net";
 
-//@ts-ignore
-export class MockServerResponse extends ServerResponse implements PassThrough {
+export class MockServerResponse extends PassThrough implements ServerResponse {
     #readable: ReadableStream<Uint8Array>;
     #writable: WritableStream<Uint8Array>;
     constructor(req: IncomingMessage) {
-        super(req);
-        //@ts-ignore
-        Object.assign(this, PassThrough.call(this));
+        super();
+
         const transform = new TransformStream<Uint8Array>();
         this.#readable = transform.readable;
         this.#writable = transform.writable;
 
         this.pipe(Writable.fromWeb(this.#writable));
     }
-    //@ts-ignore
-    override pipe<T extends Writable>(
-        d: T,
-        o?: { end?: boolean | undefined } | undefined,
-    ): T {
-        //@ts-ignore
-
-        return PassThrough.prototype.pipe.call(this, d, o);
+    statusCode: number;
+    statusMessage: string;
+    strictContentLength: boolean;
+    assignSocket(socket: Socket): void {
+        throw new Error("Method not implemented.");
     }
-    _transform(
-        chunk: any,
-        encoding: BufferEncoding,
-        callback: TransformCallback,
-    ): void {
-        PassThrough.prototype._transform.call(this, chunk, encoding, callback);
+    detachSocket(socket: Socket): void {
+        throw new Error("Method not implemented.");
     }
-    _flush(callback: TransformCallback): void {
-        PassThrough.prototype._flush.call(this, callback);
+    writeContinue(callback?: (() => void) | undefined): void {
+        throw new Error("Method not implemented.");
     }
-    allowHalfOpen: boolean = false;
-    readableAborted: boolean = false;
-    readable: boolean = false;
-    readableDidRead: boolean = false;
-    readableEncoding: BufferEncoding | null = null;
-    readableEnded: boolean = false;
-    readableFlowing: boolean | null = false;
-    readableHighWaterMark: number = 0;
-    readableLength: number = 0;
-    readableObjectMode: boolean = false;
-    _read(size: number): void {
-        PassThrough.prototype._read.call(this, size);
+    writeEarlyHints(hints: Record<string, string | string[]>, callback?: (() => void) | undefined): void {
+        throw new Error("Method not implemented.");
     }
-    read(size?: number | undefined) {
-        PassThrough.prototype.read.call(this, size);
+    writeHead(statusCode: number, statusMessage?: string | undefined, headers?: OutgoingHttpHeaders | OutgoingHttpHeader[] | undefined): this;
+    writeHead(statusCode: number, headers?: OutgoingHttpHeaders | OutgoingHttpHeader[] | undefined): this;
+    writeHead(statusCode: unknown, statusMessage?: unknown, headers?: unknown): this {
+        throw new Error("Method not implemented.");
     }
-    setEncoding(encoding: BufferEncoding): this {
-        //@ts-ignore
-        return PassThrough.prototype.setEncoding.call(this, encoding);
+    writeProcessing(): void {
+        throw new Error("Method not implemented.");
     }
-    pause(): this {
-        //@ts-ignore
-        return PassThrough.prototype.pause.call(this);
+    req: IncomingMessage;
+    chunkedEncoding: boolean;
+    shouldKeepAlive: boolean;
+    useChunkedEncodingByDefault: boolean;
+    sendDate: boolean;
+    finished: boolean;
+    headersSent: boolean;
+    connection: Socket | null;
+    socket: Socket | null;
+    setTimeout(msecs: number, callback?: (() => void) | undefined): this {
+        throw new Error("Method not implemented.");
     }
-    resume(): this {
-        //@ts-ignore
-        return PassThrough.prototype.resume.call(this);
+    setHeader(name: string, value: string | number | readonly string[]): this {
+        throw new Error("Method not implemented.");
     }
-    isPaused(): boolean {
-        return PassThrough.prototype.isPaused.call(this);
+    appendHeader(name: string, value: string | readonly string[]): this {
+        throw new Error("Method not implemented.");
     }
-    unpipe(destination?: NodeJS.WritableStream | undefined): this {
-        //@ts-ignore
-        return PassThrough.prototype.unpipe.call(this, destination);
+    getHeader(name: string): string | number | string[] | undefined {
+        throw new Error("Method not implemented.");
     }
-    unshift(chunk: any, encoding?: BufferEncoding | undefined): void {
-        PassThrough.prototype.unshift.call(this, chunk, encoding);
+    getHeaders(): OutgoingHttpHeaders {
+        throw new Error("Method not implemented.");
     }
-    wrap(stream: NodeJS.ReadableStream): this {
-        //@ts-ignore
-        return PassThrough.prototype.wrap.call(this, stream);
+    getHeaderNames(): string[] {
+        throw new Error("Method not implemented.");
     }
-    push(chunk: any, encoding?: BufferEncoding | undefined): boolean {
-        return PassThrough.prototype.push.call(this, chunk, encoding);
+    hasHeader(name: string): boolean {
+        throw new Error("Method not implemented.");
     }
-    [Symbol.asyncIterator](): AsyncIterableIterator<any> {
-        return PassThrough.prototype[Symbol.asyncIterator].call(this);
+    removeHeader(name: string): void {
+        throw new Error("Method not implemented.");
+    }
+    addTrailers(headers: OutgoingHttpHeaders | readonly [string, string][]): void {
+        throw new Error("Method not implemented.");
+    }
+    flushHeaders(): void {
+        throw new Error("Method not implemented.");
     }
 
     toResponse(): Response {

@@ -1,17 +1,15 @@
 import { PassThrough, Readable } from "node:stream";
 
+import { IncomingHttpHeaders } from "http";
 import { IncomingMessage } from "node:http";
 import { Socket } from "node:net";
-import { TransformCallback } from "node:stream";
 
-//@ts-ignore
-export class MockServerRequest extends IncomingMessage implements PassThrough {
+export class MockServerRequest extends PassThrough implements IncomingMessage {
     #request: Request;
 
     constructor(socket: Socket, request: Request) {
-        super(socket);
-        //@ts-ignore
-        Object.assign(this, PassThrough.call(this));
+        super();
+
         this.#request = request;
 
         this.method = this.#request.method;
@@ -37,76 +35,24 @@ export class MockServerRequest extends IncomingMessage implements PassThrough {
             this.end();
         }
     }
-    _transform(
-        chunk: any,
-        encoding: BufferEncoding,
-        callback: TransformCallback
-    ): void {
-        PassThrough.prototype._transform.call(this, chunk, encoding, callback);
+    aborted: boolean;
+    httpVersion: string;
+    httpVersionMajor: number;
+    httpVersionMinor: number;
+    complete: boolean;
+    connection: Socket;
+    socket: Socket;
+    headers: IncomingHttpHeaders;
+    headersDistinct: NodeJS.Dict<string[]>;
+    rawHeaders: string[];
+    trailers: NodeJS.Dict<string>;
+    trailersDistinct: NodeJS.Dict<string[]>;
+    rawTrailers: string[];
+    setTimeout(msecs: number, callback?: (() => void) | undefined): this {
+        throw new Error("Method not implemented.");
     }
-    _flush(callback: TransformCallback): void {
-        // errored: TypeError: Cannot read properties of undefined (reading 'call')
-        // PassThrough.prototype._flush.call(this, callback);
-
-        callback();
-    }
-    writable: boolean = false;
-    writableEnded: boolean = false;
-    writableFinished: boolean = false;
-    writableHighWaterMark: number = 0;
-    writableLength: number = 0;
-    writableObjectMode: boolean = false;
-    writableCorked: number = 0;
-    writableNeedDrain: boolean = false;
-    allowHalfOpen: boolean = false;
-    _write(
-        chunk: any,
-        encoding: BufferEncoding,
-        callback: (error?: Error | null | undefined) => void
-    ): void {
-        PassThrough.prototype._write.call(this, chunk, encoding, callback);
-    }
-    _writev?(
-        chunks: { chunk: any; encoding: BufferEncoding }[],
-        callback: (error?: Error | null | undefined) => void
-    ): void {
-        PassThrough.prototype._writev?.call(this, chunks, callback);
-    }
-    _final(callback: (error?: Error | null | undefined) => void): void {
-        PassThrough.prototype._final.call(this, callback);
-    }
-    write(
-        chunk: any,
-        encoding?: BufferEncoding | undefined,
-        cb?: ((error: Error | null | undefined) => void) | undefined
-    ): boolean;
-    write(
-        chunk: any,
-        cb?: ((error: Error | null | undefined) => void) | undefined
-    ): boolean;
-    write(chunk: unknown, encoding?: unknown, cb?: unknown): boolean {
-        //@ts-ignore
-        return PassThrough.prototype.write.call(this, chunk, encoding, cb);
-    }
-    setDefaultEncoding(encoding: BufferEncoding): this {
-        //@ts-ignore
-        return PassThrough.prototype.setDefaultEncoding.call(this, encoding);
-    }
-    end(cb?: (() => void) | undefined): this;
-    end(chunk: any, cb?: (() => void) | undefined): this;
-    end(
-        chunk: any,
-        encoding?: BufferEncoding | undefined,
-        cb?: (() => void) | undefined
-    ): this;
-    end(chunk?: unknown, encoding?: unknown, cb?: unknown): this {
-        //@ts-ignore
-        return PassThrough.prototype.end.call(this, chunk, encoding, cb);
-    }
-    cork(): void {
-        PassThrough.prototype.cork.call(this);
-    }
-    uncork(): void {
-        PassThrough.prototype.uncork.call(this);
-    }
+    method?: string | undefined;
+    url?: string | undefined;
+    statusCode?: number | undefined;
+    statusMessage?: string | undefined;
 }
