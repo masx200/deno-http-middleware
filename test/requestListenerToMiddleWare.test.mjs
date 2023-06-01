@@ -130,7 +130,7 @@ test("requestListenerToMiddleWare post", async () => {
     const app = express();
     app.use(bodyParser.text({ type: "text/plain" }));
     app.use((req, res) => {
-        debugger;
+        // debugger;
         console.log(req, res);
         // console.log(req.read.toString());
         res.end(req.body);
@@ -152,7 +152,7 @@ test("requestListenerToMiddleWare post", async () => {
             },
             requestListenerToMiddleWare((req, res) => {
                 console.log(req, res);
-                debugger;
+                // debugger;
                 // console.log(req.read.toString());
                 app(req, res);
             }),

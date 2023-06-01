@@ -1,10 +1,8 @@
 import { Middleware, NextFunction, RetHandler } from "../src/Middleware.ts";
 
 import { Context } from "../mod.ts";
-import { MockServerRequest } from "./MockServerRequest.ts";
-import { MockServerResponse } from "./MockServerResponse.ts";
 import { RequestListener } from "./RequestListener.ts";
-import { Socket } from "node:net";
+import { createServer } from "node:http";
 
 export function requestListenerToMiddleWare(
     requestListener: RequestListener,
@@ -13,28 +11,46 @@ export function requestListenerToMiddleWare(
         context: Context,
         next: NextFunction,
     ): Promise<RetHandler> => {
-        const req = new MockServerRequest(
-            new Socket(),
-            new Request(context.request.url, {
-                ...context.request,
-
-                //@ts-ignore
-
-                duplex: "half",
-            }),
-        );
-
-        const res = new MockServerResponse(req);
+        const host = `127.${Math.floor(Math.random() * 253 + 1)}.${
+            Math.floor(
+                Math.random() * 253 + 1,
+            )
+        }.${Math.floor(Math.random() * 253 + 1)}`;
+        const port = Math.floor(Math.random() * 55535 + 10000);
         //@ts-ignore
-        requestListener(req, res);
-        await new Promise((s, j) => {
-            res.on("error", j);
-            res.on("finish", s);
-        });
-        const response = res.toResponse();
+        const server = createServer(requestListener);
 
-        if (response.status === 404) return next();
+        try {
+            await new Promise<void>((res) => {
+                server.listen(port, host, () => {
+                    console.log(
+                        `http server listening host:${host} port:` + port,
+                    );
 
-        return response;
+                    res();
+                });
+            });
+
+            const origin = `http://${host}:${port}`;
+
+            const urlobj = new URL(context.request.url);
+            urlobj.origin;
+            const response = await fetch(
+                origin + urlobj.href.slice(urlobj.origin.length),
+                {
+                    ...context.request,
+                    //@ts-ignore
+
+                    duplex: "half",
+                },
+            );
+            if (response.status === 404) return next();
+
+            return response;
+        } catch (e) {
+            throw e;
+        } finally {
+            server.close();
+        }
     };
 }
