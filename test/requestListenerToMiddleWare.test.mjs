@@ -65,9 +65,9 @@ test("koa static file server", async () => {
             });
         });
         const res = await fetch("http://127.0.0.1:" + port + "/README.md");
-        console.log(res);
+        // console.log(res);
         const data = await res.text();
-        console.log(data);
+        // console.log(data);
         assert(data.length);
         assert.equal(res.status, 200);
 
@@ -75,7 +75,7 @@ test("koa static file server", async () => {
             data,
             new TextDecoder().decode(await fse.readFile("./README.md")),
         );
-        console.log(Object.fromEntries(res.headers));
+        // console.log(Object.fromEntries(res.headers));
     } catch (e) {
         throw e;
     } finally {
@@ -97,7 +97,7 @@ test("requestListenerToMiddleWare get", async () => {
                 }
             },
             requestListenerToMiddleWare((req, res) => {
-                console.log(req, res);
+                // console.log(req, res);
                 res.statusCode = 200;
                 // debugger;
                 res.end("hello world!");
@@ -113,9 +113,9 @@ test("requestListenerToMiddleWare get", async () => {
             });
         });
         const res = await fetch("http://127.0.0.1:" + port);
-        console.log(res);
+        // console.log(res);
         const data = await res.text();
-        console.log(data);
+        // console.log(data);
         assert.equal(res.status, 200);
 
         assert.equal(data, "hello world!");
@@ -131,12 +131,12 @@ test("requestListenerToMiddleWare post", async () => {
     app.use(bodyParser.text({ type: "text/plain" }));
     app.use((req, res) => {
         // debugger;
-        console.log(req, res);
+        // console.log(req, res);
         // console.log(req.read.toString());
         res.end(req.body);
     });
 
-    console.log(app);
+    // console.log(app);
     // debugger;
     const port = Math.floor(Math.random() * 55535 + 10000);
     const server = createServer(
@@ -151,7 +151,7 @@ test("requestListenerToMiddleWare post", async () => {
                 }
             },
             requestListenerToMiddleWare((req, res) => {
-                console.log(req, res);
+                // console.log(req, res);
                 // debugger;
                 // console.log(req.read.toString());
                 app(req, res);
@@ -171,9 +171,9 @@ test("requestListenerToMiddleWare post", async () => {
             body: "hello world!",
             headers: { "content-type": "text/plain" },
         });
-        console.log(res);
+        // console.log(res);
         const data = await res.text();
-        console.log(data);
+        // console.log(data);
         assert.equal(res.status, 200);
 
         assert.equal(data, "hello world!");
@@ -198,7 +198,7 @@ test("requestListenerToMiddleWare 404", async () => {
                 }
             },
             requestListenerToMiddleWare((req, res) => {
-                console.log(req, res);
+                // console.log(req, res);
                 res.statusCode = 404;
                 // debugger;
                 res.end("not found!");
@@ -215,9 +215,9 @@ test("requestListenerToMiddleWare 404", async () => {
             });
         });
         const res = await fetch("http://127.0.0.1:" + port);
-        console.log(res);
+        // console.log(res);
         const data = await res.text();
-        console.log(data);
+        // console.log(data);
         assert.equal(res.status, 200);
 
         assert.equal(data, "hello world!");

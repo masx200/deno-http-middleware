@@ -46,9 +46,9 @@ test("http get", async () => {
             });
         });
         const res = await fetch("http://127.0.0.1:" + port);
-        console.log(res);
+        // console.log(res);
         const data = await res.json();
-        console.log(data);
+        // console.log(data);
         assert.equal(res.status, 200);
         assert.equal(data.remoteAddress, "::ffff:127.0.0.1");
         assert.equal(data.method, "GET");
@@ -105,10 +105,10 @@ test("http post", async () => {
             method: "POST",
             body: "hello world!",
         });
-        console.log(res);
+        // console.log(res);
         const data = await res.json();
         assert.equal(data.body, "hello world!");
-        console.log(data);
+        // console.log(data);
         assert.equal(data.localPort, port);
         assert.equal(res.status, 200);
         assert.equal(data.remoteAddress, "::ffff:127.0.0.1");
