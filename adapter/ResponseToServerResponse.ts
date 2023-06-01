@@ -12,6 +12,8 @@ export async function ResponseToServerResponse(
     serverResponse.writeHead(response.status, response.statusText);
 
     if (response.body) {
+        //https://nodejs.org/dist/latest-v18.x/docs/api/webstreams.html#async-iteration
+        //@ts-ignore
         for await (const chunk of response.body) {
             const { promise, resolve, reject } = createDeferred<void>();
             // deno-lint-ignore no-explicit-any

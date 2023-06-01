@@ -12,7 +12,12 @@
             "exclude": ["node_modules", "dist"]
         },
         "rules": {
-            "exclude": ["no-explicit-any", "ban-types", "require-await"]
+            "exclude": [
+                "no-explicit-any",
+                "ban-types",
+                "require-await",
+                "ban-ts-comment"
+            ]
         }
     },
     "fmt": {
