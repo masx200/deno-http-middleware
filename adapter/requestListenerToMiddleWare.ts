@@ -5,31 +5,17 @@ import { RequestListener } from "./RequestListener.ts";
 import { createServer } from "node:http";
 
 export function requestListenerToMiddleWare(
-    requestListener: RequestListener,
-): Middleware {
-    return async (
-        context: Context,
-        next: NextFunction,
-    ): Promise<RetHandler> => {
-        const host = `127.${Math.floor(Math.random() * 253 + 1)}.${
-            Math.floor(
-                Math.random() * 253 + 1,
-            )
-        }.${Math.floor(Math.random() * 253 + 1)}`;
-        const port = Math.floor(Math.random() * 55535 + 10000);
-        //@ts-ignore
-        const server = createServer(requestListener);
-
-        try {
-            await new Promise<void>((res) => {
-                server.listen(port, host, () => {
-                    console.log(
-                        `http server listening host:${host} port:` + port,
-                    );
-
-                    res();
-                });
-            });
+    requestListener: RequestListener
+): [Middleware, () => Promise<void>, () => void] {
+    //@ts-ignore
+    const server = createServer(requestListener);
+    const host = `127.${Math.floor(Math.random() * 253 + 1)}.${Math.floor(
+        Math.random() * 253 + 1
+    )}.${Math.floor(Math.random() * 253 + 1)}`;
+    const port = Math.floor(Math.random() * 55535 + 10000);
+    return [
+        async (context: Context, next: NextFunction): Promise<RetHandler> => {
+            //@ts-ignore
 
             const origin = `http://${host}:${port}`;
 
@@ -42,14 +28,25 @@ export function requestListenerToMiddleWare(
                     //@ts-ignore
 
                     duplex: "half",
-                },
+                }
             );
             if (response.status === 404) return next();
 
             return response;
-        } catch (e) {
-            throw e;
-        } finally {
-        }
-    };
+        },
+        async () =>
+            new Promise((s) => {
+                server.listen(port, host, () => {
+                    console.log(
+                        `http server listening host:${host} port:` + port
+                    );
+
+                    s();
+                });
+            }),
+        () =>
+            server.close(() => {
+                console.log(`http server closed host:${host} port:` + port);
+            }),
+    ];
 }
