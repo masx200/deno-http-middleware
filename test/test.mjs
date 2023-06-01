@@ -1,4 +1,9 @@
-import { getIncomingMessage, json, listener } from "../dist/index.js";
+import {
+    bodyToText,
+    getIncomingMessage,
+    json,
+    listener,
+} from "../dist/index.js";
 
 import assert from "node:assert";
 import { createServer } from "node:http";
@@ -71,7 +76,10 @@ test("http post", async () => {
                 const socket = getIncomingMessage(ctx).socket;
                 const { localAddress, localPort, remoteAddress, remotePort } =
                     socket;
-                const body = await ctx.request.text();
+                const body = await bodyToText(
+                    ctx.request.body,
+                    ctx.request.headers,
+                );
                 return json({
                     body,
                     localAddress,
