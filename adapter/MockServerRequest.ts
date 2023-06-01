@@ -79,7 +79,8 @@ export class MockServerRequest extends PassThrough implements IncomingMessage {
     }
     setTimeout(msecs: number, callback?: (() => void) | undefined): this {
         //@ts-ignore
-        return this.#incomingMessage.setTimeout(msecs, callback);
+        this.#incomingMessage.setTimeout(msecs, callback);
+        return this;
     }
     get method(): string | undefined {
         return this.#incomingMessage.method;

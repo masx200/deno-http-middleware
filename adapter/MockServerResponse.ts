@@ -16,23 +16,40 @@ export class MockServerResponse extends PassThrough implements ServerResponse {
 
         this.pipe(Writable.fromWeb(transform.writable));
     }
-    statusCode: number;
-    statusMessage: string;
-    strictContentLength: boolean;
+    get statusCode(): number {
+        return this.#serverResponse.statusCode;
+    }
+    set statusCode(value) {
+        this.#serverResponse.statusCode = value;
+    }
+
+    public get statusMessage(): string {
+        return this.#serverResponse.statusMessage;
+    }
+    public set statusMessage(value: string) {
+        this.#serverResponse.statusMessage = value;
+    }
+
+    public get strictContentLength(): boolean {
+        return this.#serverResponse.strictContentLength;
+    }
+    public set strictContentLength(value: boolean) {
+        this.#serverResponse.strictContentLength = value;
+    }
     assignSocket(socket: Socket): void {
-        throw new Error("Method not implemented.");
+        return this.#serverResponse.assignSocket(socket);
     }
     detachSocket(socket: Socket): void {
-        throw new Error("Method not implemented.");
+        return this.#serverResponse.detachSocket(socket);
     }
     writeContinue(callback?: (() => void) | undefined): void {
-        throw new Error("Method not implemented.");
+        return this.#serverResponse.writeContinue(callback);
     }
     writeEarlyHints(
         hints: Record<string, string | string[]>,
         callback?: (() => void) | undefined,
     ): void {
-        throw new Error("Method not implemented.");
+        return this.#serverResponse.writeEarlyHints(hints, callback);
     }
     writeHead(
         statusCode: number,
@@ -48,10 +65,12 @@ export class MockServerResponse extends PassThrough implements ServerResponse {
         statusMessage?: unknown,
         headers?: unknown,
     ): this {
-        throw new Error("Method not implemented.");
+        //@ts-ignore
+        this.#serverResponse.writeHead(statusCode, statusMessage, headers);
+        return this;
     }
     writeProcessing(): void {
-        throw new Error("Method not implemented.");
+        return this.#serverResponse.writeProcessing();
     }
     req: IncomingMessage;
     chunkedEncoding: boolean;
@@ -63,36 +82,39 @@ export class MockServerResponse extends PassThrough implements ServerResponse {
     connection: Socket | null;
     socket: Socket | null;
     setTimeout(msecs: number, callback?: (() => void) | undefined): this {
-        throw new Error("Method not implemented.");
+        this.#serverResponse.setTimeout(msecs, callback);
+        return this;
     }
     setHeader(name: string, value: string | number | readonly string[]): this {
-        throw new Error("Method not implemented.");
+        this.#serverResponse.setHeader(name, value);
+        return this;
     }
     appendHeader(name: string, value: string | readonly string[]): this {
-        throw new Error("Method not implemented.");
+        this.#serverResponse.appendHeader(name, value);
+        return this;
     }
     getHeader(name: string): string | number | string[] | undefined {
-        throw new Error("Method not implemented.");
+        return this.#serverResponse.getHeader(name);
     }
     getHeaders(): OutgoingHttpHeaders {
-        throw new Error("Method not implemented.");
+        return this.#serverResponse.getHeaders();
     }
     getHeaderNames(): string[] {
-        throw new Error("Method not implemented.");
+        return this.#serverResponse.getHeaderNames();
     }
     hasHeader(name: string): boolean {
-        throw new Error("Method not implemented.");
+        return this.#serverResponse.hasHeader(name);
     }
     removeHeader(name: string): void {
-        throw new Error("Method not implemented.");
+        return this.#serverResponse.removeHeader(name);
     }
     addTrailers(
         headers: OutgoingHttpHeaders | readonly [string, string][],
     ): void {
-        throw new Error("Method not implemented.");
+        this.#serverResponse.addTrailers(headers);
     }
     flushHeaders(): void {
-        throw new Error("Method not implemented.");
+        return this.#serverResponse.flushHeaders();
     }
 
     toResponse(): Response {
