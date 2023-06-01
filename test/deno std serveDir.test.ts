@@ -40,6 +40,7 @@ Deno.test("deno std serveDir", async () => {
         console.log(text);
         const file = await Deno.readTextFile("./README.md");
         assertEquals(text, file);
+        console.log(Object.fromEntries(res.headers));
     } catch (error) {
         throw error;
     } finally {
