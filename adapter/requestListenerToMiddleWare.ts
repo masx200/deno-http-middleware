@@ -15,7 +15,13 @@ export function requestListenerToMiddleWare(
     ): Promise<RetHandler> => {
         const req = new MockServerRequest(
             new Socket(),
-            new Request(context.request.url, context.request),
+            new Request(context.request.url, {
+                ...context.request,
+
+                //@ts-ignore
+
+                duplex: "half",
+            }),
         );
 
         const res = new MockServerResponse(req);

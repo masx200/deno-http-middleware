@@ -10,11 +10,21 @@ export class MockServerResponse extends PassThrough implements ServerResponse {
     #serverResponse: ServerResponse<IncomingMessage>;
     constructor(req: IncomingMessage) {
         super();
+        //prototype会被express改掉?
+        this.read = this.read.bind(this);
         this.#serverResponse = new ServerResponse(req);
         const transform = new TransformStream<Uint8Array>();
         this.#readable = transform.readable;
         //@ts-ignore
         this.pipe(Writable.fromWeb(transform.writable));
+        //绑定所有原型函数
+        for (const key in this) {
+            const fn = this[key];
+            if (typeof fn === "function") {
+                //@ts-ignore
+                this[key] = fn.bind(this);
+            }
+        }
     }
     get statusCode(): number {
         return this.#serverResponse.statusCode;
@@ -49,23 +59,23 @@ export class MockServerResponse extends PassThrough implements ServerResponse {
     }
     writeEarlyHints(
         hints: Record<string, string | string[]>,
-        callback?: (() => void) | undefined,
+        callback?: (() => void) | undefined
     ): void {
         return this.#serverResponse.writeEarlyHints(hints, callback);
     }
     writeHead(
         statusCode: number,
         statusMessage?: string | undefined,
-        headers?: OutgoingHttpHeaders | OutgoingHttpHeader[] | undefined,
+        headers?: OutgoingHttpHeaders | OutgoingHttpHeader[] | undefined
     ): this;
     writeHead(
         statusCode: number,
-        headers?: OutgoingHttpHeaders | OutgoingHttpHeader[] | undefined,
+        headers?: OutgoingHttpHeaders | OutgoingHttpHeader[] | undefined
     ): this;
     writeHead(
         statusCode: unknown,
         statusMessage?: unknown,
-        headers?: unknown,
+        headers?: unknown
     ): this {
         //@ts-ignore
         this.#serverResponse.writeHead(statusCode, statusMessage, headers);
@@ -78,7 +88,11 @@ export class MockServerResponse extends PassThrough implements ServerResponse {
     public get req(): IncomingMessage {
         return this.#serverResponse.req;
     }
+    public set req(value) {
+        //@ts-ignore
 
+        this.#serverResponse.req = value;
+    }
     public get chunkedEncoding(): boolean {
         return this.#serverResponse.chunkedEncoding;
     }
@@ -155,7 +169,7 @@ export class MockServerResponse extends PassThrough implements ServerResponse {
         return this.#serverResponse.removeHeader(name);
     }
     addTrailers(
-        headers: OutgoingHttpHeaders | readonly [string, string][],
+        headers: OutgoingHttpHeaders | readonly [string, string][]
     ): void {
         this.#serverResponse.addTrailers(headers);
     }

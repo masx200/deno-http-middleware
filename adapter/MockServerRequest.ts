@@ -6,16 +6,21 @@ import { Socket } from "node:net";
 
 export class MockServerRequest extends PassThrough implements IncomingMessage {
     #incomingMessage: IncomingMessage;
+    url: string;
+    headersDistinct: NodeJS.Dict<string[]>;
+    headers: IncomingHttpHeaders;
 
     constructor(socket: Socket, request: Request) {
         super();
+
         this.#incomingMessage = new IncomingMessage(socket);
 
         this.method = request.method;
 
         const urlobj = new URL(request.url);
-        this.url = request.url.slice(urlobj.origin.length);
-
+        const url = request.url.slice(urlobj.origin.length);
+        this.url = url;
+        this.#incomingMessage.url = url;
         this.headersDistinct = {};
 
         this.headers = {};
@@ -24,11 +29,21 @@ export class MockServerRequest extends PassThrough implements IncomingMessage {
             this.headers[key] = value;
             this.headersDistinct[key] = [value];
         }
+        this.#incomingMessage.headers = this.headers;
+        this.#incomingMessage.headersDistinct = this.headersDistinct;
         if (request.body) {
             //@ts-ignore
             Readable.fromWeb(request.body).pipe(this);
         } else {
             this.end();
+        }
+        //绑定所有原型函数
+        for (const key in this) {
+            const fn = this[key];
+            if (typeof fn === "function") {
+                //@ts-ignore
+                this[key] = fn.bind(this);
+            }
         }
     }
     get aborted(): boolean {
@@ -52,21 +67,21 @@ export class MockServerRequest extends PassThrough implements IncomingMessage {
     get socket(): Socket {
         return this.#incomingMessage.socket;
     }
-    get headers(): IncomingHttpHeaders {
-        return this.#incomingMessage.headers;
-    }
-    set headers(value) {
-        this.#incomingMessage.headers = value;
-    }
+    // get headers(): IncomingHttpHeaders {
+    //     return this.#incomingMessage.headers;
+    // }
+    // set headers(value) {
+    //     this.#incomingMessage.headers = value;
+    // }
 
-    get headersDistinct(): NodeJS.Dict<string[]> {
-        //@ts-ignore
-        return this.#incomingMessage.headersDistinct;
-    }
-    set headersDistinct(value) {
-        //@ts-ignore
-        this.#incomingMessage.headersDistinct = value;
-    }
+    // get headersDistinct(): NodeJS.Dict<string[]> {
+    //     //@ts-ignore
+    //     return this.#incomingMessage.headersDistinct;
+    // }
+    // set headersDistinct(value) {
+    //     //@ts-ignore
+    //     this.#incomingMessage.headersDistinct = value;
+    // }
     get rawHeaders(): string[] {
         return this.#incomingMessage.rawHeaders;
     }
@@ -91,12 +106,12 @@ export class MockServerRequest extends PassThrough implements IncomingMessage {
     set method(value) {
         this.#incomingMessage.method = value;
     }
-    get url(): string | undefined {
-        return this.#incomingMessage.url;
-    }
-    set url(value) {
-        this.#incomingMessage.url = value;
-    }
+    // get url(): string | undefined {
+    //     return this.#incomingMessage.url;
+    // }
+    // set url(value) {
+    //     this.#incomingMessage.url = value;
+    // }
     get statusCode(): number | undefined {
         return this.#incomingMessage.statusCode;
     }
