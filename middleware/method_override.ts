@@ -1,8 +1,7 @@
-import { Context, RequestOptions } from "../src/Context.ts";
-import { Middleware, RetHandler } from "../src/Middleware.ts";
-
 import { METHODS } from "../deps.ts";
+import { Context, RequestOptions } from "../src/Context.ts";
 import { getOriginalRequest } from "../src/getOriginalRequest.ts";
+import { Middleware, RetHandler } from "../src/Middleware.ts";
 
 export function getOriginalMethod(ctx: Context): string | undefined {
     return getOriginalRequest(ctx)?.method;

@@ -1,4 +1,4 @@
-import { Context } from "./Context.ts";
+import { Context } from "../mod.ts";
 import { IncomingMessage } from "./RequestListener.ts";
 
 export const context_toIncomingMessage = new WeakMap<

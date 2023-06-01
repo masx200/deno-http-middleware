@@ -2,12 +2,12 @@ import {
     assert,
     assertEquals,
 } from "https://deno.land/std@0.189.0/testing/asserts.ts";
-
-import { getOriginalOptions } from "../src/getOriginalOptions.ts";
-import { getOriginalRequest } from "../src/getOriginalRequest.ts";
-import { handler } from "../src/createHandler.ts";
 import { serveDir } from "https://deno.land/std@0.190.0/http/file_server.ts";
 import { serve_http } from "https://deno.land/x/masx200_deno_serve_https@1.0.6/mod.ts";
+
+import { handler } from "../src/createHandler.ts";
+import { getOriginalOptions } from "../src/getOriginalOptions.ts";
+import { getOriginalRequest } from "../src/getOriginalRequest.ts";
 
 Deno.test("serveDir", async () => {
     const port = Math.floor(Math.random() * 55535 + 10000);

@@ -1,5 +1,5 @@
 import type { ServerResponse } from "node:http";
-import { createDeferred } from "./createDeferred.ts";
+import { createDeferred } from "../src/createDeferred.ts";
 
 /* https://deno.land/x/oak@v12.5.0/http_server_node.ts?source#L148 */
 export async function ResponseToServerResponse(
