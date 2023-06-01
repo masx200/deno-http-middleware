@@ -4,7 +4,7 @@
 
 ## 提供了对于`nodejs`环境的适配,可以使用`requestListenerToMiddleWare`函数把`nodejs`的请求处理器转换为中间件,也可以使用`listener`函数把中间件转换为`nodejs`的请求处理器
 
-这个中间件框架受到`Koa`的启发
+## 这个中间件框架受到`Koa`的启发
 
 核心模块保持简洁,完全函数式编程,
 
