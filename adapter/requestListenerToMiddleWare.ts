@@ -50,7 +50,6 @@ export function requestListenerToMiddleWare(
         } catch (e) {
             throw e;
         } finally {
-            server.close();
         }
     };
 }
