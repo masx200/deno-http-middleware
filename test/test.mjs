@@ -5,6 +5,7 @@ import { createServer } from "node:http";
 import test from "node:test";
 
 test("http get", async () => {
+    const port = Math.floor(Math.random() * 55535 + 10000);
     const server = createServer(
         listener(
             async (_ctx, next) => {
@@ -32,7 +33,6 @@ test("http get", async () => {
         ),
     );
     try {
-        const port = 19000;
         await new Promise((res) => {
             server.listen(port, () => {
                 console.log("http server listening port:" + port);
@@ -57,6 +57,7 @@ test("http get", async () => {
 });
 
 test("http post", async () => {
+    const port = Math.floor(Math.random() * 55535 + 10000);
     const server = createServer(
         listener(
             async (_ctx, next) => {
@@ -84,7 +85,6 @@ test("http post", async () => {
         ),
     );
     try {
-        const port = 19002;
         await new Promise((res) => {
             server.listen(port, () => {
                 console.log("http server listening port:" + port);

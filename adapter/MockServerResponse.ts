@@ -11,12 +11,21 @@ export class MockServerResponse extends ServerResponse implements PassThrough {
     constructor(req: IncomingMessage) {
         super(req);
         //@ts-ignore
-        PassThrough.call(this);
+        Object.assign(this, PassThrough.call(this));
         const transform = new TransformStream<Uint8Array>();
         this.#readable = transform.readable;
         this.#writable = transform.writable;
 
         this.pipe(Writable.fromWeb(this.#writable));
+    }
+    //@ts-ignore
+    override pipe<T extends Writable>(
+        d: T,
+        o?: { end?: boolean | undefined } | undefined,
+    ): T {
+        //@ts-ignore
+
+        return PassThrough.prototype.pipe.call(this, d, o);
     }
     _transform(
         chunk: any,

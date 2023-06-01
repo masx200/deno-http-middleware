@@ -11,7 +11,7 @@ export class MockServerRequest extends IncomingMessage implements PassThrough {
     constructor(socket: Socket, request: Request) {
         super(socket);
         //@ts-ignore
-        PassThrough.call(this);
+        Object.assign(this, PassThrough.call(this));
         this.#request = request;
 
         this.method = this.#request.method;

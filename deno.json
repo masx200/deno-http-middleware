@@ -1,6 +1,13 @@
 {
     "test": {
-        "files": { "exclude": ["node_modules", "test/test.mjs", "dist"] }
+        "files": {
+            "exclude": [
+                "node_modules",
+                "test/test.mjs",
+                "dist",
+                "test/requestListenerToMiddleWare.test.mjs"
+            ]
+        }
     },
     "importMap": "import_map.json",
     "tasks": {
