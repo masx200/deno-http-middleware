@@ -72,15 +72,58 @@ export class MockServerResponse extends PassThrough implements ServerResponse {
     writeProcessing(): void {
         return this.#serverResponse.writeProcessing();
     }
-    req: IncomingMessage;
-    chunkedEncoding: boolean;
-    shouldKeepAlive: boolean;
-    useChunkedEncodingByDefault: boolean;
-    sendDate: boolean;
-    finished: boolean;
-    headersSent: boolean;
-    connection: Socket | null;
-    socket: Socket | null;
+
+    public get req(): IncomingMessage {
+        return this.#serverResponse.req;
+    }
+
+    public get chunkedEncoding(): boolean {
+        return this.#serverResponse.chunkedEncoding;
+    }
+    public set chunkedEncoding(value: boolean) {
+        this.#serverResponse.chunkedEncoding = value;
+    }
+
+    public get shouldKeepAlive(): boolean {
+        return this.#serverResponse.shouldKeepAlive;
+    }
+    public set shouldKeepAlive(value: boolean) {
+        this.#serverResponse.shouldKeepAlive = value;
+    }
+
+    public get useChunkedEncodingByDefault(): boolean {
+        return this.#serverResponse.useChunkedEncodingByDefault;
+    }
+    public set useChunkedEncodingByDefault(value: boolean) {
+        this.#serverResponse.useChunkedEncodingByDefault = value;
+    }
+
+    public get sendDate(): boolean {
+        return this.#serverResponse.sendDate;
+    }
+    public set sendDate(value: boolean) {
+        this.#serverResponse.sendDate = value;
+    }
+
+    public get finished(): boolean {
+        return this.#serverResponse.finished;
+    }
+    public set finished(value: boolean) {
+        this.#serverResponse.finished = value;
+    }
+
+    public get headersSent(): boolean {
+        return this.#serverResponse.headersSent;
+    }
+
+    public get connection(): Socket | null {
+        return this.#serverResponse.connection;
+    }
+
+    public get socket(): Socket | null {
+        return this.#serverResponse.socket;
+    }
+
     setTimeout(msecs: number, callback?: (() => void) | undefined): this {
         this.#serverResponse.setTimeout(msecs, callback);
         return this;
