@@ -4,7 +4,7 @@ import { Context } from "../mod.ts";
 import { MockServerRequest } from "./MockServerRequest.ts";
 import { MockServerResponse } from "./MockServerResponse.ts";
 import { RequestListener } from "./RequestListener.ts";
-import { Socket } from "net";
+import { Socket } from "node:net";
 
 export function requestListenerToMiddleWare(
     requestListener: RequestListener,
