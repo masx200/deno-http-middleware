@@ -4,7 +4,6 @@ import { AccessControlAllowOrigin } from "./AccessControlAllowOrigin.js";
 import Koa from "koa";
 import assert from "node:assert";
 import bodyParser from "body-parser";
-import compress from "koa-compress";
 import conditional from "koa-conditional-get";
 import cors from "@koa/cors";
 import { createServer } from "node:http";
@@ -29,7 +28,6 @@ test("koa static file server", async () => {
     app.use(cors({}));
     app.use(conditional());
 
-    app.use(compress({}));
     app.use(streametag({}));
     app.use(koaetag({}));
     const staticmiddle = servestatic(publicpath, {
@@ -56,7 +54,7 @@ test("koa static file server", async () => {
                     status: 500,
                 });
             }
-        }, masas[0])
+        }, masas[0]),
     );
     try {
         await start();
@@ -76,7 +74,7 @@ test("koa static file server", async () => {
 
         assert.equal(
             data,
-            new TextDecoder().decode(await fse.readFile("./README.md"))
+            new TextDecoder().decode(await fse.readFile("./README.md")),
         );
         // console.log(Object.fromEntries(res.headers));
     } catch (e) {
@@ -105,7 +103,7 @@ test("requestListenerToMiddleWare get", async () => {
                     status: 500,
                 });
             }
-        }, mid)
+        }, mid),
     );
     try {
         await start();
@@ -160,7 +158,7 @@ test("requestListenerToMiddleWare post", async () => {
                     status: 500,
                 });
             }
-        }, mid)
+        }, mid),
     );
     try {
         await new Promise((res) => {
@@ -210,8 +208,8 @@ test("requestListenerToMiddleWare 404", async () => {
                 }
             },
             mid,
-            () => ({ status: 200, body: "hello world!" })
-        )
+            () => ({ status: 200, body: "hello world!" }),
+        ),
     );
     try {
         await new Promise((res) => {
