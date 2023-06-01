@@ -22,6 +22,7 @@ Deno.test("serveDir", async () => {
             showDirListing: true,
             showDotfiles: true,
             showIndex: true,
+            enableCors: true,
         });
     });
 

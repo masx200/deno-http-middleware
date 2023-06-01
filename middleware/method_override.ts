@@ -1,11 +1,11 @@
-import { METHODS } from "../deps.ts";
 import { Context, RequestOptions } from "../src/Context.ts";
 import { Middleware, RetHandler } from "../src/Middleware.ts";
 
-const context_to_original_Method = new WeakMap<Context, string>();
+import { METHODS } from "../deps.ts";
+import { getOriginalRequest } from "../src/getOriginalRequest.ts";
 
 export function getOriginalMethod(ctx: Context): string | undefined {
-    return context_to_original_Method.get(ctx);
+    return getOriginalRequest(ctx)?.method;
 }
 export const method_override: (
     options?: Partial<{
@@ -21,11 +21,9 @@ export const method_override: (
             return request.headers.get("X-HTTP-Method-Override");
         });
     return async function (context, next): Promise<RetHandler> {
-        const originalMethod = context_to_original_Method.get(context) ??
+        const originalMethod = getOriginalMethod(context) ??
             context.request.method;
-        if (!context_to_original_Method.has(context)) {
-            context_to_original_Method.set(context, originalMethod);
-        }
+
         const method = await getter(context.request);
         if (methods && methods.indexOf(originalMethod) === -1) {
             return next();
