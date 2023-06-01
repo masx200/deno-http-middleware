@@ -1,5 +1,5 @@
 import { IncomingMessage, ServerResponse } from "node:http";
-import { OutgoingHttpHeader, OutgoingHttpHeaders } from "http";
+import { OutgoingHttpHeader, OutgoingHttpHeaders } from "node:http";
 import { PassThrough, Writable } from "node:stream";
 
 import { Socket } from "net";

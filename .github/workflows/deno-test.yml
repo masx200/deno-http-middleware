@@ -32,7 +32,7 @@ jobs:
           deno-version: v1.31.1
 
       # Uncomment this step to verify the use of 'deno fmt' on each commit.
-      - name: check formatting
+      - name: check 
         run: deno check  --unstable mod.ts
 
       - name: Run linter
