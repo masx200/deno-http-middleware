@@ -6,15 +6,15 @@ import { Socket } from "net";
 
 export class MockServerResponse extends PassThrough implements ServerResponse {
     #readable: ReadableStream<Uint8Array>;
-    #writable: WritableStream<Uint8Array>;
+
+    #serverResponse: ServerResponse<IncomingMessage>;
     constructor(req: IncomingMessage) {
         super();
-
+        this.#serverResponse = new ServerResponse(req);
         const transform = new TransformStream<Uint8Array>();
         this.#readable = transform.readable;
-        this.#writable = transform.writable;
 
-        this.pipe(Writable.fromWeb(this.#writable));
+        this.pipe(Writable.fromWeb(transform.writable));
     }
     statusCode: number;
     statusMessage: string;
@@ -28,12 +28,26 @@ export class MockServerResponse extends PassThrough implements ServerResponse {
     writeContinue(callback?: (() => void) | undefined): void {
         throw new Error("Method not implemented.");
     }
-    writeEarlyHints(hints: Record<string, string | string[]>, callback?: (() => void) | undefined): void {
+    writeEarlyHints(
+        hints: Record<string, string | string[]>,
+        callback?: (() => void) | undefined,
+    ): void {
         throw new Error("Method not implemented.");
     }
-    writeHead(statusCode: number, statusMessage?: string | undefined, headers?: OutgoingHttpHeaders | OutgoingHttpHeader[] | undefined): this;
-    writeHead(statusCode: number, headers?: OutgoingHttpHeaders | OutgoingHttpHeader[] | undefined): this;
-    writeHead(statusCode: unknown, statusMessage?: unknown, headers?: unknown): this {
+    writeHead(
+        statusCode: number,
+        statusMessage?: string | undefined,
+        headers?: OutgoingHttpHeaders | OutgoingHttpHeader[] | undefined,
+    ): this;
+    writeHead(
+        statusCode: number,
+        headers?: OutgoingHttpHeaders | OutgoingHttpHeader[] | undefined,
+    ): this;
+    writeHead(
+        statusCode: unknown,
+        statusMessage?: unknown,
+        headers?: unknown,
+    ): this {
         throw new Error("Method not implemented.");
     }
     writeProcessing(): void {
@@ -72,7 +86,9 @@ export class MockServerResponse extends PassThrough implements ServerResponse {
     removeHeader(name: string): void {
         throw new Error("Method not implemented.");
     }
-    addTrailers(headers: OutgoingHttpHeaders | readonly [string, string][]): void {
+    addTrailers(
+        headers: OutgoingHttpHeaders | readonly [string, string][],
+    ): void {
         throw new Error("Method not implemented.");
     }
     flushHeaders(): void {
