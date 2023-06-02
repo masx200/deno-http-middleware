@@ -22,7 +22,7 @@ export function requestListenerToMiddleWare(
             const origin = `http://${host}:${port}`;
 
             const urlobj = new URL(context.request.url);
-            urlobj.origin;
+            //urlobj.origin;
             const response = await fetch(
                 origin + urlobj.href.slice(urlobj.origin.length),
                 {
