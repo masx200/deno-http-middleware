@@ -126,7 +126,7 @@ test("requestListenerToMiddleWare get", async () => {
         throw e;
     } finally {
         server.close();
-        stop();
+        await stop();
     }
 });
 
@@ -185,7 +185,7 @@ test("requestListenerToMiddleWare post", async () => {
         throw e;
     } finally {
         server.close();
-        stop();
+        await stop();
     }
 });
 
@@ -232,6 +232,6 @@ test("requestListenerToMiddleWare 404", async () => {
         throw e;
     } finally {
         server.close();
-        stop();
+        await stop();
     }
 });

@@ -44,6 +44,7 @@ export {
     bodyToText,
     compose,
     composeMiddleware,
+    Context,
     createContext,
     createHandler,
     createNodeContext,
@@ -64,7 +65,6 @@ export {
     text,
 };
 export type {
-    Context,
     CorsOptions,
     ErrorHandler,
     Handler,
