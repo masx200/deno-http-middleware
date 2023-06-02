@@ -6,7 +6,9 @@ import { createServer } from "node:http";
 
 export function requestListenerToMiddleWare(
     requestListener: RequestListener,
-): [Middleware, () => Promise<void>, () => void] {
+    beforeRequest = (req: Request) => req,
+    afterResponse = (res: Response) => res,
+): [Middleware, () => Promise<void>, () => Promise<void>] {
     //@ts-ignore
     const server = createServer(requestListener);
     const host = `127.${Math.floor(Math.random() * 253 + 1)}.${
@@ -22,15 +24,19 @@ export function requestListenerToMiddleWare(
             const origin = `http://${host}:${port}`;
 
             const urlobj = new URL(context.request.url);
-            //urlobj.origin;
-            const response = await fetch(
+            const req = new Request(
                 origin + urlobj.href.slice(urlobj.origin.length),
                 {
                     ...context.request,
                     //@ts-ignore
-
                     duplex: "half",
                 },
+            );
+            //urlobj.origin;
+            const response = afterResponse(
+                await fetch(
+                    beforeRequest(req),
+                ),
             );
             if (response.status === 404) return next();
 
@@ -46,9 +52,12 @@ export function requestListenerToMiddleWare(
                     s();
                 });
             }),
-        () =>
-            server.close(() => {
-                console.log(`http server closed host:${host} port:` + port);
+        async () =>
+            new Promise((s) => {
+                server.close(() => {
+                    console.log(`http server closed host:${host} port:` + port);
+                    s();
+                });
             }),
     ];
 }
