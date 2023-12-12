@@ -14,7 +14,7 @@
     "author": "masx200 <34191203+masx200@users.noreply.github.com>",
     "license": "ISC",
     "devDependencies": {
-        "@koa/cors": "^4.0.0",
+        "@koa/cors": "^5.0.0",
         "@masx200/koa-range": "^1.0.5",
         "@masx200/koa-stream-etag": "^5.0.8",
         "@masx200/rollup-plugin-http-resolve": "^5.0.2",
