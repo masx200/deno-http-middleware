@@ -38,7 +38,7 @@
         "koa-static": "^5.0.0",
         "koa2-serve-index": "^2.0.1",
         "prettier": "^3.1.1",
-        "rollup": "^3.23.0",
+        "rollup": "^4.8.0",
         "rollup-plugin-swc-minify": "^1.0.6",
         "rollup-plugin-ts": "^3.2.0",
         "typescript": "^5.0.4"
