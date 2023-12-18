@@ -27,7 +27,7 @@ devDependencies:
     version: 5.0.2
   '@rollup/plugin-json':
     specifier: ^6.0.0
-    version: 6.0.1(rollup@4.8.0)
+    version: 6.1.0(rollup@4.8.0)
   '@rollup/plugin-node-resolve':
     specifier: ^15.0.2
     version: 15.2.3(rollup@4.8.0)
@@ -157,8 +157,8 @@ packages:
     resolution: {integrity: sha512-n3/+wko8WFd/fbiPCOuBB6HfKL6hTcygFEZ/MpmvpMRbgDSdlNMopDFGjsoTYqCbzTVTX9TL/StXco4yx2v58Q==}
     dev: true
 
-  /@rollup/plugin-json@6.0.1(rollup@4.8.0):
-    resolution: {integrity: sha512-RgVfl5hWMkxN1h/uZj8FVESvPuBJ/uf6ly6GTj0GONnkfoBN5KC0MSz+PN2OLDgYXMhtG0mWpTrkiOjoxAIevw==}
+  /@rollup/plugin-json@6.1.0(rollup@4.8.0):
+    resolution: {integrity: sha512-EGI2te5ENk1coGeADSIwZ7G2Q8CJS2sF120T7jLw4xFw9n7wIOXHo+kIYRAoVpJAN+kmqZSoO3Fp4JtoNF4ReA==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
