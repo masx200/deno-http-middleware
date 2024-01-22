@@ -48,7 +48,7 @@ devDependencies:
     version: 11.0.4
   '@types/koa':
     specifier: ^2.13.6
-    version: 2.13.12
+    version: 2.14.0
   '@types/koa-conditional-get':
     specifier: ^2.0.0
     version: 2.0.3
@@ -525,37 +525,37 @@ packages:
   /@types/koa-compose@3.2.8:
     resolution: {integrity: sha512-4Olc63RY+MKvxMwVknCUDhRQX1pFQoBZ/lXcRLP69PQkEpze/0cr8LNqJQe5NFb/b19DWi2a5bTi2VAlQzhJuA==}
     dependencies:
-      '@types/koa': 2.13.12
+      '@types/koa': 2.14.0
     dev: true
 
   /@types/koa-conditional-get@2.0.3:
     resolution: {integrity: sha512-JhUuS9Qj5uyU7HHAmUC1L+Erft73m7AQD3jjIyB2audnTsQObp3w0aY4yO8mZ3W7RBpyrhY2TPH10mBdQYRFrQ==}
     dependencies:
-      '@types/koa': 2.13.12
+      '@types/koa': 2.14.0
     dev: true
 
   /@types/koa-etag@3.0.3:
     resolution: {integrity: sha512-pOtRwgJOyP5XWoKUQpvvGbihep7ZoCQwJiFhZ2PdAjmXhgDFm5bbX9vYbXCwLIWG+WUb8CsOCf+78uae0Ho5sg==}
     dependencies:
       '@types/etag': 1.8.3
-      '@types/koa': 2.13.12
+      '@types/koa': 2.14.0
     dev: true
 
   /@types/koa-send@4.1.6:
     resolution: {integrity: sha512-vgnNGoOJkx7FrF0Jl6rbK1f8bBecqAchKpXtKuXzqIEdXTDO6dsSTjr+eZ5m7ltSjH4K/E7auNJEQCAd0McUPA==}
     dependencies:
-      '@types/koa': 2.13.12
+      '@types/koa': 2.14.0
     dev: true
 
   /@types/koa-static@4.0.4:
     resolution: {integrity: sha512-j1AUzzl7eJYEk9g01hNTlhmipFh8RFbOQmaMNLvLcNNAkPw0bdTs3XTa3V045XFlrWN0QYnblbDJv2RzawTn6A==}
     dependencies:
-      '@types/koa': 2.13.12
+      '@types/koa': 2.14.0
       '@types/koa-send': 4.1.6
     dev: true
 
-  /@types/koa@2.13.12:
-    resolution: {integrity: sha512-vAo1KuDSYWFDB4Cs80CHvfmzSQWeUb909aQib0C0aFx4sw0K9UZFz2m5jaEP+b3X1+yr904iQiruS0hXi31jbw==}
+  /@types/koa@2.14.0:
+    resolution: {integrity: sha512-DTDUyznHGNHAl+wd1n0z1jxNajduyTh8R53xoewuerdBzGo6Ogj6F2299BFtrexJw4NtgjsI5SMPCmV9gZwGXA==}
     dependencies:
       '@types/accepts': 1.3.7
       '@types/content-disposition': 0.5.8
