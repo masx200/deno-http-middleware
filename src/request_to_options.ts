@@ -9,7 +9,7 @@ export function request_to_options({
     url: string;
     headers: HeadersInit;
     method: string;
-    body?: ReadableStream<Uint8Array> | null | undefined;
+    body?: ReadableStream<Uint8Array> | null | BodyInit | undefined;
 }): RequestOptions {
     /* Uncaught TypeError: Method is forbidden.
 

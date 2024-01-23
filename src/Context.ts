@@ -34,5 +34,5 @@ export type RequestOptions = {
     headers: Headers;
     method: string;
     url: string;
-    body?: ReadableStream<Uint8Array> | null;
+    body?: ReadableStream<Uint8Array> | null | BodyInit;
 };
