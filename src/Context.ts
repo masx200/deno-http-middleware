@@ -1,7 +1,7 @@
 import { cloneResponseMutableHeaders } from "../response/cloneResponseMutableHeaders.ts";
 import { request_to_options } from "./request_to_options.ts";
 
-export class Context {
+export class Context extends Map<any, any> {
     #request: RequestOptions;
     public get request(): RequestOptions {
         return this.#request;
@@ -18,6 +18,7 @@ export class Context {
     }
 
     constructor(request: RequestOptions, response: ResponseOptions) {
+        super();
         this.#request = request;
         this.#response = response;
     }
