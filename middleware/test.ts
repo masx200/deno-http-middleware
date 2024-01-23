@@ -687,7 +687,7 @@ function request(app: Middleware): RequestInterface {
             arg: any,
             cb?: ((res: SimpleResponse) => void) | string,
         ): RequestInterface | Promise<RequestInterface> {
-            if (!(/* this. */ _response)) {
+            if (!/* this. */ _response) {
                 const handler_fn = createHandler(app);
                 const request_obj = new Request(
                     /* this. */ _context!.request.url,

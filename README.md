@@ -62,11 +62,13 @@
 
 ### 上下文`context`对象
 
-包含属性`request`:`Request`对象的部分属性,属性可修改
+Context 继承了 Map,可以给`context`对象添加属性
+
+包含属性`request`:`Request`对象的部分属性,属性可修改,body 可以修改为 BodyInit 类型了.
 
 因为原本的`Response`,`Request`的属性都是不可修改的,所以不用原本的`Response`,`Request`对象
 
-包含属性`response`:`Response`对象的部分属性,属性可修改
+包含属性`response`:`Response`对象的部分属性,属性可修改,body 可以修改为 BodyInit 类型了.
 
 ### 自带中间件
 
@@ -201,7 +203,7 @@ import { Middleware, RetHandler } from "../src/Middleware.ts";
 
 export const json_builder: Middleware = async function (
     context,
-    next,
+    next
 ): Promise<RetHandler> {
     await next();
     const { response } = context;
@@ -265,8 +267,8 @@ const server = createServer(
                 url: ctx.request.url,
                 headers: Object.fromEntries(ctx.request.headers),
             });
-        },
-    ),
+        }
+    )
 );
 const port = 9000;
 server.listen(port, () => console.log("http server listening port:" + port));

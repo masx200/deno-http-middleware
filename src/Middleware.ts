@@ -4,7 +4,7 @@ import { Context, ResponseOptions } from "./Context.ts";
 // deno-lint-ignore no-explicit-any
 export type Middleware = (
     context: Context,
-    next: NextFunction
+    next: NextFunction,
 ) => Promise<RetHandler> | RetHandler;
 export type NextFunction = () => Promise<ResponseOptions> | ResponseOptions;
 
@@ -13,12 +13,12 @@ export type RetHandler =
     | Response
     | Request
     | Partial<
-          ResponseOptionsPartial & {
-              response: Response | ResponseOptionsPartial;
-              request: Request | RequestOptionsPartial;
-              next: boolean;
-          }
-      >;
+        ResponseOptionsPartial & {
+            response: Response | ResponseOptionsPartial;
+            request: Request | RequestOptionsPartial;
+            next: boolean;
+        }
+    >;
 
 export type ResponseOptionsPartial = Partial<
     ResponseInit & {
