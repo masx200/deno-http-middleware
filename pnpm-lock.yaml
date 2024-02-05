@@ -33,10 +33,10 @@ devDependencies:
     version: 15.2.3(rollup@4.9.6)
   '@swc/core':
     specifier: ^1.3.60
-    version: 1.3.107(@swc/helpers@0.5.3)
+    version: 1.3.107(@swc/helpers@0.5.5)
   '@swc/helpers':
     specifier: ^0.5.1
-    version: 0.5.3
+    version: 0.5.5
   '@types/body-parser':
     specifier: ^1.19.2
     version: 1.19.5
@@ -90,10 +90,10 @@ devDependencies:
     version: 4.9.6
   rollup-plugin-swc-minify:
     specifier: ^1.0.6
-    version: 1.1.0(@swc/helpers@0.5.3)(rollup@4.9.6)
+    version: 1.1.0(@swc/helpers@0.5.5)(rollup@4.9.6)
   rollup-plugin-ts:
     specifier: ^3.2.0
-    version: 3.4.5(@swc/core@1.3.107)(@swc/helpers@0.5.3)(rollup@4.9.6)(typescript@5.3.3)
+    version: 3.4.5(@swc/core@1.3.107)(@swc/helpers@0.5.5)(rollup@4.9.6)(typescript@5.3.3)
   typescript:
     specifier: ^5.0.4
     version: 5.3.3
@@ -397,7 +397,7 @@ packages:
     dev: true
     optional: true
 
-  /@swc/core@1.3.107(@swc/helpers@0.5.3):
+  /@swc/core@1.3.107(@swc/helpers@0.5.5):
     resolution: {integrity: sha512-zKhqDyFcTsyLIYK1iEmavljZnf4CCor5pF52UzLAz4B6Nu/4GLU+2LQVAf+oRHjusG39PTPjd2AlRT3f3QWfsQ==}
     engines: {node: '>=10'}
     requiresBuild: true
@@ -408,7 +408,7 @@ packages:
         optional: true
     dependencies:
       '@swc/counter': 0.1.2
-      '@swc/helpers': 0.5.3
+      '@swc/helpers': 0.5.5
       '@swc/types': 0.1.5
     optionalDependencies:
       '@swc/core-darwin-arm64': 1.3.107
@@ -427,9 +427,14 @@ packages:
     resolution: {integrity: sha512-9F4ys4C74eSTEUNndnER3VJ15oru2NumfQxS8geE+f3eB5xvfxpWyqE5XlVnxb/R14uoXi6SLbBwwiDSkv+XEw==}
     dev: true
 
-  /@swc/helpers@0.5.3:
-    resolution: {integrity: sha512-FaruWX6KdudYloq1AHD/4nU+UsMTdNE8CKyrseXWEcgjDAbvkwJg2QGPAnfIJLIWsjZOSPLOAykK6fuYp4vp4A==}
+  /@swc/counter@0.1.3:
+    resolution: {integrity: sha512-e2BR4lsJkkRlKZ/qCHPw9ZaSxc0MVUd7gtbtaB7aMvHeJVYe8sOB8DBZkP2DtISHGSku9sCK6T6cnY0CtXrOCQ==}
+    dev: true
+
+  /@swc/helpers@0.5.5:
+    resolution: {integrity: sha512-KGYxvIOXcceOAbEk4bi/dVLEK9z8sZ0uBB3Il5b1rhfClSpcX0yfRO0KmTkqR2cnQDymwLB+25ZyMzICg/cm/A==}
     dependencies:
+      '@swc/counter': 0.1.3
       tslib: 2.6.2
     dev: true
 
@@ -1455,19 +1460,19 @@ packages:
       supports-preserve-symlinks-flag: 1.0.0
     dev: true
 
-  /rollup-plugin-swc-minify@1.1.0(@swc/helpers@0.5.3)(rollup@4.9.6):
+  /rollup-plugin-swc-minify@1.1.0(@swc/helpers@0.5.5)(rollup@4.9.6):
     resolution: {integrity: sha512-oVGLF95v1tdyQdEk1QFu2Imd54c+x62NHT198sifMwy9rT/nfamK260cGZ8Dgg3hUp+KQVFY2WcbmjZpmSk60A==}
     engines: {node: '>= 14.18'}
     peerDependencies:
       rollup: ^2 || ^3 || ^4
     dependencies:
-      '@swc/core': 1.3.107(@swc/helpers@0.5.3)
+      '@swc/core': 1.3.107(@swc/helpers@0.5.5)
       rollup: 4.9.6
     transitivePeerDependencies:
       - '@swc/helpers'
     dev: true
 
-  /rollup-plugin-ts@3.4.5(@swc/core@1.3.107)(@swc/helpers@0.5.3)(rollup@4.9.6)(typescript@5.3.3):
+  /rollup-plugin-ts@3.4.5(@swc/core@1.3.107)(@swc/helpers@0.5.5)(rollup@4.9.6)(typescript@5.3.3):
     resolution: {integrity: sha512-9iCstRJpEZXSRQuXitlSZAzcGlrqTbJg1pE4CMbEi6xYldxVncdPyzA2I+j6vnh73wBymZckerS+Q/iEE/M3Ow==}
     engines: {node: '>=16.15.1', npm: '>=7.0.0', pnpm: '>=3.2.0', yarn: '>=1.13'}
     peerDependencies:
@@ -1497,8 +1502,8 @@ packages:
         optional: true
     dependencies:
       '@rollup/pluginutils': 5.1.0(rollup@4.9.6)
-      '@swc/core': 1.3.107(@swc/helpers@0.5.3)
-      '@swc/helpers': 0.5.3
+      '@swc/core': 1.3.107(@swc/helpers@0.5.5)
+      '@swc/helpers': 0.5.5
       '@wessberg/stringutil': 1.0.19
       ansi-colors: 4.1.3
       browserslist: 4.22.2
