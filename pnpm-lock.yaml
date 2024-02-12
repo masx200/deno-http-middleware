@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@hattip/response':
-    specifier: ^0.0.41
-    version: 0.0.41
+    specifier: ^0.0.42
+    version: 0.0.42
   '@types/node':
     specifier: ^20.2.5
     version: 20.11.16
@@ -104,8 +104,8 @@ packages:
     resolution: {integrity: sha512-/3hhN1PYMwDDSF1zqVHEHgFHhwB2YxDPBByLZFPQG6euPTODxG9/RMpZ9YJ4cYatshSAGGwSfNXUVpflMLbJTg==}
     dev: true
 
-  /@hattip/core@0.0.41:
-    resolution: {integrity: sha512-ZdYSUWg+kciF+su80AEvs2Lfvvf1z021sdljYjL7KpwiqVpuCoWTrfN2pF5iy0uZ7KYgCPPBD1hWtMZ7/Mo0Rg==}
+  /@hattip/core@0.0.42:
+    resolution: {integrity: sha512-qJe3t3oSBd09BpdvQsAqQxfaJ+xOJ9hG8z3U9b4rmDTYBGW0ZKL+3pkdFjT6zCBEThE/PLqZQaNVwQZaiKzE7A==}
     dev: false
 
   /@hattip/polyfills@0.0.33:
@@ -115,10 +115,10 @@ packages:
       node-fetch-native: 1.4.1
     dev: true
 
-  /@hattip/response@0.0.41:
-    resolution: {integrity: sha512-3G1W9S00N/bCftdSQMAkcEHqo1BDB0t56zHl+jAKF39n1YofF01WU6v39r0R6pYINhumtl7xuinMr6NpxnPNag==}
+  /@hattip/response@0.0.42:
+    resolution: {integrity: sha512-K3XlGfDG1oL0mgKT766phGrubNUiMz954m7AtShbKCT8FAuQaBRQixFIxAQUh5QzDgYqnjtc0ufYOoMlwSNAgw==}
     dependencies:
-      '@hattip/core': 0.0.41
+      '@hattip/core': 0.0.42
     dev: false
 
   /@jridgewell/sourcemap-codec@1.4.15:
