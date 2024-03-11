@@ -48,7 +48,7 @@
         "./dist/index.d.ts"
     ],
     "dependencies": {
-        "@hattip/response": "^0.0.43",
+        "@hattip/response": "^0.0.44",
         "@types/node": "^20.2.5"
     },
     "repository": "https://gitee.com/masx200/deno-http-middleware"
